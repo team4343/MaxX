@@ -10,7 +10,14 @@ MaxTech 4343's 2022 robot code for Max X.
  2. Run `./gradlew --help` to initialize Gradle and view its options
  3. Run `./gradlew tasks` to see available tasks
 
-### IntelliJ IDEA
+## Code highlights
 
- 1. Run `./gradlew idea`
- 2. Open the newly-created `MaxX.ipr`
+### [`/grip`](https://github.com/frc4343-914/MaxX/tree/master/grip)
+
+[GRIP](https://docs.wpilib.org/en/stable/docs/software/vision-processing/grip/introduction-to-grip.html) files for image recognition.
+
+### Packages
+
+#### [`com.maxtech.maxx`](https://github.com/frc4343-914/MaxX/blob/master/src/main/java/com/maxtech/maxx/)
+
+The top-level base for robot programs. Contains pre-defined constants as well as other boilerplate code.
