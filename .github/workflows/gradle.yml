@@ -1,0 +1,22 @@
+name: CI
+
+on: [ push, pull_request, workflow_dispatch ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    # Grab the WPILib container.
+    container: wpilib/roborio-cross-ubuntu:2022-18.04
+
+    steps:
+      # Checkout the repository
+      - uses: actions/checkout@v2
+
+      # Modify gradlew permissions
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # Build the project
+      - name: Compile and run tests on robot code
+        run: ./gradlew build
