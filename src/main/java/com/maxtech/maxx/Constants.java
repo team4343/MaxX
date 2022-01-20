@@ -9,4 +9,8 @@ package com.maxtech.maxx;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+   public final int left1ID = 1;
+   public final int left2ID = 2;
+   public final int right1ID = 3;
+   public final int right2ID = 4;
 }
