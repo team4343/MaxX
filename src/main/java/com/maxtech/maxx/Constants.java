@@ -8,5 +8,11 @@ package com.maxtech.maxx;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {
+final class Constants {
+
+    int left1ID = 1;
+    int left1ID = 2;
+    int ringt1ID = 3;
+    int right2ID = 4;
+
 }
