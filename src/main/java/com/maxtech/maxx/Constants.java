@@ -8,11 +8,15 @@ package com.maxtech.maxx;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-final class Constants {
+public final class Constants {
 
-    int left1ID = 1;
-    int left1ID = 2;
-    int ringt1ID = 3;
-    int right2ID = 4;
+   //drivetrain motor IDs
+   public static int left1ID = 1;
+   public static int left2ID = 2;
+   public static int right1ID = 3;
+   public static int right2ID = 4;
 
+   //intake motor IDs
+   public static int leftIntakeMotorID = 5;
+   public static int rightIntakeMotorID = 6;
 }
