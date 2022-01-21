@@ -15,17 +15,16 @@ public class DriveSubsystem extends SubsystemBase {
     CANSparkMax right2 = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless);
     MotorControllerGroup right = new MotorControllerGroup(right1, right2);
 
-    DifferentialDrive drivetrain = new DifferentialDrive(left, right)
+    DifferentialDrive drivetrain = new DifferentialDrive(left, right);
+
     public DriveSubsystem() {
     }
 
-        @Override
-        public void periodic() {
-            drivetrain.arcadeDrive(1,0.8);
-        }
+    @Override
+    public void periodic() {
+    }
 
-        @Override
-        public void simulationPeriodic() {
-
-        }
+    @Override
+    public void simulationPeriodic() {
+    }
 }
