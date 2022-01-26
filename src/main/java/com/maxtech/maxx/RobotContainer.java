@@ -1,52 +1,46 @@
 package com.maxtech.maxx;
 
-import com.maxtech.maxx.commands.ExampleCommand;
-import com.maxtech.maxx.subsystems.ExampleSubsystem;
-import edu.wpi.first.wpilibj.GenericHID;
+import com.maxtech.maxx.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
+ * The bulk connector for our robot. This class unifies subsystems, commands, and button bindings under one place. This
+ * is then called from {@link Robot}.
  */
 public class RobotContainer {
-    // The robot's subsystems and commands are defined here...
-    private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-
-    private final ExampleCommand autoCommand = new ExampleCommand(exampleSubsystem);
-
+    /**
+     * A handle to an Xbox controller on port 0.
+     */
+    public final XboxController masterController = new XboxController(0);
 
     /**
-     * The container for the robot. Contains subsystems, OI devices, and commands.
+     * Our local Drive subsystem.
      */
+    private final DriveSubsystem drivetrain = new DriveSubsystem();
+
     public RobotContainer() {
-        // Configure the button bindings
+        // Configure the button bindings.
         configureButtonBindings();
     }
 
-
     /**
-     * Use this method to define your button->command mappings. Buttons can be created by
-     * instantiating a {@link GenericHID} or one of its subclasses ({@link
-     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     * Our global button -> command mappings.
+     * <p>
+     * More documentation on how this is achieved at https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
      */
     private void configureButtonBindings() {
-        // Add button to command mappings here.
-        // See https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
+        // We set the default command for the drivetrain to arcade driving based on the controller values.
+        drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.arcade(-masterController.getLeftY(), -masterController.getLeftX()), drivetrain));
     }
 
-
     /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
+     * This method is used to get the command for autonomous, used in {@link Robot}.
      *
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
-        return autoCommand;
+        return (new RunCommand(() -> drivetrain.arcade(0.1, 0)));
     }
 }
