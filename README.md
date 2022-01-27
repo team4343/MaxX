@@ -21,3 +21,11 @@ MaxTech 4343's 2022 robot code for Max X.
 #### [`com.maxtech.maxx`](https://github.com/frc4343-914/MaxX/blob/master/src/main/java/com/maxtech/maxx/)
 
 The top-level base for robot programs. Contains pre-defined constants as well as other boilerplate code.
+
+#### [`packages.maxtech.maxx.subsystems`](https://github.com/frc4343-914/MaxX/blob/master/src/main/java/com/maxtech/maxx/subsystems)
+
+The package for Max X's subsystems.
+
+#### [`packages.maxtech.maxx.commands`](https://github.com/frc4343-914/MaxX/blob/master/src/main/java/com/maxtech/maxx/commands)
+
+The package for Max X's commands.
