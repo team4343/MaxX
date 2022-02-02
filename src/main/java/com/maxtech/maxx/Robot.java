@@ -7,8 +7,6 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggedNetworkTables;
 import org.littletonrobotics.junction.io.*;
 
-import static edu.wpi.first.wpilibj.RobotBase.isReal;
-
 /**
  * A class, scheduled by the Java VM, to run.
  */
@@ -23,17 +21,17 @@ public class Robot extends LoggedRobot {
      */
     @Override
     public void robotInit() {
-        setUseTiming(isReal()); // Run as fast as possible during replay
-        LoggedNetworkTables.getInstance().addTable("/SmartDashboard"); // Log & replay "SmartDashboard" values (no tables are logged by default).
-        Logger.getInstance().recordMetadata("ProjectName", "MaxX"); // Set a metadata value
+        setUseTiming(isReal());
+        LoggedNetworkTables.getInstance().addTable("/SmartDashboard");
+        Logger.getInstance().recordMetadata("ProjectName", "MaxX");
 
         if (isReal()) {
-            Logger.getInstance().addDataReceiver(new ByteLogReceiver("/media/sda1/")); // Log to USB stick (name will be selected automatically)
-            Logger.getInstance().addDataReceiver(new LogSocketServer(5800)); // Provide log data over the network, viewable in Advantage Scope.
+            Logger.getInstance().addDataReceiver(new ByteLogReceiver("/media/sda1/"));
+            Logger.getInstance().addDataReceiver(new LogSocketServer(5800));
         } else {
-            String path = ByteLogReplay.promptForPath(); // Prompt the user for a file path on the command line
-            Logger.getInstance().setReplaySource(new ByteLogReplay(path)); // Read log file for replay
-            Logger.getInstance().addDataReceiver(new ByteLogReceiver(ByteLogReceiver.addPathSuffix(path, "_sim"))); // Save replay results to a new log with the "_sim" suffix
+            String path = ByteLogReplay.promptForPath();
+            Logger.getInstance().setReplaySource(new ByteLogReplay(path));
+            Logger.getInstance().addDataReceiver(new ByteLogReceiver(ByteLogReceiver.addPathSuffix(path, "_sim")));
         }
 
         Logger.getInstance().start();
