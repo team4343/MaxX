@@ -1,12 +1,6 @@
 package com.maxtech.maxx.subsystems.drivetrain;
 
-import com.maxtech.maxx.Constants;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
@@ -14,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  */
 public class DriveSubsystem extends SubsystemBase {
 
-    DriveIO io;
+    final DriveIO io;
 
     public DriveSubsystem(DriveIO io) {
         this.io = io;
