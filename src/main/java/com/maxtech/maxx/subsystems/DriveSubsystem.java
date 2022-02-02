@@ -6,27 +6,30 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
  * A drivetrain subsystem for Max X.
  */
 public class DriveSubsystem extends SubsystemBase {
-    MotorController left1 = new CANSparkMax(Constants.left1ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    MotorController left2 = new CANSparkMax(Constants.left2ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+    CANSparkMax left1 = new CANSparkMax(Constants.left1ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+    CANSparkMax left2 = new CANSparkMax(Constants.left2ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     MotorControllerGroup left = new MotorControllerGroup(left1, left2);
 
-    MotorController right1 = new CANSparkMax(Constants.right1ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    MotorController right2 = new CANSparkMax(Constants.right2ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+    CANSparkMax right1 = new CANSparkMax(Constants.right1ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+    CANSparkMax right2 = new CANSparkMax(Constants.right2ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     MotorControllerGroup right = new MotorControllerGroup(right1, right2);
 
     DifferentialDrive drivetrain = new DifferentialDrive(left, right);
 
     public DriveSubsystem() {
+        right.setInverted(true);
     }
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("DB/Speed",this.right1.getEncoder().getVelocity());
     }
 
     @Override
