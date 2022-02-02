@@ -1,4 +1,4 @@
-package com.maxtech.maxx.subsystems;
+package com.maxtech.maxx.subsystems.drivetrain;
 
 import com.maxtech.maxx.Constants;
 import com.revrobotics.CANSparkMax;
@@ -13,23 +13,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * A drivetrain subsystem for Max X.
  */
 public class DriveSubsystem extends SubsystemBase {
-    CANSparkMax left1 = new CANSparkMax(Constants.left1ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    CANSparkMax left2 = new CANSparkMax(Constants.left2ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    MotorControllerGroup left = new MotorControllerGroup(left1, left2);
 
-    CANSparkMax right1 = new CANSparkMax(Constants.right1ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    CANSparkMax right2 = new CANSparkMax(Constants.right2ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    MotorControllerGroup right = new MotorControllerGroup(right1, right2);
+    DriveIO io;
 
-    DifferentialDrive drivetrain = new DifferentialDrive(left, right);
-
-    public DriveSubsystem() {
-        right.setInverted(true);
+    public DriveSubsystem(DriveIO io) {
+        this.io = io;
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("DB/Speed",this.right1.getEncoder().getVelocity());
     }
 
     @Override
@@ -44,7 +36,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @see DifferentialDrive
      */
     public void arcade(double s, double r) {
-        drivetrain.arcadeDrive(s, r);
+        io.drive(0, 1);
     }
 
     /**
@@ -55,6 +47,6 @@ public class DriveSubsystem extends SubsystemBase {
      * @see DifferentialDrive
      */
     public void tank(double ls, double rs) {
-        drivetrain.tankDrive(ls, rs);
+        io.drive(ls, rs);
     }
 }

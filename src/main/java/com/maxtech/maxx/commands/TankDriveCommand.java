@@ -1,7 +1,6 @@
 package com.maxtech.maxx.commands;
 
-import com.maxtech.maxx.subsystems.DriveSubsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.maxtech.maxx.subsystems.drivetrain.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TankDriveCommand extends CommandBase {

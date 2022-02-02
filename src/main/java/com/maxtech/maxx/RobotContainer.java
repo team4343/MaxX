@@ -1,9 +1,13 @@
 package com.maxtech.maxx;
 
-import com.maxtech.maxx.subsystems.DriveSubsystem;
+import com.maxtech.maxx.subsystems.drivetrain.DriveIO;
+import com.maxtech.maxx.subsystems.drivetrain.DriveIOReal;
+import com.maxtech.maxx.subsystems.drivetrain.DriveSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+
+import static edu.wpi.first.wpilibj.RobotBase.isReal;
 
 /**
  * The bulk connector for our robot. This class unifies subsystems, commands, and button bindings under one place. This
@@ -18,11 +22,19 @@ public class RobotContainer {
     /**
      * Our local Drive subsystem.
      */
-    private final DriveSubsystem drivetrain = new DriveSubsystem();
+    private final DriveSubsystem drivetrain;
 
     public RobotContainer() {
         // Configure the button bindings.
         configureButtonBindings();
+
+        if (isReal()) {
+            // Instantiate IO implementations to talk to real hardware
+            drivetrain = new DriveSubsystem(new DriveIOReal());
+        } else {
+            // Use anonymous classes to create "dummy" IO implementations
+            drivetrain = new DriveSubsystem(new DriveIO() {});
+        }
     }
 
     /**
