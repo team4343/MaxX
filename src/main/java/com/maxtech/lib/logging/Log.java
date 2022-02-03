@@ -1,12 +1,28 @@
 package com.maxtech.lib.logging;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface Log {
-    public String name();
+/** A wrapper for sending Shuffleboard event messages. */
+public class Log {
+    public static void error(String name, String description) {
+        StackWalker w = StackWalker.getInstance();
+        String additional = "\nFound at: " + w.getCallerClass();
+
+        Shuffleboard.addEventMarker(name, description + additional, EventImportance.kCritical);
+    }
+
+    public static void warn(String name, String description) {
+        StackWalker w = StackWalker.getInstance();
+        String additional = "\nFound at: " + w.getCallerClass();
+
+        Shuffleboard.addEventMarker(name, description + additional, EventImportance.kNormal);
+    }
+
+    public static void info(String name, String description) {
+        StackWalker w = StackWalker.getInstance();
+        String additional = "\nFound at: " + w.getCallerClass();
+
+        Shuffleboard.addEventMarker(name, description + additional, EventImportance.kLow);
+    }
 }

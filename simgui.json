@@ -16,6 +16,21 @@
         "open": true
       }
     },
+    "Shuffleboard": {
+      ".recording": {
+        "events": {
+          "Failed to do something...": {
+            "open": true
+          },
+          "Failed to write things.": {
+            "open": true
+          },
+          "open": true
+        },
+        "open": true
+      },
+      "open": true
+    },
     "SmartDashboard": {
       "Drivetrain": {
         "open": true

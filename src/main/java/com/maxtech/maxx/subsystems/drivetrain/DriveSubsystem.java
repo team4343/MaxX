@@ -1,5 +1,6 @@
 package com.maxtech.maxx.subsystems.drivetrain;
 
+import com.maxtech.lib.logging.Log;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -41,6 +42,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @see DifferentialDrive
      */
     public void tank(double ls, double rs) {
+        Log.info("TankInfo", "Starting tank drive.");
         io.drive(ls, rs);
     }
 }
