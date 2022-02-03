@@ -7,19 +7,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * A drivetrain subsystem for Max X.
  */
 public class DriveSubsystem extends SubsystemBase {
-
-    final DriveIO io;
+    private DriveIO io;
 
     public DriveSubsystem(DriveIO io) {
         this.io = io;
-    }
-
-    @Override
-    public void periodic() {
-    }
-
-    @Override
-    public void simulationPeriodic() {
     }
 
     /**
@@ -31,6 +22,11 @@ public class DriveSubsystem extends SubsystemBase {
      */
     public void arcade(double s, double r) {
         io.drive(0, 1);
+    }
+
+    @Override
+    public void periodic() {
+        io.updateInputs();
     }
 
     /**

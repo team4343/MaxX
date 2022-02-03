@@ -1,7 +1,7 @@
 package com.maxtech.maxx;
 
-import com.maxtech.maxx.subsystems.drivetrain.DriveIO;
 import com.maxtech.maxx.subsystems.drivetrain.DriveIOReal;
+import com.maxtech.maxx.subsystems.drivetrain.DriveIOSim;
 import com.maxtech.maxx.subsystems.drivetrain.DriveSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,16 +25,14 @@ public class RobotContainer {
     private final DriveSubsystem drivetrain;
 
     public RobotContainer() {
-        // Configure the button bindings.
-        configureButtonBindings();
-
         if (isReal()) {
-            // Instantiate IO implementations to talk to real hardware
             drivetrain = new DriveSubsystem(new DriveIOReal());
         } else {
-            // Use anonymous classes to create "dummy" IO implementations
-            drivetrain = new DriveSubsystem(new DriveIO() {});
+            drivetrain = new DriveSubsystem(new DriveIOSim());
         }
+
+        // Configure the button bindings.
+        configureButtonBindings();
     }
 
     /**
@@ -44,7 +42,7 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         // We set the default command for the drivetrain to arcade driving based on the controller values.
-        drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.arcade(-masterController.getLeftY(), -masterController.getLeftX()), drivetrain));
+        drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.tank(-masterController.getLeftY(), -masterController.getLeftX()), drivetrain));
     }
 
     /**
