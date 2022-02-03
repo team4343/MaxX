@@ -1,8 +1,13 @@
 package com.maxtech.maxx;
 
+import com.maxtech.lib.logging.Log;
+import com.maxtech.lib.logging.Logger;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 
 /**
  * A class, scheduled by the Java VM, to run.
@@ -11,6 +16,8 @@ public class Robot extends TimedRobot {
     private Command autonomousCommand;
 
     private RobotContainer robotContainer;
+
+    Logger logger = new Logger();
 
     /**
      * This method is run when the robot is first started up and should be used for any
@@ -33,6 +40,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
+        logger.run();
     }
 
     /**

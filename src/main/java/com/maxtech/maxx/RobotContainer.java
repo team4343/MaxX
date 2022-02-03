@@ -1,11 +1,14 @@
 package com.maxtech.maxx;
 
+import com.maxtech.lib.logging.Logger;
 import com.maxtech.maxx.subsystems.drivetrain.DriveIOReal;
 import com.maxtech.maxx.subsystems.drivetrain.DriveIOSim;
 import com.maxtech.maxx.subsystems.drivetrain.DriveSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+
+import java.lang.reflect.Field;
 
 import static edu.wpi.first.wpilibj.RobotBase.isReal;
 
@@ -30,8 +33,6 @@ public class RobotContainer {
         } else {
             drivetrain = new DriveSubsystem(new DriveIOSim());
         }
-
-        drivetrain.tank(1, 0);
 
         // Configure the button bindings.
         configureButtonBindings();

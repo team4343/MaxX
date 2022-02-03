@@ -1,13 +1,10 @@
 package com.maxtech.maxx.subsystems.drivetrain;
 
-import com.maxtech.lib.logging.Table;
 import com.maxtech.maxx.Constants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-
-import java.io.IOException;
 
 public class DriveIOReal implements DriveIO {
     private CANSparkMax left1 = new CANSparkMax(Constants.left1ID, CANSparkMaxLowLevel.MotorType.kBrushless);

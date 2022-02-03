@@ -27,10 +27,10 @@ public class Table {
     /** Turn a Table into a CSV file. */
     public void serialize() throws IOException {
         NetworkTableInstance instance = NetworkTableInstance.getDefault();
-        NetworkTable table = instance.getTable(name);
+        NetworkTable table = instance.getTable("");
 
         ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(new File("log/log.json"), table);
+        mapper.writeValue(new File("log.json"), table);
     }
 
     /** Turn a CSV file into a Table. */

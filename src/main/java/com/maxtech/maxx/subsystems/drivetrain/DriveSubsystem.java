@@ -15,7 +15,11 @@ public class DriveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        // Make sure that the Inputs type is up-to-date.
         io.updateInputs();
+
+        // Send the values.
+        io.inputs.serialize();
     }
 
     /**

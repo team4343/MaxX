@@ -10,18 +10,18 @@ public interface DriveIO {
         public double right1AppliedVolts = 0.0;
         public double right2AppliedVolts = 0.0;
 
-        public void serialize(Table table) {
+        // We're basically associating each value to a key.
+
+        /** Generate a Table based on the current inputs. */
+        public Table serialize() {
+            Table table = new Table("Drivetrain");
+
             table.putDouble("Left1AppliedVolts", left1AppliedVolts);
             table.putDouble("Left2AppliedVolts", left2AppliedVolts);
             table.putDouble("Right1AppliedVolts", right1AppliedVolts);
             table.putDouble("Right2AppliedVolts", right2AppliedVolts);
-        }
 
-        public void deserialize(Table table) {
-            left1AppliedVolts = table.getDouble("Left1AppliedVolts", left1AppliedVolts);
-            left2AppliedVolts = table.getDouble("Left2AppliedVolts", left2AppliedVolts);
-            right1AppliedVolts = table.getDouble("Right1AppliedVolts", right1AppliedVolts);
-            right2AppliedVolts = table.getDouble("Right2AppliedVolts", right2AppliedVolts);
+            return table;
         }
     }
 
@@ -29,7 +29,5 @@ public interface DriveIO {
     void drive(double ls, double rs);
 
     DriveIOInputs inputs = new DriveIOInputs();
-    default void updateInputs() {
-        inputs.serialize(new Table("Drivetrain"));
-    }
+    void updateInputs();
 }
