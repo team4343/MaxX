@@ -1,0 +1,44 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/LiveWindow/DriveSubsystem": "Subsystem",
+      "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
+    }
+  },
+  "NetworkTables": {
+    "LiveWindow": {
+      "DriveSubsystem": {
+        "open": true
+      },
+      "Ungrouped": {
+        "open": true
+      }
+    },
+    "Shuffleboard": {
+      ".recording": {
+        "events": {
+          "Failed to do something...": {
+            "open": true
+          },
+          "Failed to write things.": {
+            "open": true
+          },
+          "open": true
+        },
+        "open": true
+      },
+      "open": true
+    },
+    "SmartDashboard": {
+      "Drivetrain": {
+        "open": true
+      },
+      "drivetrain": {
+        "open": true
+      },
+      "open": true
+    }
+  }
+}

@@ -1,9 +1,18 @@
 package com.maxtech.maxx;
 
-import com.maxtech.maxx.subsystems.DriveSubsystem;
+import com.maxtech.lib.logging.Log;
+import com.maxtech.lib.logging.Logger;
+import com.maxtech.maxx.subsystems.drivetrain.DriveIOReal;
+import com.maxtech.maxx.subsystems.drivetrain.DriveIOSim;
+import com.maxtech.maxx.subsystems.drivetrain.DriveSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+
+import java.lang.reflect.Field;
+
+import static edu.wpi.first.wpilibj.RobotBase.isReal;
 
 /**
  * The bulk connector for our robot. This class unifies subsystems, commands, and button bindings under one place. This
@@ -18,9 +27,15 @@ public class RobotContainer {
     /**
      * Our local Drive subsystem.
      */
-    private final DriveSubsystem drivetrain = new DriveSubsystem();
+    private final DriveSubsystem drivetrain;
 
     public RobotContainer() {
+        if (isReal()) {
+            drivetrain = new DriveSubsystem(new DriveIOReal());
+        } else {
+            drivetrain = new DriveSubsystem(new DriveIOSim());
+        }
+
         // Configure the button bindings.
         configureButtonBindings();
     }
@@ -32,7 +47,7 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         // We set the default command for the drivetrain to arcade driving based on the controller values.
-        drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.arcade(-masterController.getLeftY(), -masterController.getLeftX()), drivetrain));
+        drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.tank(-masterController.getLeftY(), -masterController.getLeftX()), drivetrain));
     }
 
     /**
