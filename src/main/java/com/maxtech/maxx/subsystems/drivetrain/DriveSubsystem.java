@@ -13,6 +13,11 @@ public class DriveSubsystem extends SubsystemBase {
         this.io = io;
     }
 
+    @Override
+    public void periodic() {
+        io.updateInputs();
+    }
+
     /**
      * Drive by arcade-style parameters.
      *
@@ -22,11 +27,6 @@ public class DriveSubsystem extends SubsystemBase {
      */
     public void arcade(double s, double r) {
         io.drive(0, 1);
-    }
-
-    @Override
-    public void periodic() {
-        io.updateInputs();
     }
 
     /**

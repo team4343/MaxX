@@ -17,6 +17,9 @@
       }
     },
     "SmartDashboard": {
+      "Drivetrain": {
+        "open": true
+      },
       "drivetrain": {
         "open": true
       },

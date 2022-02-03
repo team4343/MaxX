@@ -26,7 +26,7 @@ public interface DriveIO {
     }
 
     // TODO: Modify these methods to be more expressive and composable.
-    default void drive(double ls, double rs) {}
+    void drive(double ls, double rs);
 
     DriveIOInputs inputs = new DriveIOInputs();
     default void updateInputs() {

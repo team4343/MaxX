@@ -31,6 +31,8 @@ public class RobotContainer {
             drivetrain = new DriveSubsystem(new DriveIOSim());
         }
 
+        drivetrain.tank(1, 0);
+
         // Configure the button bindings.
         configureButtonBindings();
     }
