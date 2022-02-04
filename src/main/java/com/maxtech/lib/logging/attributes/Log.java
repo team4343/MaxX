@@ -1,4 +1,4 @@
-package com.maxtech.lib.logging;
+package com.maxtech.lib.logging.attributes;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface LogAttribute {
+public @interface Log {
     String name();
 }
