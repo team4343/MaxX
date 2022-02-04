@@ -1,5 +1,6 @@
 package com.maxtech.maxx;
 
+import com.maxtech.maxx.commands.TankDriveCommand;
 import com.maxtech.maxx.subsystems.drivetrain.DriveIOReal;
 import com.maxtech.maxx.subsystems.drivetrain.DriveIOSim;
 import com.maxtech.maxx.subsystems.drivetrain.DriveSubsystem;
@@ -42,7 +43,7 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         // We set the default command for the drivetrain to arcade driving based on the controller values.
-        drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.tank(-masterController.getLeftY(), -masterController.getLeftX()), drivetrain));
+        drivetrain.setDefaultCommand(new TankDriveCommand(-masterController.getLeftY(), -masterController.getLeftX(), drivetrain));
     }
 
     /**

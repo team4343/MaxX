@@ -5,13 +5,13 @@ import com.maxtech.lib.logging.attributes.Log;
 
 public interface DriveIO {
     class DriveIOInputs implements LoggableInputs {
-        @Log(name = "Left1Volts")
+        @Log(name = "Drive/Left1Volts")
         public double left1AppliedVolts = 0.0;
-        @Log(name = "Left2Volts")
+        @Log(name = "Drive/Left2Volts")
         public double left2AppliedVolts = 0.0;
-        @Log(name = "Right1Volts")
+        @Log(name = "Drive/Right1Volts")
         public double right1AppliedVolts = 0.0;
-        @Log(name = "Right2Volts")
+        @Log(name = "Drive/Right2Volts")
         public double right2AppliedVolts = 0.0;
     }
 

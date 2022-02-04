@@ -32,6 +32,9 @@
       "open": true
     },
     "SmartDashboard": {
+      "Drive": {
+        "open": true
+      },
       "Drivetrain": {
         "open": true
       },

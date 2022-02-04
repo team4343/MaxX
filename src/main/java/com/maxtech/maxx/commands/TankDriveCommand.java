@@ -19,6 +19,5 @@ public class TankDriveCommand extends CommandBase {
     @Override
     public void execute() {
         drivetrain.tank(ls, rs);
-
     }
 }

@@ -7,6 +7,8 @@ import org.reflections.Reflections;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
+
+import static com.maxtech.lib.logging.Log.*;
 import static org.reflections.scanners.Scanners.FieldsAnnotated;
 
 public class Logger {
@@ -25,16 +27,16 @@ public class Logger {
             try {
                 value = field.get(field.getDeclaringClass().getDeclaredConstructor().newInstance());
             } catch (IllegalAccessException ignore) {
-                com.maxtech.lib.logging.Log.warn("LogAttributeExpansion", "Failed to set double value, defaulting to 0.");
+                warn("LogAttributeExpansion", "Failed to set double value, defaulting to 0.");
                 value = 0;
             } catch (InstantiationException ignore) {
-                com.maxtech.lib.logging.Log.warn("LogAttributeExpansion", "Failed to instantiate, defaulting to 0.");
+                warn("LogAttributeExpansion", "Failed to instantiate, defaulting to 0.");
                 value = 0;
             } catch (InvocationTargetException e) {
-                com.maxtech.lib.logging.Log.warn("LogAttributeExpansion", "Failed to invoke the target, defaulting to 0.");
+                warn("LogAttributeExpansion", "Failed to invoke the target, defaulting to 0.");
                 value = 0;
             } catch (NoSuchMethodException ignore) {
-                com.maxtech.lib.logging.Log.warn("LogAttributeExpansion", "Failed to create a method, defaulting to 0.");
+                warn("LogAttributeExpansion", "Failed to create a method, defaulting to 0.");
                 value = 0;
             }
 
@@ -45,7 +47,7 @@ public class Logger {
                 SmartDashboard.putData(field.getAnnotation(Log.class).name(), (Sendable) value);
             } else {
                 // We don't know how to send this type!
-                com.maxtech.lib.logging.Log.error("LogAttributeCall","Failed to send type - I don't know how to: " + field.getType());
+                error("LogAttributeCall","Failed to send type - I don't know how to: " + field.getType());
             }
         }
     }
