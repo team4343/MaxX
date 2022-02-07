@@ -12,8 +12,8 @@ import edu.wpi.first.math.system.plant.LinearSystemId;
 public final class Constants {
     public static final int left1ID = 2;
     public static final int left2ID = 3;
-    public static final int right1ID = 5;
-    public static final int right2ID = 4;
+    public static final int right1ID = 4;
+    public static final int right2ID = 5;
 
     public static final class Simulation {
         public static final double trackWidthMeters = 0.69;

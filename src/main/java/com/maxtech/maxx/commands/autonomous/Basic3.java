@@ -21,11 +21,4 @@ public class Basic3 extends CommandBase{
     public void execute() {
         drivetrain.arcade(speed, degrees);
     }
-
 }
-
-
-
-
-
-
