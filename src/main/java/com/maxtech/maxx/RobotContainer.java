@@ -1,9 +1,7 @@
 package com.maxtech.maxx;
 
 import com.maxtech.maxx.commands.TankDriveCommand;
-import com.maxtech.maxx.subsystems.drivetrain.DriveIOReal;
-import com.maxtech.maxx.subsystems.drivetrain.DriveIOSim;
-import com.maxtech.maxx.subsystems.drivetrain.DriveSubsystem;
+import com.maxtech.maxx.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -23,15 +21,9 @@ public class RobotContainer {
     /**
      * Our local Drive subsystem.
      */
-    private final DriveSubsystem drivetrain;
+    private final DriveSubsystem drivetrain = new DriveSubsystem();
 
     public RobotContainer() {
-        if (isReal()) {
-            drivetrain = new DriveSubsystem(new DriveIOReal());
-        } else {
-            drivetrain = new DriveSubsystem(new DriveIOSim());
-        }
-
         // Configure the button bindings.
         configureButtonBindings();
     }
