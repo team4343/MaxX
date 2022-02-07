@@ -15,7 +15,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public MotorControllerGroup intake;
 
     public IntakeSubsystem() {
-       // MotorControllerGroup intake = new MotorControllerGroup(left1, right1);
+        MotorControllerGroup intake = new MotorControllerGroup(left1, right1);
     }
 
     @Override
