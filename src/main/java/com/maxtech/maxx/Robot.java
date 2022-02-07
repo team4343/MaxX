@@ -1,5 +1,6 @@
 package com.maxtech.maxx;
 
+import com.maxtech.lib.logging.Log;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -54,6 +55,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
+        Log.info("Entered autonomous mode.");
         autonomousCommand = robotContainer.getAutonomousCommand();
 
         // schedule the autonomous command (example)
