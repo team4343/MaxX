@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * A drivetrain subsystem for Max X.
  */
 public class DriveSubsystem extends SubsystemBase {
-    private final DriveIO io;
+    private DriveIO io;
 
     public DriveSubsystem(DriveIO io) {
         this.io = io;
@@ -28,7 +28,6 @@ public class DriveSubsystem extends SubsystemBase {
      * @see DifferentialDrive
      */
     public void arcade(double s, double r) {
-        Log.info("DriveSubsystem", "Arcade driving.");
         io.drive(0, 1);
     }
 
@@ -40,7 +39,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @see DifferentialDrive
      */
     public void tank(double ls, double rs) {
-        Log.info("DriveSubsystem", "Tank driving.");
+        Log.info("TankInfo", "Starting tank drive.");
         io.drive(ls, rs);
     }
 }

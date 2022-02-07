@@ -1,6 +1,5 @@
 package com.maxtech.maxx;
 
-import com.maxtech.lib.logging.Log;
 import com.maxtech.maxx.commands.TankDriveCommand;
 import com.maxtech.maxx.subsystems.drivetrain.DriveIOReal;
 import com.maxtech.maxx.subsystems.drivetrain.DriveIOSim;
@@ -8,6 +7,7 @@ import com.maxtech.maxx.subsystems.drivetrain.DriveSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+
 import static edu.wpi.first.wpilibj.RobotBase.isReal;
 
 /**
@@ -32,8 +32,6 @@ public class RobotContainer {
             drivetrain = new DriveSubsystem(new DriveIOSim());
         }
 
-        Log.info("RobotContainer", "Starting robot...");
-
         // Configure the button bindings.
         configureButtonBindings();
     }
@@ -44,10 +42,8 @@ public class RobotContainer {
      * More documentation on how this is achieved at https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
      */
     private void configureButtonBindings() {
-        Log.info("configureButtonBindings", "Configuring bindings...");
-
         // We set the default command for the drivetrain to arcade driving based on the controller values.
-        drivetrain.setDefaultCommand(new TankDriveCommand(masterController::getLeftX, masterController::getRightX, drivetrain));
+        drivetrain.setDefaultCommand(new TankDriveCommand(-masterController.getLeftY(), -masterController.getLeftX(), drivetrain));
     }
 
     /**
