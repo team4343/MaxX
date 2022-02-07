@@ -10,12 +10,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class IntakeSubsystem extends SubsystemBase {
 
 
-    MotorController left1 = new CANSparkMax(Constants.leftIntakeMotorID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    MotorController right1 = new CANSparkMax(Constants.rightIntakeMotorID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    MotorControllerGroup intake = new MotorControllerGroup(left1, right1);
+    public final MotorController left1 = new CANSparkMax(Constants.leftIntakeMotorID, CANSparkMaxLowLevel.MotorType.kBrushless);
+    public final MotorController right1 = new CANSparkMax(Constants.rightIntakeMotorID, CANSparkMaxLowLevel.MotorType.kBrushless);
+    public MotorControllerGroup intake;
 
     public IntakeSubsystem() {
-
+       // MotorControllerGroup intake = new MotorControllerGroup(left1, right1);
     }
 
     @Override
