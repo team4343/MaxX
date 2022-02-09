@@ -1,6 +1,7 @@
 package com.maxtech.maxx;
 
 import com.maxtech.maxx.commands.TankDriveCommand;
+import com.maxtech.maxx.commands.autonomous.ExamplePath;
 import com.maxtech.maxx.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,6 +43,6 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return (new RunCommand(() -> drivetrain.arcade(0.5, 0)));
+        return new ExamplePath(drivetrain);
     }
 }
