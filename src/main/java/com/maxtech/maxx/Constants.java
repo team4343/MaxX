@@ -38,12 +38,12 @@ public final class Constants {
          */
         public static final double encoderDistancePerPulse = (wheelDiameter * Math.PI) / encoderCPR;
 
-        public static final double ksVolts = -1.6985;
+        public static final double ksVolts = 1.6985;
         public static final double kvVolts = 30.64;
         public static final double kaVolts = 221.77;
 
         public static final double kvVoltSecondsPerRadian = 38.96;
-        public static final double kaVoltSecondsSquaredPerRadian = 0;
+        public static final double kaVoltSecondsSquaredPerRadian = 38.96;
 
         public static final LinearSystem<N2, N2, N2> plant = LinearSystemId.identifyDrivetrainSystem(kvVolts, kaVolts, kvVoltSecondsPerRadian, kaVoltSecondsSquaredPerRadian);
 
@@ -59,12 +59,5 @@ public final class Constants {
         // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
         public static final double ramseteB = 2;
         public static final double ramseteZeta = 0.7;
-    }
-
-    public static final class Simulation {
-        public static final DCMotor driveGearbox = DCMotor.getCIM(2);
-        public static final double driveGearing = 8;
-
-        public static final double pDriveVel = 8.5;
     }
 }

@@ -28,7 +28,7 @@ public class ExamplePath extends CommandBase {
     private final String trajectoryFile = "paths/GetBallA.wpilib.json";
     private Trajectory trajectory = new Trajectory();
 
-    SequentialCommandGroup command;
+    RamseteCommand command;
 
     public ExamplePath(DriveSubsystem drivetrain) {
         this.drivetrain = drivetrain;
@@ -75,14 +75,15 @@ public class ExamplePath extends CommandBase {
                 drivetrain
         );
 
-        // Reset the odometry to the initial pose provided by the trajectory.
-        drivetrain.resetOdometry(trajectory.getInitialPose());
-
-        this.command = command.andThen(() -> drivetrain.tank(0, 0));
+        this.command = command;
     }
 
     @Override
     public void execute() {
+        // Reset the odometry to the initial pose provided by the trajectory.
+        drivetrain.resetOdometry(trajectory.getInitialPose());
+
+        // Run the RamseteCommand.
         command.execute();
     }
 }

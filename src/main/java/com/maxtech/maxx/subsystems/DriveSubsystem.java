@@ -1,5 +1,6 @@
 package com.maxtech.maxx.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.maxtech.maxx.Constants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -27,7 +28,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     private final DifferentialDrive drivetrain = new DifferentialDrive(left, right);
 
-    private final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    private final AHRS gyro = new AHRS();
     private final DifferentialDriveOdometry odometry;
 
     public DriveSubsystem() {
