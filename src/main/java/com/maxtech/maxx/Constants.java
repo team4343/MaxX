@@ -52,9 +52,9 @@ public final class Constants {
 
         public static final double kpDriveVelocity = 38.96;
 
-        public static final double maxSpeedMetersPerSecond = 3;
-        public static final double maxAccelerationMetersPerSecondSquared = 3;
-        public static final double maxVoltage = 12;
+        public static final double maxSpeedMetersPerSecond = 0.25;
+        public static final double maxAccelerationMetersPerSecondSquared = 0.1;
+        public static final double maxVoltage = 9;
 
         // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
         public static final double ramseteB = 2;
