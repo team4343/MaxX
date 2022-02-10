@@ -15,6 +15,7 @@ public final class Constants {
     public static final int left2ID = 3;
     public static final int right1ID = 4;
     public static final int right2ID = 5;
+    public static final int Shooter_Motor1ID = 6;
 
     public static final class Drive {
         /**

@@ -3,6 +3,7 @@ package com.maxtech.maxx;
 import com.maxtech.maxx.commands.TankDriveCommand;
 import com.maxtech.maxx.commands.autonomous.ExamplePath;
 import com.maxtech.maxx.subsystems.DriveSubsystem;
+import com.maxtech.maxx.subsystems.Shooter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -21,6 +22,7 @@ public class RobotContainer {
      * Our local Drive subsystem.
      */
     private final DriveSubsystem drivetrain = new DriveSubsystem();
+    private final Shooter shooter = new Shooter();
 
     public RobotContainer() {
         // Configure the button bindings.
@@ -35,6 +37,8 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // We set the default command for the drivetrain to arcade driving based on the controller values.
         drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.arcade(masterController.getLeftY(), masterController.getRightX()), drivetrain));
+
+        new RunCommand(shooter::start).execute();
     }
 
     /**
