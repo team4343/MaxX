@@ -26,9 +26,9 @@ public class RobotLogger {
     // === STATES ===
 
     private enum Level {
-        kDebug("DEBUG"), kInfo("INFO"), kWarning("WARNING"), kError("ERROR");
+        Debug("DEBUG"), Info("INFO"), Warning("WARNING"), Error("ERROR");
 
-        public String name;
+        public final String name;
 
         Level(String name) {
             this.name = name;
@@ -54,13 +54,13 @@ public class RobotLogger {
     /** Log an info-level message. */
     public void log(String msg, Object... args) {
         StackTraceElement lastMethod = Thread.currentThread().getStackTrace()[2];
-        write(lastMethod, Level.kInfo, msg, args);
+        write(lastMethod, Level.Info, msg, args);
     }
 
     /** Log a warning message */
     public void warn(String msg, Object... args) {
         StackTraceElement lastMethod = Thread.currentThread().getStackTrace()[2];
-        write(lastMethod, Level.kWarning, msg, args);
+        write(lastMethod, Level.Warning, msg, args);
     }
 
     // === HELPFUL METHODS ===

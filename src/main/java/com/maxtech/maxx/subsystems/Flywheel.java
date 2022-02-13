@@ -23,19 +23,22 @@ public class Flywheel extends SubsystemBase {
     }
 
     private Flywheel() {
-        statemachine.associateState(FlywheelStates.kIdle, this::handleIdle);
-        statemachine.associateState(FlywheelStates.kSpinUp, this::handleSpinUp);
-        statemachine.associateState(FlywheelStates.kAtGoal, this::handleAtGoal);
+        // Slave the right motor to the left one.
+        right.follow(left);
+
+        statemachine.associateState(FlywheelStates.Idle, this::handleIdle);
+        statemachine.associateState(FlywheelStates.SpinUp, this::handleSpinUp);
+        statemachine.associateState(FlywheelStates.AtGoal, this::handleAtGoal);
     }
 
     // === STATES ===
 
     /** The states for the flywheel. */
     private enum FlywheelStates {
-        kIdle, kSpinUp, kAtGoal
+        Idle, SpinUp, AtGoal
     }
 
-    private StateMachine<FlywheelStates> statemachine;
+    private StateMachine<FlywheelStates> statemachine = new StateMachine<>(FlywheelStates.Idle);
 
     // === STATE ACTIONS ===
 
@@ -50,18 +53,18 @@ public class Flywheel extends SubsystemBase {
         this.left.setVoltage(controller.computeNextVoltage(getCurrentVelocity()));
 
         if (!isVelocityCorrect()) {
-            statemachine.toState(FlywheelStates.kSpinUp);
+            statemachine.toState(FlywheelStates.SpinUp);
         }
     }
 
     // === MOTOR CONTROLLERS ===
 
-    private CANSparkMax left = new CANSparkMax(0, kBrushless);
-    private CANSparkMax right = new CANSparkMax(1, kBrushless);
+    private final CANSparkMax left = new CANSparkMax(0, kBrushless);
+    private final CANSparkMax right = new CANSparkMax(1, kBrushless);
 
     // === CONTROLLERS ===
 
-    private SimpleFlywheelController controller = new SimpleFlywheelController(DCMotor.getNEO(2), 0.0023, 1);
+    private SimpleFlywheelController controller = new SimpleFlywheelController(DCMotor.getFalcon500(2), 0.0023, 1);
 
     // === HELPER METHODS ===
 
@@ -73,16 +76,16 @@ public class Flywheel extends SubsystemBase {
     public void setGoalVelocity(double rpm) {
         this.controller.reset(getCurrentVelocity());
         this.controller.setDesiredVelocity(rpm);
-        this.statemachine.toState(FlywheelStates.kSpinUp);
+        this.statemachine.toState(FlywheelStates.SpinUp);
     }
 
     public void stop() {
         this.controller.reset(getCurrentVelocity());
-        statemachine.toState(FlywheelStates.kIdle);
+        statemachine.toState(FlywheelStates.Idle);
     }
 
     public boolean isAtGoal() {
-        return statemachine.currentState() == FlywheelStates.kAtGoal;
+        return statemachine.currentState() == FlywheelStates.AtGoal;
     }
 
     public boolean isVelocityCorrect() {

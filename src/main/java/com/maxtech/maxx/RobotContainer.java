@@ -1,8 +1,8 @@
 package com.maxtech.maxx;
 
-import com.maxtech.maxx.commands.TankDriveCommand;
 import com.maxtech.maxx.commands.autonomous.ExamplePath;
 import com.maxtech.maxx.subsystems.DriveSubsystem;
+import com.maxtech.maxx.subsystems.Flywheel;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -17,10 +17,8 @@ public class RobotContainer {
      */
     public final XboxController masterController = new XboxController(0);
 
-    /**
-     * Our local Drive subsystem.
-     */
     private final DriveSubsystem drivetrain = new DriveSubsystem();
+    private final Flywheel flywheel = Flywheel.getInstance();
 
     public RobotContainer() {
         // Configure the button bindings.

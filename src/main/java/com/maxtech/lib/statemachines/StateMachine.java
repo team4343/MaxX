@@ -17,8 +17,10 @@ public class StateMachine<T> {
     }
 
     public void toState(T state) {
-        internalState = state;
-        logger.log("Entered state %s.", state);
+        if (state != internalState) {
+            internalState = state;
+            logger.log("Entered state %s.", state);
+        }
 
         // Run the associated handler, if there is one. If not, run the default consumer of nothing.
         handlers.getOrDefault(state, x -> {});
