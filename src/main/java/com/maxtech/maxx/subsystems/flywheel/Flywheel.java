@@ -1,12 +1,11 @@
-package com.maxtech.maxx.subsystems;
+package com.maxtech.maxx.subsystems.flywheel;
 
 import com.maxtech.lib.controllers.SimpleFlywheelController;
+import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.statemachines.StateMachine;
-import com.revrobotics.CANSparkMax;
+import com.maxtech.lib.statemachines.StateMachineMeta;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import static com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless;
 
 public class Flywheel extends SubsystemBase {
 
@@ -23,9 +22,10 @@ public class Flywheel extends SubsystemBase {
     }
 
     private Flywheel() {
-        // Slave the right motor to the left one.
-        right.follow(left);
+        // Create the I/O.
+        io = new FlywheelIOSim();
 
+        // Associate handlers for states.
         statemachine.associateState(FlywheelStates.Idle, this::handleIdle);
         statemachine.associateState(FlywheelStates.SpinUp, this::handleSpinUp);
         statemachine.associateState(FlywheelStates.AtGoal, this::handleAtGoal);
@@ -42,25 +42,29 @@ public class Flywheel extends SubsystemBase {
 
     // === STATE ACTIONS ===
 
-    private void handleIdle(Object o) {
+    private void handleIdle(StateMachineMeta meta) {
+        // Force set the voltage to zero.
+        io.setVoltage(0);
     }
 
-    private void handleSpinUp(Object o) {
-        this.left.setVoltage(this.controller.computeNextVoltage(getCurrentVelocity()));
+    private void handleSpinUp(StateMachineMeta meta) {
+        io.setVoltage(this.controller.computeNextVoltage(getCurrentVelocity()));
+
+        if (isVelocityCorrect()) {
+            statemachine.toState(FlywheelStates.AtGoal);
+        }
     }
 
-    private void handleAtGoal(Object o) {
-        this.left.setVoltage(controller.computeNextVoltage(getCurrentVelocity()));
+    private void handleAtGoal(StateMachineMeta meta) {
+        io.setVoltage(controller.computeNextVoltage(getCurrentVelocity()));
 
         if (!isVelocityCorrect()) {
             statemachine.toState(FlywheelStates.SpinUp);
         }
     }
 
-    // === MOTOR CONTROLLERS ===
-
-    private final CANSparkMax left = new CANSparkMax(0, kBrushless);
-    private final CANSparkMax right = new CANSparkMax(1, kBrushless);
+    // === I/O ===
+    private FlywheelIO io;
 
     // === CONTROLLERS ===
 
@@ -70,7 +74,7 @@ public class Flywheel extends SubsystemBase {
 
     /** Get the current velocity that we are running at. */
     public double getCurrentVelocity() {
-        return left.getEncoder().getVelocity();
+        return io.getVelocity();
     }
 
     public void setGoalVelocity(double rpm) {

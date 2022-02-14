@@ -1,8 +1,10 @@
 package com.maxtech.maxx;
 
+import com.maxtech.lib.logging.RobotLogger;
+import com.maxtech.maxx.commands.SetFlywheelCommand;
 import com.maxtech.maxx.commands.autonomous.ExamplePath;
 import com.maxtech.maxx.subsystems.DriveSubsystem;
-import com.maxtech.maxx.subsystems.Flywheel;
+import com.maxtech.maxx.subsystems.flywheel.Flywheel;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -41,6 +43,7 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return new ExamplePath(drivetrain);
+        return new SetFlywheelCommand(100);
+        // return new ExamplePath(drivetrain);
     }
 }

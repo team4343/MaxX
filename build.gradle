@@ -6,6 +6,10 @@ plugins {
     id "idea"
 }
 
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
 def javaVersion = JavaVersion.VERSION_11
 sourceCompatibility = javaVersion
 targetCompatibility = javaVersion
@@ -75,6 +79,9 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api"
     testImplementation "org.junit.jupiter:junit-jupiter-params"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+
+    // SparkMax simulation
+    implementation "net.thefletcher:SparkMaxSim-java:2022.1.1"
 }
 
 // Simulation configuration (e.g. environment variables).

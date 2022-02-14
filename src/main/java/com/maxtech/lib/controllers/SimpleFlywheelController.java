@@ -1,5 +1,6 @@
 package com.maxtech.lib.controllers;
 
+import com.maxtech.lib.logging.RobotLogger;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.LinearQuadraticRegulator;
@@ -13,6 +14,8 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 
 public class SimpleFlywheelController {
+    private final RobotLogger logger = RobotLogger.getInstance();
+
     private final LinearSystem<N1, N1, N1> plant;
     private final KalmanFilter<N1, N1, N1> filter;
     private final LinearQuadraticRegulator<N1, N1, N1> regulator;
@@ -22,8 +25,8 @@ public class SimpleFlywheelController {
 
     public SimpleFlywheelController(DCMotor motor, double momentOfInertia, double gearing, double threadSpeed) {
         plant = LinearSystemId.createFlywheelSystem(motor, momentOfInertia, gearing);
-        filter = new KalmanFilter<>(Nat.N1(), Nat.N1(), plant, VecBuilder.fill(3.0), VecBuilder.fill(0.01), 0.020);
-        regulator = new LinearQuadraticRegulator<>(plant, VecBuilder.fill(8), VecBuilder.fill(12), 12);
+        filter = new KalmanFilter<>(Nat.N1(), Nat.N1(), plant, VecBuilder.fill(.01), VecBuilder.fill(3), 0.020);
+        regulator = new LinearQuadraticRegulator<>(plant, VecBuilder.fill(8), VecBuilder.fill(12), 0.20);
         loop = new LinearSystemLoop<>(plant, regulator, filter, 12, threadSpeed);
     }
 
@@ -55,10 +58,18 @@ public class SimpleFlywheelController {
     public void setDesiredVelocity(double rpm) {
         double rads = Units.rotationsPerMinuteToRadiansPerSecond(rpm);
         loop.setNextR(VecBuilder.fill(rads));
+        logger.log("Set desired velocity to %s RPM, or %s rads.", rpm, rads);
+    }
+
+    public boolean withinEpsilon(double currentVelocity) {
+        return withinEpsilon(currentVelocity, 0.1);
     }
 
     // Please check that this is accurate...
-    public boolean withinEpsilon(double currentVelocity) {
-        return Units.rotationsPerMinuteToRadiansPerSecond(currentVelocity) == loop.getNextR(0);
+    public boolean withinEpsilon(double currentVelocity, double epsilon) {
+        double next = loop.getNextR(0);
+
+        if (currentVelocity == next) return true;
+        return Math.abs(currentVelocity - next) < epsilon;
     }
 }
