@@ -1,6 +1,21 @@
 {
   "HALProvider": {
     "Other Devices": {
+      "CANSparkMax[0]": {
+        "header": {
+          "open": true
+        }
+      },
+      "CANSparkMax[0] - RelativeEncoder": {
+        "header": {
+          "open": true
+        }
+      },
+      "CANSparkMax[1]": {
+        "header": {
+          "open": true
+        }
+      },
       "SPARK MAX [0]": {
         "header": {
           "open": true
@@ -14,8 +29,18 @@
       "/LiveWindow/DriveSubsystem": "Subsystem",
       "/LiveWindow/Flywheel": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
-      "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro"
+      "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
+      "/SmartDashboard/Flywheel chooser": "String Chooser"
+    },
+    "windows": {
+      "/SmartDashboard/Flywheel chooser": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables": {

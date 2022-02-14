@@ -40,6 +40,9 @@ public class RobotLogger {
     ArrayList<String> buffer = new ArrayList<>();
     private Notifier notifier;
 
+    // === TIME ===
+    double startTime = System.currentTimeMillis() / 1000.;
+
     // === PUBLIC METHODS ===
 
     /** Start the periodic logger with a default period of 20 milliseconds. */
@@ -63,11 +66,17 @@ public class RobotLogger {
         write(lastMethod, Level.Warning, msg, args);
     }
 
+    /** Log a debug message */
+    public void dbg(String msg, Object... args) {
+        StackTraceElement lastMethod = Thread.currentThread().getStackTrace()[2];
+        write(lastMethod, Level.Debug, msg, args);
+    }
+
     // === HELPFUL METHODS ===
 
     private void write(StackTraceElement lastMethod, Level lvl, String msgF, Object... args) {
         String message = String.format(msgF, args);
-        double time = System.currentTimeMillis() / 1000.;
+        double time = System.currentTimeMillis() / 1000. - startTime;
 
         // Build the log and add it to the buffer.
         String log = String.format("[%s] (%.2fs), %s: %s", lvl.name, time, getPackageName(lastMethod), message);
@@ -76,12 +85,11 @@ public class RobotLogger {
 
     /** Send logs to the remote connection. If successful, clear the buffer. */
     private void send() {
-        for (String log : buffer) {
+        for (String log : (ArrayList<String>) buffer.clone()) {
             System.out.println(log);
-        }
 
-        // Since we're done, clear the buffer.
-        buffer.clear();
+            buffer.remove(log);
+        }
     }
 
     /**
