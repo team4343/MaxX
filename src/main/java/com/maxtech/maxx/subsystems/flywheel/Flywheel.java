@@ -5,6 +5,8 @@ import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Flywheel extends SubsystemBase {
@@ -22,8 +24,11 @@ public class Flywheel extends SubsystemBase {
     }
 
     private Flywheel() {
-        // Create the I/O.
-        io = new FlywheelIOSim();
+        // Create the I/O based on a SendableChooser.
+        io.setDefaultOption("Max", new FlywheelIOMax());
+        io.addOption("Simulation", new FlywheelIOSim());
+
+        SmartDashboard.putData("Flywheel chooser", io);
 
         // Associate handlers for states.
         statemachine.associateState(FlywheelStates.Idle, this::handleIdle);
@@ -44,11 +49,11 @@ public class Flywheel extends SubsystemBase {
 
     private void handleIdle(StateMachineMeta meta) {
         // Force set the voltage to zero.
-        io.setVoltage(0);
+        setVoltage(0);
     }
 
     private void handleSpinUp(StateMachineMeta meta) {
-        io.setVoltage(this.controller.computeNextVoltage(getCurrentVelocity()));
+        setVoltage(this.controller.computeNextVoltage(getCurrentVelocity()));
 
         if (isVelocityCorrect()) {
             statemachine.toState(FlywheelStates.AtGoal);
@@ -56,7 +61,7 @@ public class Flywheel extends SubsystemBase {
     }
 
     private void handleAtGoal(StateMachineMeta meta) {
-        io.setVoltage(controller.computeNextVoltage(getCurrentVelocity()));
+        setVoltage(controller.computeNextVoltage(getCurrentVelocity()));
 
         if (!isVelocityCorrect()) {
             statemachine.toState(FlywheelStates.SpinUp);
@@ -64,7 +69,7 @@ public class Flywheel extends SubsystemBase {
     }
 
     // === I/O ===
-    private FlywheelIO io;
+    private SendableChooser<FlywheelIO> io = new SendableChooser<>();
 
     // === CONTROLLERS ===
 
@@ -72,9 +77,19 @@ public class Flywheel extends SubsystemBase {
 
     // === HELPER METHODS ===
 
+    private double getVelocity() {
+        return io.getSelected().getVelocity();
+    }
+
+    private void setVoltage(double voltage) {
+        io.getSelected().setVoltage(voltage);
+    }
+
+    // === PUBLIC METHODS ===
+
     /** Get the current velocity that we are running at. */
     public double getCurrentVelocity() {
-        return io.getVelocity();
+        return getVelocity();
     }
 
     public void setGoalVelocity(double rpm) {
