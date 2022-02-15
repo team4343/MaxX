@@ -34,7 +34,12 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         // We set the default command for the drivetrain to arcade driving based on the controller values.
-        drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.arcade(masterController.getLeftY(), masterController.getRightX()), drivetrain));
+        drivetrain.setDefaultCommand(new RunCommand(() -> {
+            double speed = masterController.getRightTriggerAxis() - masterController.getLeftTriggerAxis();
+            double rotation = masterController.getLeftX();
+
+            drivetrain.arcade(speed, rotation);
+        }, drivetrain));
     }
 
     /**
