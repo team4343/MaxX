@@ -52,6 +52,12 @@
         "open": true
       }
     },
+    "Rubie": {
+      "[DEBUG] (0.11s), com...statemachines.StateMachine::associateState(): Associated AtGoal with com.maxtech.maxx.subsystems.flywheel.Flywheel$$Lambda$38": {
+        "open": true
+      },
+      "open": true
+    },
     "Shuffleboard": {
       ".recording": {
         "events": {

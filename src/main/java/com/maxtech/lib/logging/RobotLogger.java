@@ -1,6 +1,7 @@
 package com.maxtech.lib.logging;
 
-import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Notifier;
 
 import java.util.ArrayList;
@@ -37,7 +38,9 @@ public class RobotLogger {
 
     // === BUFFERS ===
 
-    ArrayList<String> buffer = new ArrayList<>();
+    double period;
+    private ArrayList<String> buffer = new ArrayList<>();
+    private NetworkTable ntTable = NetworkTableInstance.getDefault().getTable("Rubie");
     private Notifier notifier;
 
     // === TIME ===
@@ -51,6 +54,7 @@ public class RobotLogger {
     }
 
     public void start(double period) {
+        this.period = period;
         notifier.startPeriodic(period);
     }
 
@@ -75,18 +79,24 @@ public class RobotLogger {
     // === HELPFUL METHODS ===
 
     private void write(StackTraceElement lastMethod, Level lvl, String msgF, Object... args) {
+        // Build the log text.
         String message = String.format(msgF, args);
         double time = System.currentTimeMillis() / 1000. - startTime;
 
-        // Build the log and add it to the buffer.
         String log = String.format("[%s] (%.2fs), %s: %s", lvl.name, time, getPackageName(lastMethod), message);
+
+        // Send the log to the buffer
         buffer.add(log);
     }
 
     /** Send logs to the remote connection. If successful, clear the buffer. */
     private void send() {
+        // Get the current cycle number. This is the elapsed time since start, divided by cycle time.
+        double cycle = (System.currentTimeMillis() / 1000. - startTime) / period;
+
         for (String log : (ArrayList<String>) buffer.clone()) {
             System.out.println(log);
+            ntTable.getEntry(String.valueOf(cycle)).setStringArray(buffer.toArray(new String[0]));
 
             buffer.remove(log);
         }
