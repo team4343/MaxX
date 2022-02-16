@@ -1,7 +1,7 @@
 package com.maxtech.maxx.commands.autonomous;
 
 import com.maxtech.maxx.commands.TankDriveCommand;
-import com.maxtech.maxx.subsystems.DriveSubsystem;
+import com.maxtech.maxx.subsystems.drivetrain.Drive;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -20,7 +20,7 @@ import java.nio.file.Path;
 import static com.maxtech.maxx.Constants.Drive.*;
 
 public class ExamplePath extends SequentialCommandGroup {
-    private final DriveSubsystem drivetrain;
+    private final Drive drivetrain;
 
     /**
      * The file from which to load the trajectory during runtime.
@@ -30,7 +30,7 @@ public class ExamplePath extends SequentialCommandGroup {
 
     RamseteCommand command;
 
-    public ExamplePath(DriveSubsystem drivetrain) {
+    public ExamplePath(Drive drivetrain) {
         this.drivetrain = drivetrain;
         addRequirements(drivetrain);
 

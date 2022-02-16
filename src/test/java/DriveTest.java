@@ -3,7 +3,7 @@ import org.junit.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DriveTrainTest {
+public class DriveTest {
     public static final double DELTA = 1e-2;
 
     DriveSubsystem drivetrain = new DriveSubsystem();

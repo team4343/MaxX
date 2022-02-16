@@ -1,7 +1,7 @@
 package com.maxtech.maxx;
 
 import com.maxtech.maxx.commands.SetFlywheelCommand;
-import com.maxtech.maxx.subsystems.DriveSubsystem;
+import com.maxtech.maxx.subsystems.drivetrain.Drive;
 import com.maxtech.maxx.subsystems.flywheel.Flywheel;
 import com.maxtech.maxx.subsystems.indexer.Indexer;
 import edu.wpi.first.wpilibj.XboxController;
@@ -18,7 +18,7 @@ public class RobotContainer {
      */
     public final XboxController masterController = new XboxController(0);
 
-    private final DriveSubsystem drivetrain = new DriveSubsystem();
+    private final Drive drivetrain = Drive.getInstance();
     private final Flywheel flywheel = Flywheel.getInstance();
     private final Indexer indexer = Indexer.getInstance();
 
