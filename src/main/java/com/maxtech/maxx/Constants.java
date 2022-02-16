@@ -15,6 +15,10 @@ public final class Constants {
     public static final int left2ID = 3;
     public static final int right1ID = 4;
     public static final int right2ID = 5;
+
+    public static final int Beam1ID = 0;
+    public static final int Beam2ID = 0;
+
     public static final int PivotID = 6;
     public static final int intakeid = 7;
 
