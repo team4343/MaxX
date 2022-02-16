@@ -101,9 +101,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     /** Get the distance travelled of one Spark Max motor controller. */
     public double getDistanceTravelled(CANSparkMax controller, double gearing, double wheelDiameter) {
-        double res = controller.getEncoder().getPosition() / gearing * wheelDiameter * Math.PI;
-        RobotLogger.getInstance().dbg("Distance travelled: %s", res);
-        return res;
+        return controller.getEncoder().getPosition() / gearing * wheelDiameter * Math.PI;
     }
 
     public double getDistanceTravelled(CANSparkMax controller) {

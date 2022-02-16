@@ -11,16 +11,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * A drivetrain subsystem for Max X.
  */
 public class Indexer extends SubsystemBase {
-    private final VictorSPX motor1 = new VictorSPX(6);
-    private final VictorSPX motor2 = new VictorSPX(7);
-    private final DigitalInput beambrake1;
-    private final DigitalInput beambrake2;
+    private final VictorSPX motor1 = new VictorSPX(20);
+    private final VictorSPX motor2 = new VictorSPX(21);
+
+    private final DigitalInput breamBreak1 = new DigitalInput(Constants.Beam1ID);
+    private final DigitalInput breamBreak2 = new DigitalInput(Constants.Beam2ID);
 
     public Indexer() {
         // Set up the second motor to follow the first.
         motor2.follow(motor1);
-        beambrake1 = new DigitalInput(Constants.Beam1ID);
-        beambrake2 = new DigitalInput(Constants.Beam2ID);
     }
 
     @Override

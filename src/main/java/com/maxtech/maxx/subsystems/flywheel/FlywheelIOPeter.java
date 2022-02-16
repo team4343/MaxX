@@ -5,8 +5,8 @@ import com.revrobotics.CANSparkMax;
 import static com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless;
 
 public class FlywheelIOPeter implements FlywheelIO {
-    private final CANSparkMax left = new CANSparkMax(0, kBrushless);
-    private final CANSparkMax right = new CANSparkMax(1, kBrushless);
+    private final CANSparkMax left = new CANSparkMax(8, kBrushless);
+    private final CANSparkMax right = new CANSparkMax(9, kBrushless);
 
     public FlywheelIOPeter() {
         right.follow(left);

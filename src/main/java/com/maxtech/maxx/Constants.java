@@ -15,11 +15,11 @@ public final class Constants {
     public static int right1ID = 3;
     public static int right2ID = 4;
 
-    public static final int Beam1ID = 0;
-    public static final int Beam2ID = 0;
+    public static final int Beam1ID = 15;
+    public static final int Beam2ID = 16;
 
-    public static final int PivotID = 6;
-    public static final int intakeid = 7;
+    public static final int pivotID = 14;
+    public static final int intakeID = 15;
 
     public static final class Drive {
         /**

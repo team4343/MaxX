@@ -1,8 +1,6 @@
 package com.maxtech.maxx;
 
-import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.SetFlywheelCommand;
-import com.maxtech.maxx.commands.autonomous.ExamplePath;
 import com.maxtech.maxx.subsystems.DriveSubsystem;
 import com.maxtech.maxx.subsystems.flywheel.Flywheel;
 import edu.wpi.first.wpilibj.XboxController;
@@ -49,6 +47,5 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         return new SetFlywheelCommand(100);
-        // return new ExamplePath(drivetrain);
     }
 }

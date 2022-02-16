@@ -6,9 +6,9 @@ import com.maxtech.maxx.Constants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class IntakeSubsystem extends SubsystemBase {
-    private final VictorSPX intakemotor = new VictorSPX(Constants.intakeid);
-    private final VictorSPX pivot_motor = new VictorSPX(Constants.PivotID);
+public class Intake extends SubsystemBase {
+    private final VictorSPX intakemotor = new VictorSPX(Constants.intakeID);
+    private final VictorSPX pivot_motor = new VictorSPX(Constants.pivotID);
 
     @Override
     public void periodic() {
