@@ -5,9 +5,11 @@ import com.maxtech.maxx.commands.SetFlywheelCommand;
 import com.maxtech.maxx.commands.autonomous.ExamplePath;
 import com.maxtech.maxx.subsystems.DriveSubsystem;
 import com.maxtech.maxx.subsystems.flywheel.Flywheel;
+import com.maxtech.maxx.subsystems.hood.HoodSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
  * The bulk connector for our robot. This class unifies subsystems, commands, and button bindings under one place. This
@@ -21,6 +23,7 @@ public class RobotContainer {
 
     private final DriveSubsystem drivetrain = new DriveSubsystem();
     private final Flywheel flywheel = Flywheel.getInstance();
+    private final HoodSubsystem hood = new HoodSubsystem();
 
     public RobotContainer() {
         // Configure the button bindings.
