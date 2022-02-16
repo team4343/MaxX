@@ -213,7 +213,8 @@ replay_pid*
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -306,12 +307,10 @@ gradle-app.setting
 # DO NOT REMOVE .classpath and .project
 .classpath
 .project
-.settings/
-bin/
-
 
 # Simulation GUI and other tools window save file
 *-window.json
 
 # End entries from WPI Lib team
 
+log.json
