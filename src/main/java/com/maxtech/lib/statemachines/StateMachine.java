@@ -1,17 +1,24 @@
 package com.maxtech.lib.statemachines;
 
 import com.maxtech.lib.logging.RobotLogger;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.HashMap;
 import java.util.function.Consumer;
 
 public class StateMachine<T> {
+    private String name;
     private T internalState;
     private HashMap<T, Consumer<StateMachineMeta>> handlers = new HashMap();
 
     RobotLogger logger = RobotLogger.getInstance();
 
-    public StateMachine(T initialState) {
+    /**
+     * @param name         the key to use in SmartDashboard
+     * @param initialState the state to start in
+     * */
+    public StateMachine(String name, T initialState) {
+        this.name = name;
         internalState = initialState;
     }
 
@@ -19,6 +26,7 @@ public class StateMachine<T> {
         if (state != internalState) {
             internalState = state;
             logger.log("Entered state %s.", state);
+            SmartDashboard.putString(name, internalState.toString());
 
             // Run the associated handler, if there is one. If not, run the default consumer of nothing.
             handlers.getOrDefault(state, x -> {}).accept(new StateMachineMeta());

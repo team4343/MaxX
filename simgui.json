@@ -48,13 +48,15 @@
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/DriveSubsystem": "Subsystem",
       "/LiveWindow/Flywheel": "Subsystem",
+      "/LiveWindow/Indexer": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/SmartDashboard/Field": "Field2d",
-      "/SmartDashboard/Flywheel chooser": "String Chooser"
+      "/SmartDashboard/Flywheel chooser": "String Chooser",
+      "/SmartDashboard/Indexer chooser": "String Chooser"
     },
     "windows": {
       "/SmartDashboard/Field": {
@@ -63,6 +65,11 @@
         }
       },
       "/SmartDashboard/Flywheel chooser": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Indexer chooser": {
         "window": {
           "visible": true
         }
