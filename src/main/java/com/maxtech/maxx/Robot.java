@@ -1,10 +1,6 @@
 package com.maxtech.maxx;
 
-import com.maxtech.lib.logging.Log;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryUtil;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
+import com.maxtech.lib.logging.RobotLogger;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -16,9 +12,10 @@ import java.nio.file.Path;
  * A class, scheduled by the Java VM, to run.
  */
 public class Robot extends TimedRobot {
+    private RobotContainer robotContainer;
     private Command autonomousCommand;
 
-    private RobotContainer robotContainer;
+    RobotLogger logger = RobotLogger.getInstance();
 
     /**
      * This method is run when the robot is first started up and should be used for any
@@ -26,6 +23,9 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+        // Start our logger.
+        logger.start();
+
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         robotContainer = new RobotContainer();
@@ -62,7 +62,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        Log.info("Entered autonomous mode.");
+        logger.log("entered autonomous");
         autonomousCommand = robotContainer.getAutonomousCommand();
 
         // schedule the autonomous command (example)

@@ -1,10 +1,72 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "CANSparkMax[0]": {
+        "header": {
+          "open": true
+        }
+      },
+      "CANSparkMax[0] - RelativeEncoder": {
+        "header": {
+          "open": true
+        }
+      },
+      "CANSparkMax[1]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [0]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [2]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [3]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [4]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [5]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/DriveSubsystem": "Subsystem",
+      "/LiveWindow/Flywheel": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
-      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
+      "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
+      "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Flywheel chooser": "String Chooser"
+    },
+    "windows": {
+      "/SmartDashboard/Field": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Flywheel chooser": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables": {
@@ -15,6 +77,12 @@
       "Ungrouped": {
         "open": true
       }
+    },
+    "Rubie": {
+      "[DEBUG] (0.11s), com...statemachines.StateMachine::associateState(): Associated AtGoal with com.maxtech.maxx.subsystems.flywheel.Flywheel$$Lambda$38": {
+        "open": true
+      },
+      "open": true
     },
     "Shuffleboard": {
       ".recording": {
@@ -36,6 +104,9 @@
         "open": true
       },
       "Drivetrain": {
+        "open": true
+      },
+      "Right2": {
         "open": true
       },
       "drivetrain": {

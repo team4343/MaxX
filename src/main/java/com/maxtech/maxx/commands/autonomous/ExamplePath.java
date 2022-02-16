@@ -1,5 +1,6 @@
 package com.maxtech.maxx.commands.autonomous;
 
+import com.maxtech.maxx.commands.TankDriveCommand;
 import com.maxtech.maxx.subsystems.DriveSubsystem;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
@@ -10,7 +11,6 @@ import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
@@ -19,7 +19,7 @@ import java.nio.file.Path;
 
 import static com.maxtech.maxx.Constants.Drive.*;
 
-public class ExamplePath extends CommandBase {
+public class ExamplePath extends SequentialCommandGroup {
     private final DriveSubsystem drivetrain;
 
     /**
@@ -75,15 +75,6 @@ public class ExamplePath extends CommandBase {
                 drivetrain
         );
 
-        this.command = command;
-    }
-
-    @Override
-    public void execute() {
-        // Reset the odometry to the initial pose provided by the trajectory.
-        drivetrain.resetOdometry(trajectory.getInitialPose());
-
-        // Run the RamseteCommand.
-        command.execute();
+        addCommands(command, new TankDriveCommand(0, 0, drivetrain));
     }
 }

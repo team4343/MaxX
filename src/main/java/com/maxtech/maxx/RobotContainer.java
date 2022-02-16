@@ -1,8 +1,10 @@
 package com.maxtech.maxx;
 
-import com.maxtech.maxx.commands.TankDriveCommand;
+import com.maxtech.lib.logging.RobotLogger;
+import com.maxtech.maxx.commands.SetFlywheelCommand;
 import com.maxtech.maxx.commands.autonomous.ExamplePath;
 import com.maxtech.maxx.subsystems.DriveSubsystem;
+import com.maxtech.maxx.subsystems.flywheel.Flywheel;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -17,10 +19,8 @@ public class RobotContainer {
      */
     public final XboxController masterController = new XboxController(0);
 
-    /**
-     * Our local Drive subsystem.
-     */
     private final DriveSubsystem drivetrain = new DriveSubsystem();
+    private final Flywheel flywheel = Flywheel.getInstance();
 
     public RobotContainer() {
         // Configure the button bindings.
@@ -34,7 +34,12 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         // We set the default command for the drivetrain to arcade driving based on the controller values.
-        drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.arcade(masterController.getLeftY(), masterController.getRightX()), drivetrain));
+        drivetrain.setDefaultCommand(new RunCommand(() -> {
+            double speed = masterController.getRightTriggerAxis() - masterController.getLeftTriggerAxis();
+            double rotation = masterController.getLeftX();
+
+            drivetrain.arcade(speed, rotation);
+        }, drivetrain));
     }
 
     /**
@@ -43,6 +48,7 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return new ExamplePath(drivetrain);
+        return new SetFlywheelCommand(100);
+        // return new ExamplePath(drivetrain);
     }
 }

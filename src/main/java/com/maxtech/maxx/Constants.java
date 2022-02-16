@@ -15,8 +15,12 @@ public final class Constants {
     public static final int left2ID = 3;
     public static final int right1ID = 4;
     public static final int right2ID = 5;
+
     public static final int Beam1ID = 0;
     public static final int Beam2ID = 0;
+
+    public static final int PivotID = 6;
+    public static final int intakeid = 7;
 
     public static final class Drive {
         /**
@@ -54,9 +58,9 @@ public final class Constants {
 
         public static final double kpDriveVelocity = 38.96;
 
-        public static final double maxSpeedMetersPerSecond = 3;
-        public static final double maxAccelerationMetersPerSecondSquared = 3;
-        public static final double maxVoltage = 12;
+        public static final double maxSpeedMetersPerSecond = 0.25;
+        public static final double maxAccelerationMetersPerSecondSquared = 0.1;
+        public static final double maxVoltage = 9;
 
         // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
         public static final double ramseteB = 2;
