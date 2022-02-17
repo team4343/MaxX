@@ -20,7 +20,7 @@ public class DriveIOMax implements DriveIO {
     private final CANSparkMax right2 = new CANSparkMax(Constants.right2ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     private final MotorControllerGroup right = new MotorControllerGroup(right1, right2);
 
-    private final DifferentialDrive drivetrain = new DifferentialDrive(left, right);
+    private final DifferentialDrive drivetrain;
 
     private final AHRS gyro = new AHRS();
     private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
@@ -28,6 +28,7 @@ public class DriveIOMax implements DriveIO {
 
     public DriveIOMax() {
         right.setInverted(true);
+        drivetrain = new DifferentialDrive(left, right);
     }
 
     /**

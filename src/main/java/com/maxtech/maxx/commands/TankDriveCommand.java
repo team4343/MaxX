@@ -1,5 +1,6 @@
 package com.maxtech.maxx.commands;
 
+import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -18,6 +19,7 @@ public class TankDriveCommand extends CommandBase {
 
     @Override
     public void execute() {
+        RobotLogger.getInstance().dbg("");
         drivetrain.tank(ls, rs);
     }
 }

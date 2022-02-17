@@ -1,46 +1,27 @@
-package com.maxtech.maxx.commands.autonomous;
+package com.maxtech.maxx.commands;
 
-import com.maxtech.maxx.commands.TankDriveCommand;
+import com.maxtech.lib.logging.RobotLogger;
+import com.maxtech.maxx.Constants;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-import java.io.IOException;
-import java.nio.file.Path;
-
 import static com.maxtech.maxx.Constants.Drive.*;
 
-public class ExamplePath extends SequentialCommandGroup {
-    private final Drive drivetrain;
+/** Given a Trajectory, run it with the RamseteCommand. */
+public class RunTrajectory extends SequentialCommandGroup {
+    Trajectory trajectory;
 
-    /**
-     * The file from which to load the trajectory during runtime.
-     */
-    private final String trajectoryFile = "paths/GetBallA.wpilib.json";
-    private Trajectory trajectory = new Trajectory();
+    Drive drivetrain = Drive.getInstance();
 
-    RamseteCommand command;
-
-    public ExamplePath(Drive drivetrain) {
-        this.drivetrain = drivetrain;
-        addRequirements(drivetrain);
-
-        // Load the trajectory.
-        try {
-            Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryFile);
-            trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-        } catch (IOException ex) {
-            DriverStation.reportError("Unable to open trajectory: " + trajectoryFile, ex.getStackTrace());
-        }
+    public RunTrajectory(Trajectory trajectory) {
+        this.trajectory = trajectory;
 
         // Create a voltage constraint, which we will use in the configuration below.
         DifferentialDriveVoltageConstraint voltageConstraint =
@@ -51,11 +32,6 @@ public class ExamplePath extends SequentialCommandGroup {
                                 kaVoltSecondsSquaredPerRadian),
                         kinematics,
                         maxVoltage);
-
-        // Create a config for our trajectory.
-        TrajectoryConfig config = new TrajectoryConfig(maxSpeedMetersPerSecond, maxAccelerationMetersPerSecondSquared)
-                .setKinematics(kinematics)
-                .addConstraint(voltageConstraint);
 
         // Finally, create our actual command.
         RamseteCommand command = new RamseteCommand(
