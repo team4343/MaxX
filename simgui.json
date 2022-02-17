@@ -50,6 +50,7 @@
       "/LiveWindow/DriveSubsystem": "Subsystem",
       "/LiveWindow/Flywheel": "Subsystem",
       "/LiveWindow/Indexer": "Subsystem",
+      "/LiveWindow/Intake": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
@@ -113,6 +114,9 @@
         "open": true
       },
       "Drivetrain": {
+        "open": true
+      },
+      "Intake": {
         "open": true
       },
       "Right2": {

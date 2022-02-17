@@ -1,7 +1,6 @@
 package com.maxtech.maxx.subsystems.flywheel;
 
 import com.maxtech.lib.controllers.SimpleFlywheelController;
-import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import edu.wpi.first.math.system.plant.DCMotor;

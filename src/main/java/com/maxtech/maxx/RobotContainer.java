@@ -1,12 +1,17 @@
 package com.maxtech.maxx;
 
+import com.maxtech.lib.command.Subsystem;
 import com.maxtech.maxx.commands.SetFlywheelCommand;
+import com.maxtech.maxx.subsystems.Intake;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
 import com.maxtech.maxx.subsystems.flywheel.Flywheel;
 import com.maxtech.maxx.subsystems.indexer.Indexer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The bulk connector for our robot. This class unifies subsystems, commands, and button bindings under one place. This
@@ -16,11 +21,12 @@ public class RobotContainer {
     /**
      * A handle to an Xbox controller on port 0.
      */
-    public final XboxController masterController = new XboxController(0);
+    private final XboxController masterController = new XboxController(0);
 
     private final Drive drivetrain = Drive.getInstance();
     private final Flywheel flywheel = Flywheel.getInstance();
     private final Indexer indexer = Indexer.getInstance();
+    private final Intake intake = new Intake();
 
     public RobotContainer() {
         // Configure the button bindings.
@@ -49,5 +55,14 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         return new SetFlywheelCommand(100);
+    }
+
+    // All of these subsystems send telemetry.
+    public List<Subsystem> getTelemetrySubsystems() {
+        List<Subsystem> subsystems = new ArrayList<>();
+
+        subsystems.add(intake);
+
+        return subsystems;
     }
 }

@@ -2,29 +2,34 @@ package com.maxtech.maxx.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.maxtech.lib.command.Subsystem;
 import com.maxtech.maxx.Constants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Intake extends SubsystemBase {
-    private final VictorSPX intakemotor = new VictorSPX(Constants.intakeID);
-    private final VictorSPX pivot_motor = new VictorSPX(Constants.pivotID);
+public class Intake extends Subsystem {
+    private static Intake instance;
+
+    public static Intake getInstance() {
+        if (instance == null) {
+            instance = new Intake();
+        }
+
+        return instance;
+    }
+
+    private final VictorSPX intakeMotor = new VictorSPX(Constants.intakeID);
 
     @Override
-    public void periodic() {
-        SmartDashboard.putNumber("pivot motor voltage", pivot_motor.getBusVoltage());
-        SmartDashboard.putNumber("intake motor voltage", intakemotor.getBusVoltage());
-        SmartDashboard.putNumber("pivot motor temp", pivot_motor.getTemperature());
-        SmartDashboard.putNumber("intake motor temp", intakemotor.getTemperature());
+    public void sendTelemetry(String prefix) {
+        SmartDashboard.putNumber(prefix + "voltage", intakeMotor.getBusVoltage());
+        SmartDashboard.putNumber(prefix + "temperature", intakeMotor.getTemperature());
     }
 
     public void start() {
-        pivot_motor.set(ControlMode.Velocity, 1);
-        intakemotor.set(ControlMode.Velocity, 1);
+        intakeMotor.set(ControlMode.Velocity, 1);
     }
 
     public void stop() {
-        pivot_motor.set(ControlMode.Velocity, 0);
-        intakemotor.set(ControlMode.Velocity, 0);
+        intakeMotor.set(ControlMode.Velocity, 0);
     }
 }
