@@ -7,14 +7,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public interface DriveIO {
-    /**
-     * Drive by arcade-style parameters.
-     *
-     * @param s speed to drive at
-     * @param r rotation to drive at
-     * @see DifferentialDrive
-     */
-    void arcade(double s, double r);
+    default void periodic() {};
 
     /**
      * Drive by tank-style parameters.
@@ -24,6 +17,17 @@ public interface DriveIO {
      * @see DifferentialDrive
      */
     void tank(double ls, double rs);
+
+    /**
+
+    /**
+     * Drive by arcade-style parameters.
+     *
+     * @param s speed to drive at
+     * @param r rotation to drive at
+     * @see DifferentialDrive
+     */
+    void arcade(double s, double r);
 
     /**
      * Resets the odometry to a given pose.

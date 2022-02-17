@@ -2,6 +2,7 @@ package com.maxtech.maxx;
 
 import com.maxtech.lib.command.Subsystem;
 import com.maxtech.maxx.commands.SetFlywheelCommand;
+import com.maxtech.maxx.commands.autonomous.tracking.TrackBall;
 import com.maxtech.maxx.subsystems.Intake;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
 import com.maxtech.maxx.subsystems.flywheel.Flywheel;
@@ -54,7 +55,7 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return new SetFlywheelCommand(100);
+        return new TrackBall();
     }
 
     // All of these subsystems send telemetry.

@@ -1,5 +1,6 @@
 package com.maxtech.maxx.commands;
 
+import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.Constants;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
 import edu.wpi.first.math.controller.PIDController;
@@ -21,10 +22,7 @@ public class RunTrajectory extends SequentialCommandGroup {
 
     public RunTrajectory(Trajectory trajectory) {
         this.trajectory = trajectory;
-    }
 
-    @Override
-    public void execute() {
         // Create a voltage constraint, which we will use in the configuration below.
         DifferentialDriveVoltageConstraint voltageConstraint =
                 new DifferentialDriveVoltageConstraint(

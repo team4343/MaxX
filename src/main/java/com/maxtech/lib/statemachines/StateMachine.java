@@ -39,6 +39,11 @@ public class StateMachine<T> {
         logger.dbg("Associated %s with %s", state, action);
     }
 
+    /** Start the machine. */
+    public void start() {
+        handlers.getOrDefault(internalState, x -> {}).accept(new StateMachineMeta());
+    }
+
     public T currentState() {
         return internalState;
     }

@@ -34,13 +34,15 @@ public class Flywheel extends SubsystemBase {
         statemachine.associateState(FlywheelStates.Idle, this::handleIdle);
         statemachine.associateState(FlywheelStates.SpinUp, this::handleSpinUp);
         statemachine.associateState(FlywheelStates.AtGoal, this::handleAtGoal);
+
+        statemachine.start();
     }
 
     // === STATES ===
 
     /** The states for the flywheel. */
     private enum FlywheelStates {
-        Idle, SpinUp, AtGoal
+        Idle, SpinUp, AtGoal,
     }
 
     private StateMachine<FlywheelStates> statemachine = new StateMachine<>("Flywheel", FlywheelStates.Idle);
