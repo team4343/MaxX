@@ -1,4 +1,4 @@
-package com.maxtech.maxx.commands.autonomous;
+package com.maxtech.maxx.commands.autonomous.paths;
 
 import com.maxtech.maxx.commands.TankDriveCommand;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
@@ -41,21 +41,6 @@ public class ExamplePath extends SequentialCommandGroup {
         } catch (IOException ex) {
             DriverStation.reportError("Unable to open trajectory: " + trajectoryFile, ex.getStackTrace());
         }
-
-        // Create a voltage constraint, which we will use in the configuration below.
-        DifferentialDriveVoltageConstraint voltageConstraint =
-                new DifferentialDriveVoltageConstraint(
-                        new SimpleMotorFeedforward(
-                                ksVolts,
-                                kvVoltSecondsPerRadian,
-                                kaVoltSecondsSquaredPerRadian),
-                        kinematics,
-                        maxVoltage);
-
-        // Create a config for our trajectory.
-        TrajectoryConfig config = new TrajectoryConfig(maxSpeedMetersPerSecond, maxAccelerationMetersPerSecondSquared)
-                .setKinematics(kinematics)
-                .addConstraint(voltageConstraint);
 
         // Finally, create our actual command.
         RamseteCommand command = new RamseteCommand(
