@@ -26,7 +26,7 @@ public class RobotContainer {
     private final Drive drivetrain = Drive.getInstance();
     private final Flywheel flywheel = Flywheel.getInstance();
     private final Indexer indexer = Indexer.getInstance();
-    private final Intake intake = new Intake();
+    private final Intake intake = Intake.getInstance();
 
     public RobotContainer() {
         // Configure the button bindings.

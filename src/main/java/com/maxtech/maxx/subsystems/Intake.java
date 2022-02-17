@@ -17,6 +17,10 @@ public class Intake extends Subsystem {
         return instance;
     }
 
+    private Intake() {
+
+    }
+
     private final VictorSPX intakeMotor = new VictorSPX(Constants.intakeID);
 
     @Override
