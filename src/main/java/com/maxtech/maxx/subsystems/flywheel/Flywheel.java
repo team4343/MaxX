@@ -1,7 +1,6 @@
 package com.maxtech.maxx.subsystems.flywheel;
 
 import com.maxtech.lib.controllers.SimpleFlywheelController;
-import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -26,7 +25,7 @@ public class Flywheel extends SubsystemBase {
     private Flywheel() {
         // Create the I/O based on a SendableChooser.
         io.setDefaultOption("Max", new FlywheelIOMax());
-        io.setDefaultOption("Peter", new FlywheelIOPeter());
+        io.addOption("Peter", new FlywheelIOPeter());
         io.addOption("Simulation", new FlywheelIOSim());
 
         SmartDashboard.putData("Flywheel chooser", io);
@@ -44,7 +43,7 @@ public class Flywheel extends SubsystemBase {
         Idle, SpinUp, AtGoal
     }
 
-    private StateMachine<FlywheelStates> statemachine = new StateMachine<>(FlywheelStates.Idle);
+    private StateMachine<FlywheelStates> statemachine = new StateMachine<>("Flywheel", FlywheelStates.Idle);
 
     // === STATE ACTIONS ===
 
