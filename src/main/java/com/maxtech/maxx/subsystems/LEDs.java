@@ -37,4 +37,19 @@ public class LEDs extends Subsystem {
     public void sendTelemetry(String prefix) {
 
     }
+
+    public void toNextPattern() {
+        int currentOrdinal = statemachine.currentState().ordinal();
+        int nextOrdinal;
+
+        // If we're at the highest ordinal, the next ordinal is at the start.
+        if (currentOrdinal == LEDTypes.values().length) {
+            nextOrdinal = 0;
+        } else {
+            // Else, just add 1.
+            nextOrdinal = currentOrdinal + 1;
+        }
+
+        statemachine.toState(LEDTypes.values()[nextOrdinal]);
+    }
 }

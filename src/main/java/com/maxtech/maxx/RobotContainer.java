@@ -1,15 +1,17 @@
 package com.maxtech.maxx;
 
 import com.maxtech.lib.command.Subsystem;
-import com.maxtech.maxx.commands.SetFlywheelCommand;
+import com.maxtech.maxx.commands.NextLEDPattern;
 import com.maxtech.maxx.commands.autonomous.tracking.TrackBall;
 import com.maxtech.maxx.subsystems.Intake;
+import com.maxtech.maxx.subsystems.LEDs;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
 import com.maxtech.maxx.subsystems.flywheel.Flywheel;
 import com.maxtech.maxx.subsystems.indexer.Indexer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,7 @@ public class RobotContainer {
     private final Flywheel flywheel = Flywheel.getInstance();
     private final Indexer indexer = Indexer.getInstance();
     private final Intake intake = Intake.getInstance();
+    private final LEDs leds = LEDs.getInstance();
 
     public RobotContainer() {
         // Configure the button bindings.
@@ -47,6 +50,9 @@ public class RobotContainer {
 
             drivetrain.arcade(speed, rotation);
         }, drivetrain));
+
+        // TODO: review this method of binding commands to methods. It's almost certainly too verbose.
+        new JoystickButton(masterController, XboxController.Button.kLeftBumper.value).whenPressed(new NextLEDPattern());
     }
 
     /**
