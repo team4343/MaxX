@@ -313,4 +313,7 @@ gradle-app.setting
 
 # End entries from WPI Lib team
 
-log.json
+# Begin team-registered entries
+
+simgui-ds.json
+/.sysid

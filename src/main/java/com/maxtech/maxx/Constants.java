@@ -10,39 +10,59 @@ import edu.wpi.first.math.system.plant.LinearSystemId;
  * A convenient place to keep constant values, that will certainly never change throughout robot execution.
  */
 public final class Constants {
-    public static final int left1ID = 2;
-    public static final int left2ID = 3;
-    public static final int right1ID = 4;
-    public static final int right2ID = 5;
+    public static int left1ID = 1;
+    public static int left2ID = 2;
+    public static int right1ID = 3;
+    public static int right2ID = 4;
 
-    public static final class Simulation {
-        public static final double trackWidthMeters = 0.69;
-        public static final DifferentialDriveKinematics driveKinematics =
-                new DifferentialDriveKinematics(trackWidthMeters);
+    public static final int Beam1ID = 15;
+    public static final int Beam2ID = 16;
 
-        public static final int encoderCPR = 1024;
-        public static final double wheelDiameterMeters = 0.15;
-        public static final double encoderDistancePerPulse =
-                // Assumes the encoders are directly mounted on the wheel shafts
-                (wheelDiameterMeters * Math.PI) / (double) encoderCPR;
+    public static final int pivotID = 14;
+    public static final int intakeID = 15;
 
-        public static final double sVolts = 0.22;
-        public static final double vVoltSecondsPerMeter = 1.98;
-        public static final double aVoltSecondsSquaredPerMeter = 0.2;
+    public static final class Drive {
+        /**
+         * Width in between the left and right wheels, in meters.
+         */
+        public static final double trackWidth = 0.53;
+        public static final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(trackWidth);
 
-        public static final double vVoltSecondsPerRadian = 1.5;
-        public static final double aVoltSecondsSquaredPerRadian = 0.3;
+        /**
+         * Encoder counts-per-revolution. Our count is 1, because the SparkMaxes account for the Neo's rotation.
+         */
+        public static final double encoderCPR = 1;
 
-        public static final LinearSystem<N2, N2, N2> drivetrainPlant =
-                LinearSystemId.identifyDrivetrainSystem(
-                        vVoltSecondsPerMeter,
-                        aVoltSecondsSquaredPerMeter,
-                        vVoltSecondsPerRadian,
-                        aVoltSecondsSquaredPerRadian);
+        /**
+         * Diameter of one wheel, in centimeters.
+         */
+        public static final double wheelDiameter = 16;
 
-        public static final DCMotor driveGearbox = DCMotor.getCIM(2);
-        public static final double driveGearing = 8;
+        /**
+         * Encoder distance per pulse.
+         */
+        public static final double encoderDistancePerPulse = (wheelDiameter * Math.PI) / encoderCPR;
 
-        public static final double pDriveVel = 8.5;
+        public static final double ksVolts = 1.6985;
+        public static final double kvVolts = 30.64;
+        public static final double kaVolts = 221.77;
+
+        public static final double kvVoltSecondsPerRadian = 38.96;
+        public static final double kaVoltSecondsSquaredPerRadian = 38.96;
+
+        public static final LinearSystem<N2, N2, N2> plant = LinearSystemId.identifyDrivetrainSystem(kvVolts, kaVolts, kvVoltSecondsPerRadian, kaVoltSecondsSquaredPerRadian);
+
+        public static final DCMotor gearbox = DCMotor.getNeo550(4);
+        public static final double gearing = 10.71 / 1;
+
+        public static final double kpDriveVelocity = 38.96;
+
+        public static final double maxSpeedMetersPerSecond = 0.25;
+        public static final double maxAccelerationMetersPerSecondSquared = 0.1;
+        public static final double maxVoltage = 9;
+
+        // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
+        public static final double ramseteB = 2;
+        public static final double ramseteZeta = 0.7;
     }
 }

@@ -1,15 +1,14 @@
-package com.maxtech.maxx.commands.autonomous;
+package com.maxtech.maxx.commands;
 
-import com.maxtech.maxx.subsystems.DriveSubsystem;
+import com.maxtech.maxx.subsystems.drivetrain.Drive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class Basic3 extends CommandBase{
-
+public class ArcadeDriveCommand extends CommandBase {
     private final double speed;
     private final double degrees;
-    private final DriveSubsystem drivetrain;
+    private final Drive drivetrain;
 
-    public Basic3(double degrees, double speed, DriveSubsystem drivetrain) {
+    public ArcadeDriveCommand(double speed, double degrees, Drive drivetrain) {
         this.speed = speed;
         this.degrees = degrees;
         this.drivetrain = drivetrain;
