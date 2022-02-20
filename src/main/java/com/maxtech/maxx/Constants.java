@@ -52,8 +52,8 @@ public final class Constants {
 
         public static final LinearSystem<N2, N2, N2> plant = LinearSystemId.identifyDrivetrainSystem(kvVolts, kaVolts, kvVoltSecondsPerRadian, kaVoltSecondsSquaredPerRadian);
 
-        public static final DCMotor gearbox = DCMotor.getNeo550(4);
-        public static final double gearing = 10.71 / 1;
+        public static final DCMotor gearbox = DCMotor.getNEO(4);
+        public static final double gearing = 12.98;
 
         public static final double kpDriveVelocity = 38.96;
 

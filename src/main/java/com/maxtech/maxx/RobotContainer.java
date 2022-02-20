@@ -1,8 +1,9 @@
 package com.maxtech.maxx;
 
 import com.maxtech.lib.command.Subsystem;
+import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.NextLEDPattern;
-import com.maxtech.maxx.commands.autonomous.tracking.TrackBall;
+import com.maxtech.maxx.commands.autonomous.paths.ExamplePath;
 import com.maxtech.maxx.subsystems.Intake;
 import com.maxtech.maxx.subsystems.LEDs;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
@@ -21,6 +22,8 @@ import java.util.List;
  * is then called from {@link Robot}.
  */
 public class RobotContainer {
+    private final RobotLogger logger = RobotLogger.getInstance();
+
     /**
      * A handle to an Xbox controller on port 0.
      */
@@ -61,7 +64,8 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return new TrackBall();
+        // return new TrackBall();
+        return new ExamplePath(drivetrain);
     }
 
     // All of these subsystems send telemetry.
@@ -69,6 +73,7 @@ public class RobotContainer {
         List<Subsystem> subsystems = new ArrayList<>();
 
         subsystems.add(intake);
+        subsystems.add(drivetrain);
 
         return subsystems;
     }

@@ -1,13 +1,13 @@
 package com.maxtech.maxx.subsystems.drivetrain;
 
-import com.revrobotics.CANSparkMax;
+import com.maxtech.lib.command.Subsystem;
+import com.maxtech.lib.wrappers.rev.CANSparkMax;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Drive extends SubsystemBase {
+public class Drive extends Subsystem {
 
     // === INSTANCES ===
 
@@ -29,6 +29,16 @@ public class Drive extends SubsystemBase {
 
     // === I/O ===
     private SendableChooser<DriveIO> io = new SendableChooser<>();
+
+    @Override
+    public void periodic() {
+        io.getSelected().periodic();
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        io.getSelected().simulationPeriodic();
+    }
 
     // === PUBLIC METHODS ===
 
@@ -58,5 +68,13 @@ public class Drive extends SubsystemBase {
 
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         return io.getSelected().getWheelSpeeds();
+    }
+
+    @Override
+    public void sendTelemetry(String prefix) {
+        SmartDashboard.putData(prefix + "field", io.getSelected().getField());
+
+        SmartDashboard.putNumber(prefix + "x", getPose().getX());
+        SmartDashboard.putNumber(prefix + "y", getPose().getY());
     }
 }

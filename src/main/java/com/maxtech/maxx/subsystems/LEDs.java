@@ -43,7 +43,7 @@ public class LEDs extends Subsystem {
         int nextOrdinal;
 
         // If we're at the highest ordinal, the next ordinal is at the start.
-        if (currentOrdinal == LEDTypes.values().length) {
+        if (currentOrdinal == LEDTypes.values().length - 1) {
             nextOrdinal = 0;
         } else {
             // Else, just add 1.
