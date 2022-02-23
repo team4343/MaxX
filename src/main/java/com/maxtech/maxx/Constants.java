@@ -15,6 +15,9 @@ public final class Constants {
     public static int right1ID = 3;
     public static int right2ID = 4;
 
+    public static int a1 = 4;
+    public static int a2 = 3;}
+
     public static final int Beam1ID = 15;
     public static final int Beam2ID = 16;
 
