@@ -1,16 +1,15 @@
 package com.maxtech.maxx.subsystems.flywheel;
 
 import com.maxtech.lib.controllers.SimpleFlywheelController;
+import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
+import com.maxtech.maxx.RobotContainer;
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Flywheel extends SubsystemBase {
-
-    // === INSTANCES ===
+    RobotLogger logger = RobotLogger.getInstance();
 
     private static Flywheel instance;
 
@@ -23,12 +22,11 @@ public class Flywheel extends SubsystemBase {
     }
 
     private Flywheel() {
-        // Create the I/O based on a SendableChooser.
-        io.setDefaultOption("Max", new FlywheelIOMax());
-        io.addOption("Peter", new FlywheelIOPeter());
-        io.addOption("Simulation", new FlywheelIOSim());
-
-        SmartDashboard.putData("Flywheel chooser", io);
+        switch(RobotContainer.teamNumber) {
+            case 4343: io = new FlywheelIOMax(); break;
+            case 914: io = new FlywheelIOPeter(); break;
+            default: logger.err("Could not pick I/O, no matches."); break;
+        }
 
         // Associate handlers for states.
         statemachine.associateState(FlywheelStates.Idle, this::handleIdle);
@@ -38,16 +36,12 @@ public class Flywheel extends SubsystemBase {
         statemachine.start();
     }
 
-    // === STATES ===
-
     /** The states for the flywheel. */
     private enum FlywheelStates {
         Idle, SpinUp, AtGoal,
     }
 
     private StateMachine<FlywheelStates> statemachine = new StateMachine<>("Flywheel", FlywheelStates.Idle);
-
-    // === STATE ACTIONS ===
 
     private void handleIdle(StateMachineMeta meta) {
         // Force set the voltage to zero.
@@ -70,24 +64,17 @@ public class Flywheel extends SubsystemBase {
         }
     }
 
-    // === I/O ===
-    private SendableChooser<FlywheelIO> io = new SendableChooser<>();
-
-    // === CONTROLLERS ===
+    private FlywheelIO io;
 
     private SimpleFlywheelController controller = new SimpleFlywheelController(DCMotor.getFalcon500(2), 0.0023, 1);
 
-    // === HELPER METHODS ===
-
     private double getVelocity() {
-        return io.getSelected().getVelocity();
+        return io.getVelocity();
     }
 
     private void setVoltage(double voltage) {
-        io.getSelected().setVoltage(voltage);
+        io.setVoltage(voltage);
     }
-
-    // === PUBLIC METHODS ===
 
     /** Get the current velocity that we are running at. */
     public double getCurrentVelocity() {

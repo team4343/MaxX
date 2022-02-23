@@ -76,6 +76,12 @@ public class RobotLogger {
         write(lastMethod, Level.Debug, msg, args);
     }
 
+    /** Log an error message */
+    public void err(String msg, Object... args) {
+        StackTraceElement lastMethod = Thread.currentThread().getStackTrace()[2];
+        write(lastMethod, Level.Error, msg, args);
+    }
+
     // === HELPFUL METHODS ===
 
     private void write(StackTraceElement lastMethod, Level lvl, String msgF, Object... args) {

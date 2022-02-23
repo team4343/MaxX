@@ -18,7 +18,7 @@ import java.nio.file.Path;
 import static com.maxtech.maxx.Constants.Drive.*;
 
 public class ExamplePath extends SequentialCommandGroup {
-    private final Drive drivetrain;
+    private final Drive drivetrain = Drive.getInstance();
 
     /**
      * The file from which to load the trajectory during runtime.
@@ -28,8 +28,7 @@ public class ExamplePath extends SequentialCommandGroup {
 
     RamseteCommand command;
 
-    public ExamplePath(Drive drivetrain) {
-        this.drivetrain = drivetrain;
+    public ExamplePath() {
         addRequirements(drivetrain);
 
         // Load the trajectory.

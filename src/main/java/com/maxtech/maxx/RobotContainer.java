@@ -22,6 +22,8 @@ import java.util.List;
  * is then called from {@link Robot}.
  */
 public class RobotContainer {
+    public static final int teamNumber = 4343;
+
     private final RobotLogger logger = RobotLogger.getInstance();
 
     /**
@@ -65,14 +67,13 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // return new TrackBall();
-        return new ExamplePath(drivetrain);
+        return new ExamplePath();
     }
 
     // All of these subsystems send telemetry.
     public List<Subsystem> getTelemetrySubsystems() {
         List<Subsystem> subsystems = new ArrayList<>();
 
-        subsystems.add(intake);
         subsystems.add(drivetrain);
 
         return subsystems;

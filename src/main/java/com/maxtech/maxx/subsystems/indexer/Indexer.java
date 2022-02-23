@@ -1,6 +1,7 @@
 package com.maxtech.maxx.subsystems.indexer;
 
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import com.maxtech.lib.logging.RobotLogger;
+import com.maxtech.maxx.RobotContainer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -8,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * A drivetrain subsystem for Max X.
  */
 public class Indexer extends SubsystemBase {
+    RobotLogger logger = RobotLogger.getInstance();
     
     // === INSTANCES ===
 
@@ -22,16 +24,15 @@ public class Indexer extends SubsystemBase {
     }
 
     private Indexer() {
-        // Create the I/O based on a SendableChooser.
-        io.setDefaultOption("Max", new IndexerIOMax());
-        io.addOption("Peter", new IndexerIOPeter());
-        io.addOption("Simulation", new IndexerIOSim());
-
-        SmartDashboard.putData("Indexer chooser", io);
+        switch(RobotContainer.teamNumber) {
+            case 4343: io = new IndexerIOMax(); break;
+            case 914: io = new IndexerIOPeter(); break;
+            default: logger.err("Could not pick I/O, no matches."); break;
+        }
     }
 
     // === I/O ===
-    private SendableChooser<IndexerIO> io = new SendableChooser<>();
+    private IndexerIO io;
 
     // === PUBLIC METHODS ===
 
@@ -47,7 +48,7 @@ public class Indexer extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Indexer Voltage", io.getSelected().getBusVoltage());
-        SmartDashboard.putNumber("Indexer Temperature", io.getSelected().getTemperature());
+        SmartDashboard.putNumber("Indexer Voltage", io.getBusVoltage());
+        SmartDashboard.putNumber("Indexer Temperature", io.getTemperature());
     }
 }

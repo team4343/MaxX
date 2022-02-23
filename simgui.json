@@ -4096,21 +4096,6 @@
         "window": {
           "visible": true
         }
-      },
-      "/SmartDashboard/Drivetrain chooser": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Flywheel chooser": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Indexer chooser": {
-        "window": {
-          "visible": true
-        }
       }
     }
   },
