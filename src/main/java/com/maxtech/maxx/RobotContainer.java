@@ -3,6 +3,7 @@ package com.maxtech.maxx;
 import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.NextLEDPattern;
+import com.maxtech.maxx.commands.SetFlywheelCommand;
 import com.maxtech.maxx.commands.autonomous.paths.ExamplePath;
 import com.maxtech.maxx.subsystems.Intake;
 import com.maxtech.maxx.subsystems.LEDs;
@@ -67,7 +68,8 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // return new TrackBall();
-        return new ExamplePath();
+        // return new ExamplePath();
+        return new SetFlywheelCommand(10);
     }
 
     // All of these subsystems send telemetry.
@@ -75,6 +77,8 @@ public class RobotContainer {
         List<Subsystem> subsystems = new ArrayList<>();
 
         subsystems.add(drivetrain);
+        subsystems.add(flywheel);
+        subsystems.add(intake);
 
         return subsystems;
     }

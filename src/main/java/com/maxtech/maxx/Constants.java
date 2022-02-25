@@ -68,4 +68,12 @@ public final class Constants {
         public static final double ramseteB = 2;
         public static final double ramseteZeta = 0.7;
     }
+
+    public static class Flywheel {
+        public static final int id = 5;
+        public static final int maxVoltage = 11;
+
+        public static final double kV = 0.98229;
+        public static final double kA = 0.047735;
+    }
 }

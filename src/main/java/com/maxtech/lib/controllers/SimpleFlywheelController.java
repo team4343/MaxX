@@ -8,7 +8,6 @@ import edu.wpi.first.math.estimator.KalmanFilter;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.system.LinearSystem;
 import edu.wpi.first.math.system.LinearSystemLoop;
-import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
@@ -23,16 +22,16 @@ public class SimpleFlywheelController {
 
     double lastTimeSeconds = 0;
 
-    public SimpleFlywheelController(DCMotor motor, double momentOfInertia, double gearing, double threadSpeed) {
-        plant = LinearSystemId.createFlywheelSystem(motor, momentOfInertia, gearing);
+    public SimpleFlywheelController(double kV, double kA, double threadSpeed) {
+        plant = LinearSystemId.identifyVelocitySystem(kV, kA);
         filter = new KalmanFilter<>(Nat.N1(), Nat.N1(), plant, VecBuilder.fill(.01), VecBuilder.fill(3), 0.020);
         regulator = new LinearQuadraticRegulator<>(plant, VecBuilder.fill(8), VecBuilder.fill(12), 0.20);
-        loop = new LinearSystemLoop<>(plant, regulator, filter, 12, threadSpeed);
+        loop = new LinearSystemLoop<>(plant, regulator, filter, 11, threadSpeed);
     }
 
     /** Construct {@link this} with a default thread speed. */
-    public SimpleFlywheelController(DCMotor motor, double momentOfInertia, double gearing) {
-        this(motor, momentOfInertia, gearing, 0.020);
+    public SimpleFlywheelController(double kV, double kA) {
+        this(kV, kA, 0.020);
     }
 
     public double computeNextVoltage(double currentVelocity) {

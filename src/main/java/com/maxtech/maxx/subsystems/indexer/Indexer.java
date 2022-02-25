@@ -1,17 +1,15 @@
 package com.maxtech.maxx.subsystems.indexer;
 
+import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.RobotContainer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
  * A drivetrain subsystem for Max X.
  */
-public class Indexer extends SubsystemBase {
+public class Indexer extends Subsystem {
     RobotLogger logger = RobotLogger.getInstance();
-    
-    // === INSTANCES ===
 
     private static Indexer instance;
 
@@ -31,10 +29,7 @@ public class Indexer extends SubsystemBase {
         }
     }
 
-    // === I/O ===
     private IndexerIO io;
-
-    // === PUBLIC METHODS ===
 
     public void start() {
 
@@ -44,11 +39,9 @@ public class Indexer extends SubsystemBase {
 
     }
 
-    // === OVERRIDE METHODS ===
-
     @Override
-    public void periodic() {
-        SmartDashboard.putNumber("Indexer Voltage", io.getBusVoltage());
-        SmartDashboard.putNumber("Indexer Temperature", io.getTemperature());
+    public void sendTelemetry(String prefix) {
+        SmartDashboard.putNumber(prefix + "voltage", io.getBusVoltage());
+        SmartDashboard.putNumber(prefix + "temperature", io.getTemperature());
     }
 }

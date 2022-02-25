@@ -1,14 +1,20 @@
 package com.maxtech.maxx.subsystems.flywheel;
 
+import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.controllers.SimpleFlywheelController;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import com.maxtech.maxx.RobotContainer;
-import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Flywheel extends SubsystemBase {
+import static com.maxtech.maxx.Constants.Flywheel.kA;
+import static com.maxtech.maxx.Constants.Flywheel.kV;
+
+public class Flywheel extends Subsystem {
     RobotLogger logger = RobotLogger.getInstance();
 
     private static Flywheel instance;
@@ -36,6 +42,13 @@ public class Flywheel extends SubsystemBase {
         statemachine.start();
     }
 
+    @Override
+    public void sendTelemetry(String prefix) {
+        SmartDashboard.putString(prefix + "state", statemachine.currentState().toString());
+        SmartDashboard.putNumber(prefix + "speed", io.getVelocity());
+        SmartDashboard.putBoolean(prefix + "atGoal", isAtGoal());
+    }
+
     /** The states for the flywheel. */
     private enum FlywheelStates {
         Idle, SpinUp, AtGoal,
@@ -49,7 +62,7 @@ public class Flywheel extends SubsystemBase {
     }
 
     private void handleSpinUp(StateMachineMeta meta) {
-        setVoltage(this.controller.computeNextVoltage(getCurrentVelocity()));
+        setVoltage(this.controller.computeNextVoltage(getVelocity()));
 
         if (isVelocityCorrect()) {
             statemachine.toState(FlywheelStates.AtGoal);
@@ -57,7 +70,7 @@ public class Flywheel extends SubsystemBase {
     }
 
     private void handleAtGoal(StateMachineMeta meta) {
-        setVoltage(controller.computeNextVoltage(getCurrentVelocity()));
+        setVoltage(controller.computeNextVoltage(getVelocity()));
 
         if (!isVelocityCorrect()) {
             statemachine.toState(FlywheelStates.SpinUp);
@@ -66,29 +79,24 @@ public class Flywheel extends SubsystemBase {
 
     private FlywheelIO io;
 
-    private SimpleFlywheelController controller = new SimpleFlywheelController(DCMotor.getFalcon500(2), 0.0023, 1);
-
-    private double getVelocity() {
-        return io.getVelocity();
-    }
+    private final SimpleFlywheelController controller = new SimpleFlywheelController(kV, kA);
 
     private void setVoltage(double voltage) {
         io.setVoltage(voltage);
     }
 
-    /** Get the current velocity that we are running at. */
-    public double getCurrentVelocity() {
-        return getVelocity();
+    public double getVelocity() {
+        return io.getVelocity();
     }
 
     public void setGoalVelocity(double rpm) {
-        this.controller.reset(getCurrentVelocity());
+        this.controller.reset(getVelocity());
         this.controller.setDesiredVelocity(rpm);
         this.statemachine.toState(FlywheelStates.SpinUp);
     }
 
     public void stop() {
-        this.controller.reset(getCurrentVelocity());
+        this.controller.reset(getVelocity());
         statemachine.toState(FlywheelStates.Idle);
     }
 
@@ -97,6 +105,6 @@ public class Flywheel extends SubsystemBase {
     }
 
     public boolean isVelocityCorrect() {
-        return controller.withinEpsilon(getCurrentVelocity());
+        return controller.withinEpsilon(getVelocity());
     }
 }

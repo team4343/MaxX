@@ -73,7 +73,6 @@ public class Drive extends Subsystem {
     @Override
     public void sendTelemetry(String prefix) {
         SmartDashboard.putData(prefix + "field", io.getField());
-
         SmartDashboard.putNumber(prefix + "x", getPose().getX());
         SmartDashboard.putNumber(prefix + "y", getPose().getY());
     }
