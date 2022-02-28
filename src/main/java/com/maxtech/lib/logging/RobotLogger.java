@@ -8,8 +8,6 @@ import java.util.ArrayList;
 
 public class RobotLogger {
 
-    // === INSTANCES ===
-
     private static RobotLogger instance;
 
     public static RobotLogger getInstance() {
@@ -24,8 +22,6 @@ public class RobotLogger {
         notifier = new Notifier(this::send);
     }
 
-    // === STATES ===
-
     private enum Level {
         Debug("DEBUG"), Info("INFO"), Warning("WARNING"), Error("ERROR");
 
@@ -36,17 +32,12 @@ public class RobotLogger {
         }
     }
 
-    // === BUFFERS ===
-
     double period;
     private ArrayList<String> buffer = new ArrayList<>();
     private NetworkTable ntTable = NetworkTableInstance.getDefault().getTable("Rubie");
     private Notifier notifier;
 
-    // === TIME ===
     double startTime = System.currentTimeMillis() / 1000.;
-
-    // === PUBLIC METHODS ===
 
     /** Start the periodic logger with a default period of 20 milliseconds. */
     public void start() {
@@ -76,7 +67,11 @@ public class RobotLogger {
         write(lastMethod, Level.Debug, msg, args);
     }
 
-    // === HELPFUL METHODS ===
+    /** Log an error message */
+    public void err(String msg, Object... args) {
+        StackTraceElement lastMethod = Thread.currentThread().getStackTrace()[2];
+        write(lastMethod, Level.Error, msg, args);
+    }
 
     private void write(StackTraceElement lastMethod, Level lvl, String msgF, Object... args) {
         // Build the log text.

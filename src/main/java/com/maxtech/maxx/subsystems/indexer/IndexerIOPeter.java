@@ -11,6 +11,9 @@ public class IndexerIOPeter implements IndexerIO {
     }
 
     @Override
+    public void setVoltage(double voltage) {}
+
+    @Override
     public double getBusVoltage() {
         return left.getBusVoltage();
     }

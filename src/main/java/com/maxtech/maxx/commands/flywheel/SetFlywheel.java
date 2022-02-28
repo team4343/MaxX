@@ -1,25 +1,30 @@
-package com.maxtech.maxx.commands;
+package com.maxtech.maxx.commands.flywheel;
 
 import com.maxtech.maxx.subsystems.flywheel.Flywheel;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class SetFlywheelCommand extends CommandBase {
+public class SetFlywheel extends CommandBase {
     private final double speed;
     private final Flywheel flywheel = Flywheel.getInstance();
 
-    public SetFlywheelCommand(double rpm) {
+    public SetFlywheel(double rpm) {
         this.speed = rpm;
 
         addRequirements(flywheel);
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         flywheel.setGoalVelocity(speed);
     }
 
     @Override
-    public boolean isFinished() {
-        return true;
+    public void execute() {
+        flywheel.run();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        flywheel.stop();
     }
 }

@@ -1,6 +1,8 @@
 package com.maxtech.maxx.subsystems.drivetrain;
 
-import com.revrobotics.CANSparkMax;
+import com.maxtech.lib.wrappers.rev.CANSparkMax;
+import com.maxtech.maxx.Constants;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
@@ -8,6 +10,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public interface DriveIO {
     default void periodic() {};
+    default void simulationPeriodic() {};
 
     /**
      * Drive by tank-style parameters.
@@ -44,10 +47,20 @@ public interface DriveIO {
      * */
     Pose2d getPose();
 
+    /**
+     * Get the current field.
+     *
+     * @return the field
+     * */
+    Field2d getField();
+
     /** Get the distance travelled of one Spark Max motor controller. */
     double getDistanceTravelled(CANSparkMax controller, double gearing, double wheelDiameter);
 
-    double getDistanceTravelled(CANSparkMax controller);
+    /** Get the distance travelled of one Spark Max controller with default values. */
+    default double getDistanceTravelled(CANSparkMax controller) {
+        return getDistanceTravelled(controller, Constants.Drive.gearing, Constants.Drive.wheelDiameter);
+    };
 
     /**
      * Get the total wheel speeds.

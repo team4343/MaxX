@@ -15,4 +15,3 @@ public class StartIntake extends CommandBase {
         intake.start();
     }
 }
-

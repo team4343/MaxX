@@ -23,16 +23,16 @@ public class SimpleFlywheelController {
 
     double lastTimeSeconds = 0;
 
-    public SimpleFlywheelController(DCMotor motor, double momentOfInertia, double gearing, double threadSpeed) {
-        plant = LinearSystemId.createFlywheelSystem(motor, momentOfInertia, gearing);
-        filter = new KalmanFilter<>(Nat.N1(), Nat.N1(), plant, VecBuilder.fill(.01), VecBuilder.fill(3), 0.020);
-        regulator = new LinearQuadraticRegulator<>(plant, VecBuilder.fill(8), VecBuilder.fill(12), 0.20);
-        loop = new LinearSystemLoop<>(plant, regulator, filter, 12, threadSpeed);
+    public SimpleFlywheelController(double kV, double kA, double threadSpeed) {
+        plant = LinearSystemId.identifyVelocitySystem(kV, kA);
+        filter = new KalmanFilter<>(Nat.N1(), Nat.N1(), plant, VecBuilder.fill(3.), VecBuilder.fill(.01), 0.02);
+        regulator = new LinearQuadraticRegulator<>(plant, VecBuilder.fill(8.0), VecBuilder.fill(12.0), 0.02);
+        loop = new LinearSystemLoop<>(plant, regulator, filter, 11, threadSpeed);
     }
 
     /** Construct {@link this} with a default thread speed. */
-    public SimpleFlywheelController(DCMotor motor, double momentOfInertia, double gearing) {
-        this(motor, momentOfInertia, gearing, 0.020);
+    public SimpleFlywheelController(double kV, double kA) {
+        this(kV, kA, 0.020);
     }
 
     public double computeNextVoltage(double currentVelocity) {
@@ -58,18 +58,21 @@ public class SimpleFlywheelController {
     public void setDesiredVelocity(double rpm) {
         double rads = Units.rotationsPerMinuteToRadiansPerSecond(rpm);
         loop.setNextR(VecBuilder.fill(rads));
-        logger.log("Set desired velocity to %s RPM, or %s rads.", rpm, rads);
+    }
+
+    public double getDesiredVelocity() {
+        return Units.radiansPerSecondToRotationsPerMinute(loop.getNextR(0));
     }
 
     public boolean withinEpsilon(double currentVelocity) {
         return withinEpsilon(currentVelocity, 0.1);
     }
 
-    // Please check that this is accurate...
+    // TODO: Please check that this is accurate...
     public boolean withinEpsilon(double currentVelocity, double epsilon) {
-        double next = loop.getNextR(0);
+        double v = getDesiredVelocity();
 
-        if (currentVelocity == next) return true;
-        return Math.abs(currentVelocity - next) < epsilon;
+        if (currentVelocity == v) return true;
+        return Math.abs(currentVelocity - v) <= epsilon;
     }
 }

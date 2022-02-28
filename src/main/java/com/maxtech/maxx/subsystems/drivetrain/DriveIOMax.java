@@ -1,9 +1,14 @@
 package com.maxtech.maxx.subsystems.drivetrain;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.maxtech.lib.wrappers.rev.CANSparkMax;
 import com.maxtech.maxx.Constants;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.REVPhysicsSim;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
@@ -20,15 +25,46 @@ public class DriveIOMax implements DriveIO {
     private final CANSparkMax right2 = new CANSparkMax(Constants.right2ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     private final MotorControllerGroup right = new MotorControllerGroup(right1, right2);
 
+    private final REVPhysicsSim drivetrainSimulator = REVPhysicsSim.getInstance();
+
     private final DifferentialDrive drivetrain;
+    DifferentialDrivetrainSim drivetrainSim = new DifferentialDrivetrainSim (
+            Constants.Drive.gearbox,
+            Constants.Drive.gearing,
+            7.5,
+            60.0,
+            Constants.Drive.wheelDiameter / 2,
+            Constants.Drive.trackWidth,
+            null);
 
     private final AHRS gyro = new AHRS();
-    private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
+    private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(gyro.getRotation2d(), new Pose2d(0.0, 0, new Rotation2d()));
     private final Field2d field = new Field2d();
 
     public DriveIOMax() {
         right.setInverted(true);
+        gyro.reset();
+
         drivetrain = new DifferentialDrive(left, right);
+
+        drivetrainSimulator.addSparkMax(left1, DCMotor.getNEO(1));
+        drivetrainSimulator.addSparkMax(left2, DCMotor.getNEO(1));
+        drivetrainSimulator.addSparkMax(right1, DCMotor.getNEO(1));
+        drivetrainSimulator.addSparkMax(right2, DCMotor.getNEO(1));
+    }
+
+    @Override
+    public void periodic() {
+        odometry.update(gyro.getRotation2d(), getDistanceTravelled(left1), getDistanceTravelled(right1));
+        field.setRobotPose(odometry.getPoseMeters());
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        drivetrainSim.setInputs(left.get() * RobotController.getInputVoltage(),  right.get() * RobotController.getInputVoltage());
+        drivetrainSim.update(0.02);
+
+        drivetrainSimulator.run();
     }
 
     /**
@@ -73,13 +109,27 @@ public class DriveIOMax implements DriveIO {
         return odometry.getPoseMeters();
     }
 
+    /**
+     * Get the current field.
+     *
+     * @return the field
+     */
+    @Override
+    public Field2d getField() {
+        return field;
+    }
+
     /** Get the distance travelled of one Spark Max motor controller. */
     public double getDistanceTravelled(CANSparkMax controller, double gearing, double wheelDiameter) {
-        return controller.getEncoder().getPosition() / gearing * wheelDiameter * Math.PI;
+        var motorRotations = controller.getEncoder().getPosition();
+        var wheelRotations = motorRotations / gearing;
+        var distanceTravelled = wheelRotations * Math.PI * wheelDiameter;
+
+        return distanceTravelled;
     }
 
     public double getDistanceTravelled(CANSparkMax controller) {
-        return getDistanceTravelled(controller, 1, 15);
+        return getDistanceTravelled(controller, 12.98, Constants.Drive.gearing);
     }
 
     /**

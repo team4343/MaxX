@@ -3,6 +3,7 @@ package com.maxtech.maxx.commands.autonomous.tracking;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
+import com.maxtech.maxx.commands.flywheel.SetFlywheel;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.ArrayList;
@@ -96,7 +97,8 @@ public class TrackBall extends CommandBase {
 
     /** If we are in this state, we are positioned and just need to turn the intake on. */
     private void handleCollecting(StateMachineMeta m) {
-
+        // TODO: replace this with a ShootLow() command
+        new SetFlywheel(100).execute();
     }
 
     /**

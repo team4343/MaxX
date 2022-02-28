@@ -1,15 +1,15 @@
 package com.maxtech.maxx.subsystems.drivetrain;
 
-import com.revrobotics.CANSparkMax;
+import com.maxtech.lib.command.Subsystem;
+import com.maxtech.lib.logging.RobotLogger;
+import com.maxtech.lib.wrappers.rev.CANSparkMax;
+import com.maxtech.maxx.RobotContainer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Drive extends SubsystemBase {
-
-    // === INSTANCES ===
+public class Drive extends Subsystem {
+    private final RobotLogger logger = RobotLogger.getInstance();
 
     private static Drive instance;
 
@@ -22,41 +22,59 @@ public class Drive extends SubsystemBase {
     }
 
     private Drive() {
-        io.setDefaultOption("Max", new DriveIOMax());
+        switch(RobotContainer.teamNumber) {
+            case 4343: io = new DriveIOMax(); break;
+            case -1: io = new DriveIOMax(); break;
+            default: logger.err("Could not pick I/O, no matches."); break;
+        }
 
-        SmartDashboard.putData("Drivetrain chooser", io);
+        logger.log("Chose %s for I/O", io.getClass().getName());
     }
 
-    // === I/O ===
-    private SendableChooser<DriveIO> io = new SendableChooser<>();
+    private DriveIO io;
 
-    // === PUBLIC METHODS ===
+    @Override
+    public void periodic() {
+        io.periodic();
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        io.simulationPeriodic();
+    }
 
     public void arcade(double s, double r) {
-        io.getSelected().arcade(s, r);
+        io.arcade(s, r);
     }
 
     public void tank(double ls, double rs) {
-        io.getSelected().tank(ls, rs);
+        io.tank(ls, rs);
     }
 
     public void resetOdometry(Pose2d pose) {
-        io.getSelected().resetOdometry(pose);
-    };
+        io.resetOdometry(pose);
+    }
 
     public Pose2d getPose() {
-        return io.getSelected().getPose();
-    };
+        return io.getPose();
+    }
 
     public double getDistanceTravelled(CANSparkMax controller, double gearing, double wheelDiameter) {
-        return io.getSelected().getDistanceTravelled(controller, gearing, wheelDiameter);
-    };
+        return io.getDistanceTravelled(controller, gearing, wheelDiameter);
+    }
 
     public double getDistanceTravelled(CANSparkMax controller) {
-        return io.getSelected().getDistanceTravelled(controller);
-    };
+        return io.getDistanceTravelled(controller);
+    }
 
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-        return io.getSelected().getWheelSpeeds();
+        return io.getWheelSpeeds();
+    }
+
+    @Override
+    public void sendTelemetry(String prefix) {
+        SmartDashboard.putData(prefix + "field", io.getField());
+        SmartDashboard.putNumber(prefix + "x", getPose().getX());
+        SmartDashboard.putNumber(prefix + "y", getPose().getY());
     }
 }

@@ -1,16 +1,19 @@
 package com.maxtech.maxx.subsystems.flywheel;
 
+import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.controllers.SimpleFlywheelController;
+import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
-import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import com.maxtech.maxx.RobotContainer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Flywheel extends SubsystemBase {
+import static com.maxtech.maxx.Constants.Flywheel.kA;
+import static com.maxtech.maxx.Constants.Flywheel.kV;
 
-    // === INSTANCES ===
+public class Flywheel extends Subsystem {
+    RobotLogger logger = RobotLogger.getInstance();
 
     private static Flywheel instance;
 
@@ -23,39 +26,50 @@ public class Flywheel extends SubsystemBase {
     }
 
     private Flywheel() {
-        // Create the I/O based on a SendableChooser.
-        io.setDefaultOption("Max", new FlywheelIOMax());
-        io.addOption("Peter", new FlywheelIOPeter());
-        io.addOption("Simulation", new FlywheelIOSim());
-
-        SmartDashboard.putData("Flywheel chooser", io);
+        switch(RobotContainer.teamNumber) {
+            case 4343: io = new FlywheelIOMax(); break;
+            case 914: io = new FlywheelIOPeter(); break;
+            case -1: io = new FlywheelIOSim(); break;
+            default: logger.err("Could not pick I/O, no matches."); break;
+        }
 
         // Associate handlers for states.
         statemachine.associateState(FlywheelStates.Idle, this::handleIdle);
         statemachine.associateState(FlywheelStates.SpinUp, this::handleSpinUp);
         statemachine.associateState(FlywheelStates.AtGoal, this::handleAtGoal);
-
         statemachine.start();
+
+        // Create the shuffleboard tab.
+        var tab = Shuffleboard.getTab("Flywheel");
+        tab.addString("IO", io::toString);
+        tab.addString("state", statemachine::currentStateName);
+        tab.addNumber("speed", io::getVelocity);
+        tab.addNumber("voltage", io::getVoltage);
+        tab.addNumber("desired", controller::getDesiredVelocity);
+        tab.addBoolean("atGoal", this::isAtGoal);
     }
 
-    // === STATES ===
+    @Override
+    public void sendTelemetry(String prefix) {
+        SmartDashboard.putString(prefix + "state", statemachine.currentState().toString());
+        SmartDashboard.putNumber(prefix + "speed", io.getVelocity());
+        SmartDashboard.putNumber(prefix + "voltage", io.getVoltage());
+        SmartDashboard.putBoolean(prefix + "atGoal", isAtGoal());
+    }
 
     /** The states for the flywheel. */
     private enum FlywheelStates {
         Idle, SpinUp, AtGoal,
     }
 
-    private StateMachine<FlywheelStates> statemachine = new StateMachine<>("Flywheel", FlywheelStates.Idle);
-
-    // === STATE ACTIONS ===
+    private final StateMachine<FlywheelStates> statemachine = new StateMachine<>("Flywheel", FlywheelStates.Idle);
 
     private void handleIdle(StateMachineMeta meta) {
-        // Force set the voltage to zero.
-        setVoltage(0);
     }
 
     private void handleSpinUp(StateMachineMeta meta) {
-        setVoltage(this.controller.computeNextVoltage(getCurrentVelocity()));
+        setVoltage(controller.computeNextVoltage(getVelocity()));
+        logger.dbg("Velocity at %s", getVelocity());
 
         if (isVelocityCorrect()) {
             statemachine.toState(FlywheelStates.AtGoal);
@@ -63,45 +77,37 @@ public class Flywheel extends SubsystemBase {
     }
 
     private void handleAtGoal(StateMachineMeta meta) {
-        setVoltage(controller.computeNextVoltage(getCurrentVelocity()));
+        setVoltage(controller.computeNextVoltage(getVelocity()));
 
         if (!isVelocityCorrect()) {
             statemachine.toState(FlywheelStates.SpinUp);
         }
     }
 
-    // === I/O ===
-    private SendableChooser<FlywheelIO> io = new SendableChooser<>();
+    private FlywheelIO io;
 
-    // === CONTROLLERS ===
-
-    private SimpleFlywheelController controller = new SimpleFlywheelController(DCMotor.getFalcon500(2), 0.0023, 1);
-
-    // === HELPER METHODS ===
-
-    private double getVelocity() {
-        return io.getSelected().getVelocity();
-    }
+    private final SimpleFlywheelController controller = new SimpleFlywheelController(kV, kA);
 
     private void setVoltage(double voltage) {
-        io.getSelected().setVoltage(voltage);
+        io.setVoltage(voltage);
     }
 
-    // === PUBLIC METHODS ===
-
-    /** Get the current velocity that we are running at. */
-    public double getCurrentVelocity() {
-        return getVelocity();
+    public double getVelocity() {
+        return io.getVelocity();
     }
 
     public void setGoalVelocity(double rpm) {
-        this.controller.reset(getCurrentVelocity());
+        this.controller.reset(getVelocity());
         this.controller.setDesiredVelocity(rpm);
         this.statemachine.toState(FlywheelStates.SpinUp);
     }
 
+    public void run() {
+        statemachine.toState(FlywheelStates.SpinUp);
+    }
+
     public void stop() {
-        this.controller.reset(getCurrentVelocity());
+        this.controller.reset(getVelocity());
         statemachine.toState(FlywheelStates.Idle);
     }
 
@@ -110,6 +116,6 @@ public class Flywheel extends SubsystemBase {
     }
 
     public boolean isVelocityCorrect() {
-        return controller.withinEpsilon(getCurrentVelocity());
+        return controller.withinEpsilon(getVelocity());
     }
 }

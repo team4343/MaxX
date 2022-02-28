@@ -15,6 +15,9 @@ public final class Constants {
     public static int right1ID = 3;
     public static int right2ID = 4;
 
+    public static int a1 = 4;
+    public static int a2 = 3;
+
     public static final int Beam1ID = 15;
     public static final int Beam2ID = 16;
 
@@ -52,8 +55,8 @@ public final class Constants {
 
         public static final LinearSystem<N2, N2, N2> plant = LinearSystemId.identifyDrivetrainSystem(kvVolts, kaVolts, kvVoltSecondsPerRadian, kaVoltSecondsSquaredPerRadian);
 
-        public static final DCMotor gearbox = DCMotor.getNeo550(4);
-        public static final double gearing = 10.71 / 1;
+        public static final DCMotor gearbox = DCMotor.getNEO(4);
+        public static final double gearing = 12.98;
 
         public static final double kpDriveVelocity = 38.96;
 
@@ -64,5 +67,13 @@ public final class Constants {
         // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
         public static final double ramseteB = 2;
         public static final double ramseteZeta = 0.7;
+    }
+
+    public static class Flywheel {
+        public static final int id = 5;
+        public static final int maxVoltage = 11;
+
+        public static final double kV = 0.98229;
+        public static final double kA = 0.047735;
     }
 }

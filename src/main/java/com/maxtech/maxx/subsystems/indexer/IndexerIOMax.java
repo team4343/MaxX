@@ -1,22 +1,25 @@
 package com.maxtech.maxx.subsystems.indexer;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 public class IndexerIOMax implements IndexerIO {
-    TalonFX left = new TalonFX(10);
-    TalonFX right = new TalonFX(11);
+    private final VictorSPX top = new VictorSPX(6);
 
     public IndexerIOMax() {
-        right.follow(left);
+    }
+
+    @Override
+    public void setVoltage(double voltage) {
+
     }
 
     @Override
     public double getBusVoltage() {
-        return left.getBusVoltage();
+        return top.getBusVoltage();
     }
 
     @Override
     public double getTemperature() {
-        return left.getTemperature();
+        return top.getTemperature();
     }
 }

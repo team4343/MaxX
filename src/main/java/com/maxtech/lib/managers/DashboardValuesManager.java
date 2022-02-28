@@ -1,6 +1,7 @@
 package com.maxtech.lib.managers;
 
 import com.maxtech.lib.command.Subsystem;
+import com.maxtech.lib.logging.RobotLogger;
 import edu.wpi.first.wpilibj.Notifier;
 
 import java.util.ArrayList;
