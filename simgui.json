@@ -4139,6 +4139,9 @@
       "Drivetrain": {
         "open": true
       },
+      "Flywheel": {
+        "open": true
+      },
       "Intake": {
         "open": true
       },

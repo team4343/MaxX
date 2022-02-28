@@ -31,12 +31,7 @@ public class Indexer extends Subsystem {
 
     private IndexerIO io;
 
-    public void start() {
-
-    }
-
-    public void stop() {
-
+    public void setTop() {
     }
 
     @Override

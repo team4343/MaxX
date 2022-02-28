@@ -1,7 +1,6 @@
 package com.maxtech.maxx.subsystems.drivetrain;
 
 import com.kauailabs.navx.frc.AHRS;
-import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.wrappers.rev.CANSparkMax;
 import com.maxtech.maxx.Constants;
 import com.revrobotics.CANSparkMaxLowLevel;

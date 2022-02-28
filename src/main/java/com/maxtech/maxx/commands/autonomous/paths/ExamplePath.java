@@ -1,6 +1,6 @@
 package com.maxtech.maxx.commands.autonomous.paths;
 
-import com.maxtech.maxx.commands.TankDriveCommand;
+import com.maxtech.maxx.commands.drivetrain.TankDrive;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
@@ -57,6 +57,6 @@ public class ExamplePath extends SequentialCommandGroup {
                 drivetrain
         );
 
-        addCommands(command, new TankDriveCommand(0, 0, drivetrain));
+        addCommands(command, new TankDrive(0, 0, drivetrain));
     }
 }

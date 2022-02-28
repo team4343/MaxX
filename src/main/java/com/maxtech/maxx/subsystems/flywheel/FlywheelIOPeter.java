@@ -21,4 +21,9 @@ public class FlywheelIOPeter implements FlywheelIO {
     public double getVelocity() {
         return left.getEncoder().getVelocity();
     }
+
+    @Override
+    public double getVoltage() {
+        return left.getBusVoltage();
+    }
 }

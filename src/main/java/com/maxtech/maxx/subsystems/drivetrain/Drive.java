@@ -24,6 +24,7 @@ public class Drive extends Subsystem {
     private Drive() {
         switch(RobotContainer.teamNumber) {
             case 4343: io = new DriveIOMax(); break;
+            case -1: io = new DriveIOMax(); break;
             default: logger.err("Could not pick I/O, no matches."); break;
         }
 

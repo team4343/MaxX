@@ -7,8 +7,6 @@ import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import com.maxtech.maxx.RobotContainer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static com.maxtech.maxx.Constants.Flywheel.kA;
@@ -31,6 +29,7 @@ public class Flywheel extends Subsystem {
         switch(RobotContainer.teamNumber) {
             case 4343: io = new FlywheelIOMax(); break;
             case 914: io = new FlywheelIOPeter(); break;
+            case -1: io = new FlywheelIOSim(); break;
             default: logger.err("Could not pick I/O, no matches."); break;
         }
 
@@ -38,14 +37,23 @@ public class Flywheel extends Subsystem {
         statemachine.associateState(FlywheelStates.Idle, this::handleIdle);
         statemachine.associateState(FlywheelStates.SpinUp, this::handleSpinUp);
         statemachine.associateState(FlywheelStates.AtGoal, this::handleAtGoal);
-
         statemachine.start();
+
+        // Create the shuffleboard tab.
+        var tab = Shuffleboard.getTab("Flywheel");
+        tab.addString("IO", io::toString);
+        tab.addString("state", statemachine::currentStateName);
+        tab.addNumber("speed", io::getVelocity);
+        tab.addNumber("voltage", io::getVoltage);
+        tab.addNumber("desired", controller::getDesiredVelocity);
+        tab.addBoolean("atGoal", this::isAtGoal);
     }
 
     @Override
     public void sendTelemetry(String prefix) {
         SmartDashboard.putString(prefix + "state", statemachine.currentState().toString());
         SmartDashboard.putNumber(prefix + "speed", io.getVelocity());
+        SmartDashboard.putNumber(prefix + "voltage", io.getVoltage());
         SmartDashboard.putBoolean(prefix + "atGoal", isAtGoal());
     }
 
@@ -54,15 +62,14 @@ public class Flywheel extends Subsystem {
         Idle, SpinUp, AtGoal,
     }
 
-    private StateMachine<FlywheelStates> statemachine = new StateMachine<>("Flywheel", FlywheelStates.Idle);
+    private final StateMachine<FlywheelStates> statemachine = new StateMachine<>("Flywheel", FlywheelStates.Idle);
 
     private void handleIdle(StateMachineMeta meta) {
-        // Force set the voltage to zero.
-        setVoltage(0);
     }
 
     private void handleSpinUp(StateMachineMeta meta) {
-        setVoltage(this.controller.computeNextVoltage(getVelocity()));
+        setVoltage(controller.computeNextVoltage(getVelocity()));
+        logger.dbg("Velocity at %s", getVelocity());
 
         if (isVelocityCorrect()) {
             statemachine.toState(FlywheelStates.AtGoal);
@@ -93,6 +100,10 @@ public class Flywheel extends Subsystem {
         this.controller.reset(getVelocity());
         this.controller.setDesiredVelocity(rpm);
         this.statemachine.toState(FlywheelStates.SpinUp);
+    }
+
+    public void run() {
+        statemachine.toState(FlywheelStates.SpinUp);
     }
 
     public void stop() {

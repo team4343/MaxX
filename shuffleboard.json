@@ -48,34 +48,9 @@
               "Visuals/Show Outside Circles": false
             }
           },
-          "11,0": {
+          "19,4": {
             "size": [
-              3,
-              2
-            ],
-            "content": {
-              "_type": "Subsystem Layout",
-              "_title": "Flywheel",
-              "Layout/Label position": "LEFT",
-              "_children": [
-                {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Flywheel",
-                  "_title": "State"
-                },
-                {
-                  "_type": "Boolean Box",
-                  "_source0": "network_table:///SmartDashboard/Flywheel/atGoal",
-                  "_title": "At Goal",
-                  "Colors/Color when true": "#7CFC00FF",
-                  "Colors/Color when false": "#8B0000FF"
-                }
-              ]
-            }
-          },
-          "14,0": {
-            "size": [
-              3,
+              4,
               2
             ],
             "content": {
@@ -149,15 +124,72 @@
               "Visuals/Orientation": "HORIZONTAL",
               "Visuals/Number of tick marks": 5
             }
+          },
+          "11,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Flywheel/state",
+              "_title": "Flywheel/state"
+            }
+          },
+          "13,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Flywheel/speed",
+              "_title": "Flywheel/speed"
+            }
+          },
+          "15,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Flywheel/voltage",
+              "_title": "Flywheel/voltage"
+            }
+          },
+          "11,1": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Flywheel/atGoal",
+              "_title": "Flywheel/atGoal",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "17,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Flywheel",
+              "_title": "Flywheel"
+            }
           }
         }
       }
     }
   ],
   "windowGeometry": {
-    "x": -7.199999809265137,
-    "y": -7.199999809265137,
-    "width": 1550.4000244140625,
-    "height": 838.4000244140625
+    "x": -6.400000095367432,
+    "y": 1.600000023841858,
+    "width": 1547.199951171875,
+    "height": 828.7999877929688
   }
 }

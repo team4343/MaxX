@@ -14,4 +14,9 @@ public class NextLEDPattern extends CommandBase {
     public void execute() {
         leds.toNextPattern();
     }
+
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
 }

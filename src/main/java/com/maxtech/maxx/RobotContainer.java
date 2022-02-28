@@ -3,19 +3,18 @@ package com.maxtech.maxx;
 import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.NextLEDPattern;
-import com.maxtech.maxx.commands.SetFlywheelCommand;
-import com.maxtech.maxx.commands.autonomous.paths.ExamplePath;
+import com.maxtech.maxx.commands.flywheel.SetFlywheel;
 import com.maxtech.maxx.subsystems.Intake;
 import com.maxtech.maxx.subsystems.LEDs;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
 import com.maxtech.maxx.subsystems.flywheel.Flywheel;
 import com.maxtech.maxx.subsystems.indexer.Indexer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -69,17 +68,11 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // return new TrackBall();
         // return new ExamplePath();
-        return new SetFlywheelCommand(10);
+        return new SetFlywheel(1000);
     }
 
-    // All of these subsystems send telemetry.
+    /** All of these subsystems send telemetry. */
     public List<Subsystem> getTelemetrySubsystems() {
-        List<Subsystem> subsystems = new ArrayList<>();
-
-        subsystems.add(drivetrain);
-        subsystems.add(flywheel);
-        subsystems.add(intake);
-
-        return subsystems;
+        return List.of(drivetrain, flywheel, intake);
     }
 }
