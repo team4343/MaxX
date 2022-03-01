@@ -3,7 +3,7 @@ package com.maxtech.maxx.subsystems.indexer;
 import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.RobotContainer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 /**
  * A drivetrain subsystem for Max X.
@@ -27,16 +27,33 @@ public class Indexer extends Subsystem {
             case 914: io = new IndexerIOPeter(); break;
             default: logger.err("Could not pick I/O, no matches."); break;
         }
+
+        var tab = Shuffleboard.getTab("Indexer");
+        tab.addBoolean("top sensor", this::isTopActive);
+        tab.addBoolean("bottom sensor", this::isBottomActive);
     }
 
     private IndexerIO io;
 
-    public void setTop() {
+    @Override
+    public void sendTelemetry(String prefix) {
+
     }
 
     @Override
-    public void sendTelemetry(String prefix) {
-        SmartDashboard.putNumber(prefix + "voltage", io.getBusVoltage());
-        SmartDashboard.putNumber(prefix + "temperature", io.getTemperature());
+    public void periodic() {
+        // If the bottom spot is full and the top spot is empty, move it up.
+    }
+
+    public IndexerSensors getSensors() {
+        return io.getSensors();
+    }
+
+    public boolean isTopActive() {
+        return getSensors().top;
+    }
+
+    public boolean isBottomActive() {
+        return getSensors().bottom;
     }
 }
