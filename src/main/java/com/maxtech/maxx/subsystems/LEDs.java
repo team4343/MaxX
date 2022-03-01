@@ -24,7 +24,7 @@ public class LEDs extends Subsystem {
     }
 
     private enum LEDTypes {
-        Solid,
+        Off, Solid,
     }
 
     private StateMachine<LEDTypes> statemachine = new StateMachine<LEDTypes>("LEDs", LEDTypes.Solid);

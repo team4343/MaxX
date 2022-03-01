@@ -43,10 +43,15 @@ public class Indexer extends Subsystem {
     @Override
     public void periodic() {
         // If the bottom spot is full and the top spot is empty, move it up.
+        if (!isBottomActive() && isTopActive()) {
+            io.set(0, 0.5);
+        } else {
+            io.set(0, 0);
+        }
     }
 
     public IndexerSensors getSensors() {
-        return io.getSensors();
+        return io.get();
     }
 
     public boolean isTopActive() {

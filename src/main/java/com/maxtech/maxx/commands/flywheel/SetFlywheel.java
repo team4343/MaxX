@@ -22,9 +22,4 @@ public class SetFlywheel extends CommandBase {
     public void execute() {
         flywheel.run();
     }
-
-    @Override
-    public void end(boolean interrupted) {
-        flywheel.stop();
-    }
 }

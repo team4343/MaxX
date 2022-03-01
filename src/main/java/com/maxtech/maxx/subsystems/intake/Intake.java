@@ -1,15 +1,17 @@
-package com.maxtech.maxx.subsystems;
+package com.maxtech.maxx.subsystems.intake;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
-import com.maxtech.maxx.Constants;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.maxtech.maxx.RobotContainer;
+import com.maxtech.maxx.subsystems.indexer.IndexerIO;
+import com.maxtech.maxx.subsystems.indexer.IndexerIOMax;
+import com.maxtech.maxx.subsystems.indexer.IndexerIOPeter;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 public class Intake extends Subsystem {
+    private static final RobotLogger logger = RobotLogger.getInstance();
     private static Intake instance;
 
     public static Intake getInstance() {
@@ -27,12 +29,19 @@ public class Intake extends Subsystem {
     StateMachine<IntakeState> statemachine = new StateMachine<>("Intake", IntakeState.Raised);
 
     private Intake() {
+        switch(RobotContainer.teamNumber) {
+            case 4343: io = new IntakeIOMax(); break;
+            default: logger.err("Could not pick I/O, no matches."); break;
+        }
+
         statemachine.associateState(IntakeState.Raised, this::handleRaising);
         statemachine.associateState(IntakeState.Lowering, this::handleLowering);
         statemachine.start();
+
+        var tab = Shuffleboard.getTab("Intake");
     }
 
-    private final VictorSPX intakeMotor = new VictorSPX(Constants.intakeID);
+    private IntakeIO io;
 
     /** We want to raise the intake. */
     private void handleRaising(StateMachineMeta m) {
@@ -44,23 +53,5 @@ public class Intake extends Subsystem {
 
     @Override
     public void sendTelemetry(String prefix) {
-        SmartDashboard.putNumber(prefix + "voltage", intakeMotor.getBusVoltage());
-        SmartDashboard.putNumber(prefix + "temperature", intakeMotor.getTemperature());
-    }
-
-    public void raise() {
-        statemachine.toState(IntakeState.Raising);
-    }
-
-    public void lower() {
-        statemachine.toState(IntakeState.Lowering);
-    }
-
-    public void start() {
-        intakeMotor.set(ControlMode.Velocity, 1);
-    }
-
-    public void stop() {
-        intakeMotor.set(ControlMode.Velocity, 0);
     }
 }

@@ -1,5 +1,6 @@
 package com.maxtech.maxx.subsystems.indexer;
 
 public interface IndexerIO {
-    IndexerSensors getSensors();
+    void set(double top, double bottom);
+    IndexerSensors get();
 }
