@@ -3,7 +3,10 @@ package com.maxtech.maxx;
 import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.NextLEDPattern;
-import com.maxtech.maxx.commands.SetIntake;
+import com.maxtech.maxx.commands.climber.Extend;
+import com.maxtech.maxx.commands.climber.Raise;
+import com.maxtech.maxx.commands.intake.DumpIntake;
+import com.maxtech.maxx.commands.intake.SetIntake;
 import com.maxtech.maxx.commands.flywheel.SetFlywheel;
 import com.maxtech.maxx.subsystems.intake.Intake;
 import com.maxtech.maxx.subsystems.LEDs;
@@ -58,10 +61,17 @@ public class RobotContainer {
 
         // TODO: review this method of binding commands to methods. It's almost certainly too verbose.
         new JoystickButton(masterController, XboxController.Button.kLeftBumper.value).whenPressed(new NextLEDPattern());
-        new JoystickButton(masterController, XboxController.Button.kA.value)
+        new JoystickButton(masterController, Constants.Buttons.Intake)
                 .whenPressed(new SetIntake(true))
                 .whenReleased(new SetIntake(false));
-        new JoystickButton(masterController, XboxController.Button.kY.value).whileHeld( new SetFlywheel(1000));
+        new JoystickButton(masterController, Constants.Buttons.Dump)
+                .whenPressed(new DumpIntake())
+                .whenReleased(new SetIntake(false));
+        new JoystickButton(masterController, Constants.Buttons.ShootHigh).whileHeld( new SetFlywheel(Constants.Flywheel.ShootHighRPM));
+        new JoystickButton(masterController, Constants.Buttons.ShootLow).whileHeld( new SetFlywheel(Constants.Flywheel.ShootLowRPM));
+        new JoystickButton(masterController, Constants.Buttons.Climb)
+                .whenPressed(new Extend())
+                .whenReleased(new Raise());
     }
 
     /**
@@ -72,7 +82,7 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // return new TrackBall();
         // return new ExamplePath();
-        return new SetFlywheel(1000);
+        return new SetFlywheel(0);
     }
 
     /** All of these subsystems send telemetry. */

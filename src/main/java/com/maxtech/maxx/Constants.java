@@ -5,6 +5,7 @@ import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.system.LinearSystem;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.wpilibj.XboxController;
 
 /**
  * A convenient place to keep constant values, that will certainly never change throughout robot execution.
@@ -75,6 +76,9 @@ public final class Constants {
 
         public static final double kV = 0.98229;
         public static final double kA = 0.047735;
+
+        public static final int ShootHighRPM = 6000;
+        public static final int ShootLowRPM = 800;
     }
 
     public static class Indexer{
@@ -85,7 +89,7 @@ public final class Constants {
     public static class Intake {
         public static final int upPos = 0;
         public static final int downPos = 0;
-        public static final double P = 0.005;
+        public static final double P = 0;
         public static final double I = 0;
         public static final double D = 0;
         public static final double F = 0;
@@ -93,6 +97,39 @@ public final class Constants {
         public static final int TimeoutMs = 30;
         public static final boolean SensorPhase = true;
         public static final boolean MotorInvert = false;
-        public static final double wheelsIn = 1;
+        public static final double wheelsInPercentOut = 1;
     }
+
+    public static class Buttons {
+        public static final int Intake = XboxController.Button.kA.value;
+        public static final int ShootHigh = XboxController.Button.kB.value;
+        public static final int ShootLow = XboxController.Button.kB.value;
+        public static final int Dump = XboxController.Button.kRightStick.value;
+        public static final int Climb = XboxController.Button.kY.value;
+
+    }
+
+    public static class Climber {
+        public static final int leftID = 0;
+        public static final int rightID = 0;
+        public static final double upPos = 0;
+        public static final double downPos = 0;
+        public static final double down_P = 0;
+        public static final double down_I = 0;
+        public static final double down_Iz = 0;
+        public static final double down_D = 0;
+        public static final double down_F = 0;
+        public static final double up_P = 0;
+        public static final double up_I = 0;
+        public static final double up_Iz = 0;
+        public static final double up_D = 0;
+        public static final double up_F = 0;
+        public static final int upPidID = 0;
+        public static final int downPidID = 1;
+        public static final double maxOutputUp = 0.3;
+        public static final double minOutputUp = -0.3;
+        public static final double maxOutputDown = 0.3;
+        public static final double minOutputDown = -0.3;
+    }
+
 }

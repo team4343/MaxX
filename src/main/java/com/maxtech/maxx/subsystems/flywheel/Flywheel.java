@@ -82,7 +82,7 @@ public class Flywheel extends Subsystem {
 
     private void handleAtGoal(StateMachineMeta meta) {
         setVoltage(controller.computeNextVoltage(getVelocity()));
-        indexer.run();
+        indexer.run(true);
 
         if (!isVelocityCorrect()) {
             statemachine.toState(FlywheelStates.SpinUp);

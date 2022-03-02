@@ -1,8 +1,5 @@
-package com.maxtech.maxx.commands;
+package com.maxtech.maxx.commands.intake;
 
-
-import com.maxtech.maxx.Constants;
-import com.maxtech.maxx.subsystems.flywheel.Flywheel;
 import com.maxtech.maxx.subsystems.intake.Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -16,9 +13,7 @@ public class SetIntake extends CommandBase {
     }
 
     @Override
-    public void initialize() {
-
-    }
+    public void initialize() {}
 
     @Override
     public void execute() {
@@ -28,9 +23,5 @@ public class SetIntake extends CommandBase {
         else {
             intake.stop();
         }
-
     }
-
-
-
 }

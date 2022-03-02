@@ -29,7 +29,7 @@ public class IntakeIOMax implements IntakeIO {
 
         pivotMotor.configAllowableClosedloopError(0, Constants.Intake.pidID, Constants.Intake.TimeoutMs);
 
-        /* Config Position Closed Loop gains in slot0, tsypically kF stays zero. */
+        /* Config Position Closed Loop gains in slot0, typically kF stays zero. */
         pivotMotor.config_kF(Constants.Intake.pidID, Constants.Intake.F, Constants.Intake.TimeoutMs);
         pivotMotor.config_kP(Constants.Intake.pidID, Constants.Intake.P, Constants.Intake.TimeoutMs);
         pivotMotor.config_kI(Constants.Intake.pidID, Constants.Intake.I, Constants.Intake.TimeoutMs);
