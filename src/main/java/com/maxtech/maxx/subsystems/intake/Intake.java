@@ -5,9 +5,6 @@ import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import com.maxtech.maxx.RobotContainer;
-import com.maxtech.maxx.subsystems.indexer.IndexerIO;
-import com.maxtech.maxx.subsystems.indexer.IndexerIOMax;
-import com.maxtech.maxx.subsystems.indexer.IndexerIOPeter;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 public class Intake extends Subsystem {
