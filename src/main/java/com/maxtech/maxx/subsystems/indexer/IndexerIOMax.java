@@ -13,8 +13,8 @@ public class IndexerIOMax implements IndexerIO {
     private final DigitalInput bottomSensor = new DigitalInput(1);
 
     @Override
-    public void set(double top, double bottom) {
-        //topMotor.set(ControlMode.PercentOutput, top);
+    public void set(Double bottom, Double top) {
+        topMotor.set(ControlMode.PercentOutput, top);
         bottomMotor.set(ControlMode.PercentOutput, bottom);
     }
 
