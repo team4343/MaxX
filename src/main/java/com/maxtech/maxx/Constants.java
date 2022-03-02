@@ -101,11 +101,12 @@ public final class Constants {
     }
 
     public static class Buttons {
-        public static final int Intake = XboxController.Button.kA.value;
-        public static final int ShootHigh = XboxController.Button.kB.value;
+        public static final int Intake = XboxController.Button.kX.value;
+        public static final int ShootHigh = XboxController.Button.kA.value;
         public static final int ShootLow = XboxController.Button.kB.value;
-        public static final int Dump = XboxController.Button.kRightStick.value;
         public static final int Climb = XboxController.Button.kY.value;
+        public static final int DumpPOV = 0;
+        // POV/DPAD is by -1, 0 - 360
 
     }
 

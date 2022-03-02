@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+
 import java.util.List;
 
 /**
@@ -64,14 +66,14 @@ public class RobotContainer {
         new JoystickButton(masterController, Constants.Buttons.Intake)
                 .whenPressed(new SetIntake(true))
                 .whenReleased(new SetIntake(false));
-        new JoystickButton(masterController, Constants.Buttons.Dump)
-                .whenPressed(new DumpIntake())
-                .whenReleased(new SetIntake(false));
         new JoystickButton(masterController, Constants.Buttons.ShootHigh).whileHeld( new SetFlywheel(Constants.Flywheel.ShootHighRPM));
         new JoystickButton(masterController, Constants.Buttons.ShootLow).whileHeld( new SetFlywheel(Constants.Flywheel.ShootLowRPM));
         new JoystickButton(masterController, Constants.Buttons.Climb)
                 .whenPressed(new Extend())
                 .whenReleased(new Raise());
+        new POVButton(masterController, Constants.Buttons.DumpPOV)
+                .whenPressed(new DumpIntake())
+                .whenReleased(new SetIntake(false));
     }
 
     /**
