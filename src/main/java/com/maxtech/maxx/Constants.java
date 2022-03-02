@@ -19,12 +19,6 @@ public final class Constants {
     public static int a1 = 4;
     public static int a2 = 3;
 
-    public static final int Beam1ID = 15;
-    public static final int Beam2ID = 16;
-
-    public static final int pivotID = 14;
-    public static final int intakeID = 15;
-
     public static final class Drive {
         /**
          * Width in between the left and right wheels, in meters.
@@ -77,13 +71,12 @@ public final class Constants {
         public static final double kV = 0.98229;
         public static final double kA = 0.047735;
 
-        public static final int ShootHighRPM = 6000;
-        public static final int ShootLowRPM = 800;
+        public static final int topBinRPM = 6000;
+        public static final int bottomBinRPM = 800;
     }
 
-    public static class Indexer{
-        public static final double topPercentOut = 1.0;
-        public static final double bottomPercentOut = 1.0;
+    public static class Indexer {
+        public static final double maxOutput = .5;
     }
 
     public static class Intake {
@@ -107,7 +100,6 @@ public final class Constants {
         public static final int Climb = XboxController.Button.kY.value;
         public static final int DumpPOV = 0;
         // POV/DPAD is by -1, 0 - 360
-
     }
 
     public static class Climber {
@@ -132,5 +124,4 @@ public final class Constants {
         public static final double maxOutputDown = 0.3;
         public static final double minOutputDown = -0.3;
     }
-
 }

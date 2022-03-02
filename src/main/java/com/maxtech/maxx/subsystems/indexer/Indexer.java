@@ -4,10 +4,8 @@ import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.Constants;
 import com.maxtech.maxx.RobotContainer;
-import com.maxtech.maxx.subsystems.intake.Intake;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
-import com.maxtech.maxx.RobotContainer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
@@ -52,7 +50,7 @@ public class Indexer extends Subsystem {
         Idle, OneLoaded, TwoLoaded, Shooting,
     }
 
-    private final StateMachine<IndexerStates> statemachine = new StateMachine<IndexerStates>("Indexer", IndexerStates.Idle);
+    private final StateMachine<IndexerStates> statemachine = new StateMachine<>("Indexer", IndexerStates.Idle);
 
     @Override
     public void sendTelemetry(String prefix) {}
@@ -63,7 +61,7 @@ public class Indexer extends Subsystem {
      * OneLoaded state.
      */
     private void handleIdle(StateMachineMeta m) {
-        io.set(0.5, 0.);
+        io.set(Constants.Indexer.maxOutput, 0.);
 
         // If we detect something in the bottom spot, and the top spot is empty, move it up. We do this by turning on
         // both motors. Once the top is loaded, we turn off the top one.
@@ -127,19 +125,10 @@ public class Indexer extends Subsystem {
         return !isBottomEmpty();
     }
 
-    public void run(boolean passThrough) {
-        // If the bottom spot is full and the top spot is empty, move it up.
-        // However, if we need to pass it through to the shooter ignore the sensor.
-        if (passThrough || (isBottomLoaded() && isTopEmpty())) {
-            io.set(Constants.Indexer.topPercentOut, Constants.Indexer.bottomPercentOut);
-        } else {
-            io.set(0., 0.);
-        }
-    }
-
     public void dump() {
         this.stop();
-        io.set(-Constants.Indexer.topPercentOut, -Constants.Indexer.bottomPercentOut);
+        io.set(-Constants.Indexer.maxOutput, -Constants.Indexer.maxOutput);
+        statemachine.toState(IndexerStates.Idle);
     }
 
     public void stop() {

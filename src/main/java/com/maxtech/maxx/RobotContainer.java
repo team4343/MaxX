@@ -66,8 +66,8 @@ public class RobotContainer {
         new JoystickButton(masterController, Constants.Buttons.Intake)
                 .whenPressed(new SetIntake(true))
                 .whenReleased(new SetIntake(false));
-        new JoystickButton(masterController, Constants.Buttons.ShootHigh).whileHeld( new SetFlywheel(Constants.Flywheel.ShootHighRPM));
-        new JoystickButton(masterController, Constants.Buttons.ShootLow).whileHeld( new SetFlywheel(Constants.Flywheel.ShootLowRPM));
+        new JoystickButton(masterController, Constants.Buttons.ShootHigh).whileHeld( new SetFlywheel(Constants.Flywheel.topBinRPM));
+        new JoystickButton(masterController, Constants.Buttons.ShootLow).whileHeld( new SetFlywheel(Constants.Flywheel.bottomBinRPM));
         new JoystickButton(masterController, Constants.Buttons.Climb)
                 .whenPressed(new Extend())
                 .whenReleased(new Raise());
