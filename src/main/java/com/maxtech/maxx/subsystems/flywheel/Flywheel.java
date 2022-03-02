@@ -6,6 +6,7 @@ import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import com.maxtech.maxx.RobotContainer;
+import com.maxtech.maxx.subsystems.indexer.Indexer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -16,6 +17,7 @@ public class Flywheel extends Subsystem {
     RobotLogger logger = RobotLogger.getInstance();
 
     private static Flywheel instance;
+    private static Indexer indexer;
 
     public static Flywheel getInstance() {
         if (instance == null) {
@@ -47,6 +49,8 @@ public class Flywheel extends Subsystem {
         tab.addNumber("voltage", io::getVoltage);
         tab.addNumber("desired", controller::getDesiredVelocity);
         tab.addBoolean("atGoal", this::isAtGoal);
+
+        indexer = Indexer.getInstance();
     }
 
     @Override
@@ -70,7 +74,7 @@ public class Flywheel extends Subsystem {
     private void handleSpinUp(StateMachineMeta meta) {
         setVoltage(controller.computeNextVoltage(getVelocity()));
         logger.dbg("Velocity at %s", getVelocity());
-
+        indexer.stop();
         if (isVelocityCorrect()) {
             statemachine.toState(FlywheelStates.AtGoal);
         }
@@ -78,6 +82,7 @@ public class Flywheel extends Subsystem {
 
     private void handleAtGoal(StateMachineMeta meta) {
         setVoltage(controller.computeNextVoltage(getVelocity()));
+        indexer.run();
 
         if (!isVelocityCorrect()) {
             statemachine.toState(FlywheelStates.SpinUp);
@@ -109,6 +114,7 @@ public class Flywheel extends Subsystem {
     public void stop() {
         this.controller.reset(getVelocity());
         statemachine.toState(FlywheelStates.Idle);
+        indexer.stop();
     }
 
     public boolean isAtGoal() {

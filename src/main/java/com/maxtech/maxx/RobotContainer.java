@@ -3,6 +3,7 @@ package com.maxtech.maxx;
 import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.NextLEDPattern;
+import com.maxtech.maxx.commands.SetIntake;
 import com.maxtech.maxx.commands.flywheel.SetFlywheel;
 import com.maxtech.maxx.subsystems.intake.Intake;
 import com.maxtech.maxx.subsystems.LEDs;
@@ -57,6 +58,10 @@ public class RobotContainer {
 
         // TODO: review this method of binding commands to methods. It's almost certainly too verbose.
         new JoystickButton(masterController, XboxController.Button.kLeftBumper.value).whenPressed(new NextLEDPattern());
+        new JoystickButton(masterController, XboxController.Button.kA.value)
+                .whenPressed(new SetIntake(true))
+                .whenReleased(new SetIntake(false));
+        new JoystickButton(masterController, XboxController.Button.kY.value).whileHeld( new SetFlywheel(1000));
     }
 
     /**

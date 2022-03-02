@@ -2,6 +2,7 @@ package com.maxtech.maxx.subsystems.indexer;
 
 import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.logging.RobotLogger;
+import com.maxtech.maxx.Constants;
 import com.maxtech.maxx.RobotContainer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
@@ -43,11 +44,12 @@ public class Indexer extends Subsystem {
     @Override
     public void periodic() {
         // If the bottom spot is full and the top spot is empty, move it up.
-        if (!isBottomActive() && isTopActive()) {
-            io.set(0, 0.5);
-        } else {
-            io.set(0, 0);
-        }
+
+       // if (!isBottomActive() && isTopActive()) {
+       //     io.set(0, 0.5);
+       // } else {
+       //     io.set(0, 0);
+       // }
     }
 
     public IndexerSensors getSensors() {
@@ -60,5 +62,13 @@ public class Indexer extends Subsystem {
 
     public boolean isBottomActive() {
         return getSensors().bottom;
+    }
+
+    public void run() {
+        io.set(Constants.Indexer.topPercentOut, Constants.Indexer.bottomPercentOut );
+    }
+
+    public void stop() {
+        io.set(0,0);
     }
 }

@@ -76,4 +76,23 @@ public final class Constants {
         public static final double kV = 0.98229;
         public static final double kA = 0.047735;
     }
+
+    public static class Indexer{
+        public static final double topPercentOut = 1.0;
+        public static final double bottomPercentOut = 1.0;
+    }
+
+    public static class Intake {
+        public static final int upPos = 0;
+        public static final int downPos = 0;
+        public static final double P = 0.005;
+        public static final double I = 0;
+        public static final double D = 0;
+        public static final double F = 0;
+        public static final int pidID = 0;
+        public static final int TimeoutMs = 30;
+        public static final boolean SensorPhase = true;
+        public static final boolean MotorInvert = false;
+        public static final double wheelsIn = 1;
+    }
 }

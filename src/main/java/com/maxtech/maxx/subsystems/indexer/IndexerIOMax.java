@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class IndexerIOMax implements IndexerIO {
     private final VictorSPX bottomMotor = new VictorSPX(8);
-    private final TalonSRX topMotor = new TalonSRX(9);
+    private final VictorSPX topMotor = new VictorSPX(9);
 
     // private final DigitalInput topSensor = new DigitalInput(0);
     private final DigitalInput bottomSensor = new DigitalInput(1);
