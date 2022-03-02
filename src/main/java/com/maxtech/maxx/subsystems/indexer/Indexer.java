@@ -48,11 +48,6 @@ public class Indexer extends Subsystem {
         tab.addBoolean("bottom sensor", this::isBottomEmpty);
     }
 
-    @Override
-    public void sendTelemetry(String prefix) {}
-
-    private IndexerIO io;
-
     private enum IndexerStates {
         Idle, OneLoaded, TwoLoaded, Shooting,
     }
@@ -60,9 +55,7 @@ public class Indexer extends Subsystem {
     private final StateMachine<IndexerStates> statemachine = new StateMachine<IndexerStates>("Indexer", IndexerStates.Idle);
 
     @Override
-    public void sendTelemetry(String prefix) {
-
-    }
+    public void sendTelemetry(String prefix) {}
 
     /**
      * If we are in this state, there is really nothing to do. Just spin the bottom motor to handle balls, and stop the
@@ -137,10 +130,10 @@ public class Indexer extends Subsystem {
     public void run(boolean passThrough) {
         // If the bottom spot is full and the top spot is empty, move it up.
         // However, if we need to pass it through to the shooter ignore the sensor.
-        if (passThrough || (!isBottomActive() && isTopActive())) {
+        if (passThrough || (isBottomLoaded() && isTopEmpty())) {
             io.set(Constants.Indexer.topPercentOut, Constants.Indexer.bottomPercentOut);
         } else {
-            io.set(0, 0);
+            io.set(0., 0.);
         }
     }
 
@@ -150,6 +143,6 @@ public class Indexer extends Subsystem {
     }
 
     public void stop() {
-        io.set(0,0);
+        io.set(0., 0.);
     }
 }
