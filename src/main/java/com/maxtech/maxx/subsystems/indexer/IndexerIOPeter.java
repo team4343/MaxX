@@ -18,7 +18,7 @@ public class IndexerIOPeter implements IndexerIO {
     }
 
     @Override
-    public IndexerSensors get() {
+    public IndexerSensors getSensors() {
         return new IndexerSensors(topSensor.get(), bottomSensor.get());
     }
 }

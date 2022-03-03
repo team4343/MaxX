@@ -17,7 +17,6 @@ public class DumpIntake extends CommandBase {
 
     @Override
     public void execute() {
-        //intake.runDump(true);
-
+        intake.runDump(true);
     }
 }

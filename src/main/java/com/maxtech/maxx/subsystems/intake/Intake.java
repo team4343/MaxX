@@ -18,6 +18,7 @@ public class Intake extends Subsystem {
     private static Intake instance;
     private static Indexer indexer;
     private IntakeIO io;
+    private boolean dumpDown = false;
 
     public static Intake getInstance() {
         if (instance == null) {
@@ -51,7 +52,7 @@ public class Intake extends Subsystem {
         io.setPos(Constants.Intake.upPos);
         io.setWheels(0);
         // Does the indexer need a stop command?
-        //indexer.stop();
+        indexer.stop();
     }
 
     /** We want to lower the intake. */
@@ -63,7 +64,7 @@ public class Intake extends Subsystem {
 
     /** We want to lower the intake. */
     private void handleDumping(StateMachineMeta m) {
-        io.setPos(Constants.Intake.downPos);
+        io.setPos(Constants.Intake.upPos);
         io.setWheels(-Constants.Intake.wheelsInPercentOut);
         indexer.dump();
     }
@@ -73,7 +74,8 @@ public class Intake extends Subsystem {
         statemachine.toState(IntakeState.Lowered);
     }
 
-    public void runDump(boolean dump) {
+    public void runDump(boolean down) {
+        this.dumpDown = down;
         statemachine.toState(IntakeState.Dumping);
     }
 

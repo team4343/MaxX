@@ -10,8 +10,8 @@ public class IndexerIOMax implements IndexerIO {
     private final VictorSPX bottomMotor = new VictorSPX(Constants.Indexer.bottomID);
     private final VictorSPX topMotor = new VictorSPX(Constants.Indexer.topID);
 
-    // private final DigitalInput topSensor = new DigitalInput(0);
-    private final DigitalInput bottomSensor = new DigitalInput(1);
+    private final DigitalInput topSensor = new DigitalInput(Constants.Indexer.topSensorDIO);
+    private final DigitalInput bottomSensor = new DigitalInput(Constants.Indexer.bottomSensorDIO);
 
     @Override
     public void set(double top, double bottom) {
@@ -20,7 +20,7 @@ public class IndexerIOMax implements IndexerIO {
     }
 
     @Override
-    public IndexerSensors get() {
-        return new IndexerSensors(true, bottomSensor.get());
+    public IndexerSensors getSensors() {
+        return new IndexerSensors(topSensor.get(), bottomSensor.get());
     }
 }

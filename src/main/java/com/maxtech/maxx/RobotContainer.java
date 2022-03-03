@@ -66,8 +66,8 @@ public class RobotContainer {
         new JoystickButton(masterController, Constants.Buttons.Intake)
                 .whenPressed(new SetIntake(true))
                 .whenReleased(new SetIntake(false));
-        new JoystickButton(masterController, Constants.Buttons.ShootHigh).whenPressed( new SetFlywheel(Constants.Flywheel.topBinRPM)).whenReleased(new SetFlywheel(0));
-        new JoystickButton(masterController, Constants.Buttons.ShootLow).whileHeld( new SetFlywheel(Constants.Flywheel.bottomBinRPM)).whenReleased(new SetFlywheel(0));
+        new JoystickButton(masterController, Constants.Buttons.ShootHigh).whenPressed( new SetFlywheel(Flywheel.FlywheelStates.ShootHigh)).whenReleased(new SetFlywheel(Flywheel.FlywheelStates.Idle));
+        new JoystickButton(masterController, Constants.Buttons.ShootLow).whileHeld( new SetFlywheel(Flywheel.FlywheelStates.ShootLow)).whenReleased(new SetFlywheel(Flywheel.FlywheelStates.Idle));
         new JoystickButton(masterController, Constants.Buttons.Climb)
                 .whenPressed(new Extend())
                 .whenReleased(new Raise());
@@ -84,7 +84,7 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // return new TrackBall();
         // return new ExamplePath();
-        return new SetFlywheel(0);
+        return new SetFlywheel(Flywheel.FlywheelStates.Idle);
     }
 
     /** All of these subsystems send telemetry. */

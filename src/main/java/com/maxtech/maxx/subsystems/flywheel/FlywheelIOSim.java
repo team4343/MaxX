@@ -9,7 +9,7 @@ public class FlywheelIOSim implements FlywheelIO {
     private FlywheelSim simulator = new FlywheelSim(DCMotor.getFalcon500(1), 2048, 0.05);
 
     @Override
-    public void setVoltage(double voltage) {
+    public void setVelocity(double voltage) {
         simulator.setInputVoltage(voltage);
         simulator.update(0.2);
     }

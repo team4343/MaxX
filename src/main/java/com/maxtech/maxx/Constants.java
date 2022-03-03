@@ -68,19 +68,26 @@ public final class Constants {
 
     public static class Flywheel {
         public static final int id = 5;
-        public static final int maxVoltage = 12;
-
-        public static final double kV = 0.98229;
-        public static final double kA = 0.047735;
-
+        public static final double P = 0.2;
+        public static final double I = 0.0001;
+        public static final double D = 0;
+        public static final double F = 0;
+        public static final int pidID = 0;
+        public static final int TimeoutMs = 30;
+        public static final boolean SensorPhase = false;
+        public static final boolean MotorInvert = false;
         public static final int topBinRPM = 6000;
         public static final int bottomBinRPM = 800;
+        public static final double rpmThreshold = 0.95;
     }
 
     public static class Indexer {
         public static final double maxOutput = 0.5;
         public static final int bottomID = 9;
         public static final int topID = 8;
+        public static final int topSensorDIO = 0;
+        public static final int bottomSensorDIO = 1;
+
     }
 
     public static class Intake {

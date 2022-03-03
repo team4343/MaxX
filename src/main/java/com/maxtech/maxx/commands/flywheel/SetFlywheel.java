@@ -5,25 +5,19 @@ import com.maxtech.maxx.subsystems.indexer.Indexer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SetFlywheel extends CommandBase {
-    private final double speed;
     private final Flywheel flywheel = Flywheel.getInstance();
     private final Indexer indexer = Indexer.getInstance();
+    private final Flywheel.FlywheelStates state;
 
-    public SetFlywheel(double rpm) {
-        this.speed = rpm;
-
+    public SetFlywheel(Flywheel.FlywheelStates state) {
+        this.state = state;
         addRequirements(flywheel);
         addRequirements(indexer);
     }
 
     @Override
-    public void initialize() {
-        flywheel.setGoalVelocity(speed);
-    }
-
-    @Override
     public void execute() {
-        flywheel.run();
+        flywheel.run(this.state);
         indexer.run(true);
     }
 }

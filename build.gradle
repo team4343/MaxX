@@ -8,6 +8,7 @@ plugins {
 
 repositories {
     maven { url 'https://jitpack.io' }
+    mavenCentral()
 }
 
 def javaVersion = JavaVersion.VERSION_11
@@ -60,8 +61,8 @@ test {
 dependencies {
     implementation wpi.java.deps.wpilib()
     implementation wpi.java.vendor.java()
-    implementation 'junit:junit:4.13.1'
-    implementation 'junit:junit:4.13.1'
+    implementation 'junit:junit:4.13.2'
+    implementation 'junit:junit:4.13.2'
 
     roborioDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.roborio)
     roborioDebug wpi.java.vendor.jniDebug(wpi.platforms.roborio)

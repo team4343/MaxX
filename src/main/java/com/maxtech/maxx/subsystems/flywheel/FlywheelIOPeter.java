@@ -13,7 +13,7 @@ public class FlywheelIOPeter implements FlywheelIO {
     }
 
     @Override
-    public void setVoltage(double voltage) {
+    public void setVelocity(double voltage) {
         left.setVoltage(voltage);
     }
 
