@@ -8,26 +8,16 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.maxtech.maxx.Constants;
 
 public class IntakeIOMax implements IntakeIO {
-    private final TalonSRX pivotMotor = new TalonSRX(6);
-    private final VictorSPX wheels = new VictorSPX(7);
+    private final TalonSRX pivotMotor = new TalonSRX(Constants.Intake.pivotID);
+    private final VictorSPX wheels = new VictorSPX(Constants.Intake.wheelsID);
     public int absolutePosition = 0;
 
     public IntakeIOMax() {
-        pivotMotor.configFactoryDefault();
-        pivotMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,
+        pivotMotor.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition,
                 Constants.Intake.pidID,
                 Constants.Intake.TimeoutMs);
         pivotMotor.setSensorPhase(Constants.Intake.SensorPhase);
         pivotMotor.setInverted(Constants.Intake.MotorInvert);
-
-        /* Config the peak and nominal outputs, 12V means full */
-        pivotMotor.configNominalOutputForward(0, Constants.Intake.TimeoutMs);
-        pivotMotor.configNominalOutputReverse(0, Constants.Intake.TimeoutMs);
-        pivotMotor.configPeakOutputForward(1, Constants.Intake.TimeoutMs);
-        pivotMotor.configPeakOutputReverse(-1, Constants.Intake.TimeoutMs);
-
-
-        pivotMotor.configAllowableClosedloopError(0, Constants.Intake.pidID, Constants.Intake.TimeoutMs);
 
         /* Config Position Closed Loop gains in slot0, typically kF stays zero. */
         pivotMotor.config_kF(Constants.Intake.pidID, Constants.Intake.F, Constants.Intake.TimeoutMs);
@@ -36,11 +26,15 @@ public class IntakeIOMax implements IntakeIO {
         pivotMotor.config_kD(Constants.Intake.pidID, Constants.Intake.D, Constants.Intake.TimeoutMs);
 
         absolutePosition = pivotMotor.getSensorCollection().getPulseWidthPosition();
+
+        pivotMotor.set(ControlMode.PercentOutput, 0);
+        pivotMotor.set(ControlMode.Position, 0);
     }
 
     @Override
     public void setPos(double value) {
-        pivotMotor.set(ControlMode.Position, value);
+        System.out.println(pivotMotor.getSensorCollection().getPulseWidthPosition());
+        pivotMotor.set(TalonSRXControlMode.Position, value);
     }
 
     @Override

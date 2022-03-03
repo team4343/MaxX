@@ -13,8 +13,6 @@ public class ClimberIOMax implements ClimberIO{
     private RelativeEncoder encoder;
 
     public ClimberIOMax() {
-        winchR = new CANSparkMax(Constants.Climber.rightID, MotorType.kBrushless);
-        winchL = new CANSparkMax(Constants.Climber.leftID, MotorType.kBrushless);
         winchR.setIdleMode(CANSparkMax.IdleMode.kBrake);
         winchL.setIdleMode(CANSparkMax.IdleMode.kBrake);
 

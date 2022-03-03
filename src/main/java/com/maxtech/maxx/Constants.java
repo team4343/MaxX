@@ -11,10 +11,12 @@ import edu.wpi.first.wpilibj.XboxController;
  * A convenient place to keep constant values, that will certainly never change throughout robot execution.
  */
 public final class Constants {
-    public static int left1ID = 1;
-    public static int left2ID = 2;
-    public static int right1ID = 3;
-    public static int right2ID = 4;
+    public static int left1ID = 11;
+    public static int left2ID = 12;
+    public static int right1ID = 13;
+    public static int right2ID = 14;
+
+
 
     public static int a1 = 4;
     public static int a2 = 3;
@@ -66,7 +68,7 @@ public final class Constants {
 
     public static class Flywheel {
         public static final int id = 5;
-        public static final int maxVoltage = 11;
+        public static final int maxVoltage = 12;
 
         public static final double kV = 0.98229;
         public static final double kA = 0.047735;
@@ -76,21 +78,25 @@ public final class Constants {
     }
 
     public static class Indexer {
-        public static final double maxOutput = .5;
+        public static final double maxOutput = 0.5;
+        public static final int bottomID = 9;
+        public static final int topID = 8;
     }
 
     public static class Intake {
+        public static final int pivotID = 6;
+        public static final int wheelsID = 7;
         public static final int upPos = 0;
-        public static final int downPos = 0;
-        public static final double P = 0;
+        public static final int downPos = -700;
+        public static final double P = 0.4;
         public static final double I = 0;
         public static final double D = 0;
         public static final double F = 0;
         public static final int pidID = 0;
         public static final int TimeoutMs = 30;
-        public static final boolean SensorPhase = true;
+        public static final boolean SensorPhase = false;
         public static final boolean MotorInvert = false;
-        public static final double wheelsInPercentOut = 1;
+        public static final double wheelsInPercentOut = -0.5;
     }
 
     public static class Buttons {
@@ -103,25 +109,25 @@ public final class Constants {
     }
 
     public static class Climber {
-        public static final int leftID = 0;
-        public static final int rightID = 0;
-        public static final double upPos = 0;
+        public static final int leftID = 19;
+        public static final int rightID = 17;
+        public static final double upPos = 100;
         public static final double downPos = 0;
-        public static final double down_P = 0;
+        public static final double down_P = 0.7;
         public static final double down_I = 0;
         public static final double down_Iz = 0;
         public static final double down_D = 0;
         public static final double down_F = 0;
-        public static final double up_P = 0;
+        public static final double up_P = 0.7;
         public static final double up_I = 0;
         public static final double up_Iz = 0;
         public static final double up_D = 0;
         public static final double up_F = 0;
         public static final int upPidID = 0;
         public static final int downPidID = 1;
-        public static final double maxOutputUp = 0.3;
-        public static final double minOutputUp = -0.3;
-        public static final double maxOutputDown = 0.3;
-        public static final double minOutputDown = -0.3;
+        public static final double maxOutputUp = 1;
+        public static final double minOutputUp = -1;
+        public static final double maxOutputDown = 1;
+        public static final double minOutputDown = -1;
     }
 }

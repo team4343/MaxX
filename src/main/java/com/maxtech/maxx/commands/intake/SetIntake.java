@@ -7,7 +7,7 @@ public class SetIntake extends CommandBase {
     private final Intake intake = Intake.getInstance();
     private boolean down = false;
 
-    public SetIntake(Boolean setDown) {
+    public SetIntake(boolean setDown) {
         addRequirements(intake);
         down = setDown;
     }

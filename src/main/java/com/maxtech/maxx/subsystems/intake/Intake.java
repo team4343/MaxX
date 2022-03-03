@@ -51,7 +51,7 @@ public class Intake extends Subsystem {
         io.setPos(Constants.Intake.upPos);
         io.setWheels(0);
         // Does the indexer need a stop command?
-        indexer.stop();
+        //indexer.stop();
     }
 
     /** We want to lower the intake. */

@@ -12,7 +12,7 @@ public class IndexerIOPeter implements IndexerIO {
     private final DigitalInput bottomSensor = new DigitalInput(0);
 
     @Override
-    public void set(Double bottom, Double top) {
+    public void set(double bottom, double top) {
         topMotor.set(ControlMode.PercentOutput, top);
         bottomMotor.set(ControlMode.PercentOutput, bottom);
     }

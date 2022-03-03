@@ -1,8 +1,8 @@
 package com.maxtech.maxx.subsystems.drivetrain;
 
 import com.kauailabs.navx.frc.AHRS;
-import com.maxtech.lib.wrappers.rev.CANSparkMax;
 import com.maxtech.maxx.Constants;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.REVPhysicsSim;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -119,11 +119,16 @@ public class DriveIOMax implements DriveIO {
         return field;
     }
 
+    @java.lang.Override
+    public double getDistanceTravelled(com.maxtech.lib.wrappers.rev.CANSparkMax controller, double gearing, double wheelDiameter) {
+        return 0;
+    }
+
     /** Get the distance travelled of one Spark Max motor controller. */
     public double getDistanceTravelled(CANSparkMax controller, double gearing, double wheelDiameter) {
         var motorRotations = controller.getEncoder().getPosition();
         var wheelRotations = motorRotations / gearing;
-        var distanceTravelled = wheelRotations * Math.PI * wheelDiameter;
+        double distanceTravelled = wheelRotations * Math.PI * wheelDiameter;
 
         return distanceTravelled;
     }

@@ -52,15 +52,15 @@ public class Indexer extends Subsystem {
         // If the bottom spot is full and the top spot is empty, move it up.
         // However, if we need to pass it through to the shooter ignore the sensor.
         if (passThrough || (!isBottomActive() && isTopActive())) {
-            io.set(Constants.Indexer.topPercentOut, Constants.Indexer.bottomPercentOut);
+            io.set(Constants.Indexer.maxOutput, Constants.Indexer.maxOutput);
         } else {
-            io.set(0, 0);
+            io.set(Constants.Indexer.maxOutput, 0);
         }
     }
 
     public void dump() {
         this.stop();
-        io.set(-Constants.Indexer.topPercentOut, -Constants.Indexer.bottomPercentOut);
+        io.set(-Constants.Indexer.maxOutput, -Constants.Indexer.maxOutput);
     }
 
     public void stop() {

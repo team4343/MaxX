@@ -14,6 +14,7 @@ public class CANSparkMax extends com.revrobotics.CANSparkMax {
         super(deviceId, type);
     }
 
+
     @Override
     public void set(double speed) {
         setVoltage(speed / 100);
