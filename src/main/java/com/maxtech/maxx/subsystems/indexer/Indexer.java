@@ -66,7 +66,7 @@ public class Indexer extends Subsystem {
             topOut = Constants.Indexer.maxOutput;
         }
 
-        RobotLogger.getInstance().dbg("top: %s, bot: %s", topOut, botOut);
+        //RobotLogger.getInstance().dbg("top: %s, bot: %s", topOut, botOut);
 
         io.set(topOut, botOut);
     }

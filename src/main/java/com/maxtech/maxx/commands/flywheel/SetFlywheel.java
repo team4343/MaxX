@@ -16,7 +16,8 @@ public class SetFlywheel extends CommandBase {
 
     @Override
     public void execute() {
-        flywheel.run(this.state);
         indexer.run();
+        flywheel.run(this.state);
+
     }
 }

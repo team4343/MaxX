@@ -42,7 +42,7 @@ public class DriveIOMax implements DriveIO {
     private final Field2d field = new Field2d();
 
     public DriveIOMax() {
-        right.setInverted(true);
+        left.setInverted(true);
         gyro.reset();
 
         drivetrain = new DifferentialDrive(left, right);

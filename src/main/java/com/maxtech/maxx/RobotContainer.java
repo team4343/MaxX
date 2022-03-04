@@ -56,7 +56,7 @@ public class RobotContainer {
         // We set the default command for the drivetrain to arcade driving based on the controller values.
         drivetrain.setDefaultCommand(new RunCommand(() -> {
             double speed = masterController.getRightTriggerAxis() - masterController.getLeftTriggerAxis();
-            double rotation = masterController.getLeftX();
+            double rotation = -masterController.getLeftX();
 
             drivetrain.arcade(speed, rotation);
         }, drivetrain));

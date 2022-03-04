@@ -43,12 +43,14 @@ public class Climber extends Subsystem {
 
     /** We want to raise the Climber. */
     private void handleRaising(StateMachineMeta m) {
-        io.setPos(Constants.Climber.downPos);
+        if ( io.getPos() > Constants.Climber.downPos * 0.95 )
+            io.setPos(Constants.Climber.downPos);
     }
 
     /** We want to lower the Climber. */
     private void handleExtend(StateMachineMeta m) {
-        io.setPos(Constants.Climber.upPos);
+        if ( io.getPos() < Constants.Climber.upPos * 0.95 )
+            io.setPos(Constants.Climber.upPos);
     }
 
     private boolean getExtended() {

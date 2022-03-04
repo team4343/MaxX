@@ -13,6 +13,8 @@ public class ClimberIOMax implements ClimberIO{
     private RelativeEncoder encoder;
 
     public ClimberIOMax() {
+        winchL.setInverted(false);
+        winchR.setInverted(true);
         winchR.setIdleMode(CANSparkMax.IdleMode.kBrake);
         winchL.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
@@ -20,6 +22,15 @@ public class ClimberIOMax implements ClimberIO{
 
         pidController = winchR.getPIDController();
         encoder = winchR.getEncoder();
+
+        winchL.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
+        winchL.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+        winchR.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
+        winchR.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+        winchL.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 45);
+        winchR.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 45);
+        winchL.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, -5);
+        winchR.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, -5);
 
         pidController.setP(Constants.Climber.up_P , Constants.Climber.upPidID);
         pidController.setI(Constants.Climber.up_I , Constants.Climber.upPidID);
