@@ -122,6 +122,4 @@ public class Flywheel extends Subsystem {
     public void stop() {
         statemachine.toState(FlywheelStates.Idle);
     }
-
-
 }

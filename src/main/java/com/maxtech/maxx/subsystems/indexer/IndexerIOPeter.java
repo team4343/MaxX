@@ -2,19 +2,20 @@ package com.maxtech.maxx.subsystems.indexer;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.maxtech.maxx.Constants;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class IndexerIOPeter implements IndexerIO {
-    private final VictorSPX topMotor = new VictorSPX(6);
-    private final VictorSPX bottomMotor = new VictorSPX(7);
+    private final VictorSPX bottomMotor = new VictorSPX(Constants.Indexer.bottomID);
+    private final VictorSPX topMotor = new VictorSPX(Constants.Indexer.topID);
 
-    private final DigitalInput topSensor = new DigitalInput(11);
-    private final DigitalInput bottomSensor = new DigitalInput(10);
+    private final DigitalInput topSensor = new DigitalInput(Constants.Indexer.topSensorDIO);
+    private final DigitalInput bottomSensor = new DigitalInput(Constants.Indexer.bottomSensorDIO);
 
     @Override
-    public void set(double bottom, double top) {
+    public void set(double top, double bottom) {
         topMotor.set(ControlMode.PercentOutput, top);
-        bottomMotor.set(ControlMode.PercentOutput, bottom);
+        bottomMotor.set(ControlMode.PercentOutput, -bottom);
     }
 
     @Override

@@ -27,7 +27,7 @@ public class Indexer extends Subsystem {
 
     private Indexer() {
         switch(RobotContainer.teamNumber) {
-            case 4343: io = new IndexerIOMax(); break;
+            case 4343: io = new IndexerIOPeter(); break;
             case 914: io = new IndexerIOPeter(); break;
             default: logger.err("Could not pick I/O, no matches."); break;
         }
