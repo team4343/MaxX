@@ -21,6 +21,7 @@ public class DriveIOMax implements DriveIO {
     private final CANSparkMax left2 = new CANSparkMax(Constants.left2ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     private final MotorControllerGroup left = new MotorControllerGroup(left1, left2);
 
+
     private final CANSparkMax right1 = new CANSparkMax(Constants.right1ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     private final CANSparkMax right2 = new CANSparkMax(Constants.right2ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     private final MotorControllerGroup right = new MotorControllerGroup(right1, right2);
@@ -42,6 +43,25 @@ public class DriveIOMax implements DriveIO {
     private final Field2d field = new Field2d();
 
     public DriveIOMax() {
+        // Defaults
+        left1.restoreFactoryDefaults();
+        left2.restoreFactoryDefaults();
+        right1.restoreFactoryDefaults();
+        right2.restoreFactoryDefaults();
+
+        // Coast Mode
+        left1.setIdleMode(CANSparkMax.IdleMode.kCoast);
+        left2.setIdleMode(CANSparkMax.IdleMode.kCoast);
+        right1.setIdleMode(CANSparkMax.IdleMode.kCoast);
+        right2.setIdleMode(CANSparkMax.IdleMode.kCoast);
+
+        // Ramp rate
+        // TODO Replace with better solution.
+        left1.setOpenLoopRampRate(Constants.Drive.rampRate);
+        left2.setOpenLoopRampRate(Constants.Drive.rampRate);
+        right1.setOpenLoopRampRate(Constants.Drive.rampRate);
+        right2.setOpenLoopRampRate(Constants.Drive.rampRate);
+
         left.setInverted(true);
         gyro.reset();
 

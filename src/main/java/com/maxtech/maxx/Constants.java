@@ -63,6 +63,7 @@ public final class Constants {
         // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
         public static final double ramseteB = 2;
         public static final double ramseteZeta = 0.7;
+        public static final double rampRate = 0.5; // Seconds to reach full output drive motors
     }
 
     public static class Flywheel {
