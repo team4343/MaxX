@@ -11,7 +11,7 @@ public class FlywheelIOMax implements FlywheelIO {
     private final TalonFX motor = new TalonFX(Constants.Flywheel.id);
 
     public FlywheelIOMax() {
-        motor.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition,
+        motor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,
                 Constants.Flywheel.pidID,
                 Constants.Flywheel.TimeoutMs);
         motor.setSensorPhase(Constants.Flywheel.SensorPhase);
@@ -33,12 +33,12 @@ public class FlywheelIOMax implements FlywheelIO {
         if (velocity == 0) {
             motor.set(ControlMode.PercentOutput, 0);
         }
-        motor.set(TalonFXControlMode.Velocity, velocity * (16 / 36f) * 4096 / (60 * 10));
+        motor.set(TalonFXControlMode.Velocity, velocity * (16 / 36f) * Constants.Flywheel.talonFXResolution / (60 * 10));
     }
 
     @Override
     public double getVelocity() {
-        return motor.getSelectedSensorVelocity() * 60 * 10 / 4096 / (36 / 16f);
+        return ((motor.getSelectedSensorVelocity(Constants.Flywheel.pidID) / Constants.Flywheel.talonFXResolution) * (60 * 10)) / (16 / 36f);
     }
 
     @Override

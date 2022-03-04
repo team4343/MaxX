@@ -39,7 +39,7 @@ public class Intake extends Subsystem {
         statemachine.associateState(IntakeState.Dumping, this::handleDumping);
         statemachine.start();
 
-        var tab = Shuffleboard.getTab("Intake");
+       // var tab = Shuffleboard.getTab("Intake");
     }
 
     /** We want to raise the intake. */

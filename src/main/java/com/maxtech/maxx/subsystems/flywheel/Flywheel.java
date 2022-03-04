@@ -68,7 +68,9 @@ public class Flywheel extends Subsystem {
     }
 
     private void handleShootHigh(StateMachineMeta meta) {
-
+        if (io.getVelocity() < Constants.Flywheel.topBinRPM *  Constants.Flywheel.rpmThreshold) {
+            statemachine.toState(FlywheelStates.SpinupHigh);
+        }
         shoot(Constants.Flywheel.topBinRPM);
     }
 
@@ -80,7 +82,9 @@ public class Flywheel extends Subsystem {
     }
 
     private void handleShootLow(StateMachineMeta meta) {
-
+        if (io.getVelocity() < Constants.Flywheel.bottomBinRPM *  Constants.Flywheel.rpmThreshold) {
+            statemachine.toState(FlywheelStates.SpinupLow);
+        }
         shoot(Constants.Flywheel.bottomBinRPM);
     }
 

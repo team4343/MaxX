@@ -13,11 +13,15 @@ public class ClimberIOMax implements ClimberIO{
     private RelativeEncoder encoder;
 
     public ClimberIOMax() {
-        winchL.setInverted(false);
-        winchR.setInverted(true);
+        winchL.restoreFactoryDefaults();
+        winchR.restoreFactoryDefaults();
+
+        winchL.setInverted(true);
+        winchR.setInverted(false);
         winchR.setIdleMode(CANSparkMax.IdleMode.kBrake);
         winchL.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
+        winchR.follow(CANSparkMax.ExternalFollower.kFollowerDisabled, 0);
         winchL.follow(winchR, true);
 
         pidController = winchR.getPIDController();
@@ -27,8 +31,9 @@ public class ClimberIOMax implements ClimberIO{
         winchL.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
         winchR.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
         winchR.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
-        winchL.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 45);
-        winchR.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 45);
+
+        winchL.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 5);
+        winchR.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 5);
         winchL.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, -5);
         winchR.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, -5);
 
@@ -51,13 +56,13 @@ public class ClimberIOMax implements ClimberIO{
 
     @Override
     public void setPos(double pos) {
-        if (pos < 0 || pos > Constants.Climber.upPos * 1.1)
+        if (pos < 0 || pos > Constants.Climber.upPos * 1.05)
             return;
 
-        if (pos < Constants.Climber.upPos/2)
-            pidController.setReference(Constants.Climber.downPos, CANSparkMax.ControlType.kPosition, Constants.Climber.downPidID);
+        if (pos < getPos())
+            pidController.setReference(pos, CANSparkMax.ControlType.kPosition, Constants.Climber.downPidID);
         else
-            pidController.setReference(Constants.Climber.upPos, CANSparkMax.ControlType.kPosition, Constants.Climber.upPidID);
+            pidController.setReference(pos, CANSparkMax.ControlType.kPosition, Constants.Climber.upPidID);
     }
 
     @Override

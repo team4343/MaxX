@@ -16,8 +16,6 @@ public final class Constants {
     public static int right1ID = 13;
     public static int right2ID = 14;
 
-
-
     public static int a1 = 4;
     public static int a2 = 3;
 
@@ -77,15 +75,16 @@ public final class Constants {
         public static final int TimeoutMs = 30;
         public static final boolean SensorPhase = false;
         public static final boolean MotorInvert = false;
-        public static final int topBinRPM = 2500;
+        public static final int topBinRPM = 2000;
         public static final int bottomBinRPM = 800;
-        public static final double rpmThreshold = 0.4;
+        public static final double rpmThreshold = 0.7;
+        public static final int talonFXResolution = 2048;
     }
 
     public static class Indexer {
         public static final double maxOutput = 0.5;
-        public static final int bottomID = 9;
-        public static final int topID = 8;
+        public static final int bottomID = 8;
+        public static final int topID = 9;
         public static final int topSensorDIO = 0;
         public static final int bottomSensorDIO = 1;
 
@@ -120,9 +119,10 @@ public final class Constants {
         public static final int leftID = 19;
         public static final int rightID = 17;
         public static final double upPos = 45;
+        // https://pidexplained.com/how-to-tune-a-pid-controller/
         public static final double downPos = 0;
         public static final double down_P = 0.4;
-        public static final double down_I = 0.005;
+        public static final double down_I = 0.003;
         public static final double down_Iz = 0;
         public static final double down_D = 0;
         public static final double down_F = 0;
@@ -137,5 +137,8 @@ public final class Constants {
         public static final double minOutputUp = -0.7;
         public static final double maxOutputDown = 0.7;
         public static final double minOutputDown = -0.7;
+        // TODO CHANGE THIS AFTER TEST DIRECTION CHANGE
+        public static final float forwardSoftLimit = 5;
+        public static final float reverseSoftLimit = -5;
     }
 }

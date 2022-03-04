@@ -63,7 +63,7 @@ public class Indexer extends Subsystem {
             topOut = Constants.Indexer.maxOutput;
         }
         if (intake.getState() == Intake.IntakeState.Lowered) {
-            topOut = Constants.Indexer.maxOutput;
+            botOut = Constants.Indexer.maxOutput;
         }
 
         //RobotLogger.getInstance().dbg("top: %s, bot: %s", topOut, botOut);
