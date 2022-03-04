@@ -61,6 +61,10 @@ public class RobotContainer {
             drivetrain.arcade(speed, rotation);
         }, drivetrain));
 
+        indexer.setDefaultCommand(new RunCommand(() -> {
+            indexer.run();
+        }, indexer));
+
         // TODO: review this method of binding commands to methods. It's almost certainly too verbose.
         new JoystickButton(masterController, XboxController.Button.kLeftBumper.value).whenPressed(new NextLEDPattern());
         new JoystickButton(masterController, Constants.Buttons.Intake)

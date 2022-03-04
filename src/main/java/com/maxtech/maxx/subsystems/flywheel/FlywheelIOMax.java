@@ -30,7 +30,10 @@ public class FlywheelIOMax implements FlywheelIO {
     @Override
     public void setVelocity(double velocity) {
         RobotLogger.getInstance().dbg("Setting velocity to %s", velocity);
-        motor.set(ControlMode.Velocity, velocity * (36 / 16f) * 4096 / (60 * 10));
+        if (velocity == 0) {
+            motor.set(ControlMode.PercentOutput, 0);
+        }
+        motor.set(TalonFXControlMode.Velocity, velocity * (16 / 36f) * 4096 / (60 * 10));
     }
 
     @Override

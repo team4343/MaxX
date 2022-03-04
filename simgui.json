@@ -66,6 +66,7 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Climber": "Subsystem",
       "/LiveWindow/Drive": "Subsystem",
       "/LiveWindow/DriveSubsystem": "Subsystem",
       "/LiveWindow/Flywheel": "Subsystem",
@@ -73,6 +74,8 @@
       "/LiveWindow/Intake": "Subsystem",
       "/LiveWindow/LEDs": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
+      "/LiveWindow/Ungrouped/DigitalInput[1]": "Digital Input",
       "/LiveWindow/Ungrouped/PIDController[1000]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[1001]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[1002]": "PIDController",

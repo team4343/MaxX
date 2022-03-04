@@ -12,12 +12,11 @@ public class SetFlywheel extends CommandBase {
     public SetFlywheel(Flywheel.FlywheelStates state) {
         this.state = state;
         addRequirements(flywheel);
-        addRequirements(indexer);
     }
 
     @Override
     public void execute() {
         flywheel.run(this.state);
-        indexer.run(true);
+        indexer.run();
     }
 }

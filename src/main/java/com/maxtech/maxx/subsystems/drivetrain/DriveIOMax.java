@@ -55,16 +55,10 @@ public class DriveIOMax implements DriveIO {
 
     @Override
     public void periodic() {
-        odometry.update(gyro.getRotation2d(), getDistanceTravelled(left1), getDistanceTravelled(right1));
-        field.setRobotPose(odometry.getPoseMeters());
     }
 
     @Override
     public void simulationPeriodic() {
-        drivetrainSim.setInputs(left.get() * RobotController.getInputVoltage(),  right.get() * RobotController.getInputVoltage());
-        drivetrainSim.update(0.02);
-
-        drivetrainSimulator.run();
     }
 
     /**

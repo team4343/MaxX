@@ -13,7 +13,7 @@ public class IntakeIOMax implements IntakeIO {
     public int absolutePosition = 0;
 
     public IntakeIOMax() {
-        pivotMotor.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition,
+        pivotMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,
                 Constants.Intake.pidID,
                 Constants.Intake.TimeoutMs);
         pivotMotor.setSensorPhase(Constants.Intake.SensorPhase);

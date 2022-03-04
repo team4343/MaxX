@@ -69,14 +69,14 @@ public final class Constants {
     public static class Flywheel {
         public static final int id = 5;
         public static final double P = 0.2;
-        public static final double I = 0.0001;
+        public static final double I = 0;
         public static final double D = 0;
         public static final double F = 0;
         public static final int pidID = 0;
         public static final int TimeoutMs = 30;
         public static final boolean SensorPhase = false;
         public static final boolean MotorInvert = false;
-        public static final int topBinRPM = 6000;
+        public static final int topBinRPM = 2500;
         public static final int bottomBinRPM = 800;
         public static final double rpmThreshold = 0.95;
     }
@@ -120,21 +120,21 @@ public final class Constants {
         public static final int rightID = 17;
         public static final double upPos = 100;
         public static final double downPos = 0;
-        public static final double down_P = 0.7;
+        public static final double down_P = 0.4;
         public static final double down_I = 0;
         public static final double down_Iz = 0;
         public static final double down_D = 0;
         public static final double down_F = 0;
-        public static final double up_P = 0.7;
+        public static final double up_P = 0.4;
         public static final double up_I = 0;
         public static final double up_Iz = 0;
         public static final double up_D = 0;
         public static final double up_F = 0;
         public static final int upPidID = 0;
         public static final int downPidID = 1;
-        public static final double maxOutputUp = 1;
-        public static final double minOutputUp = -1;
-        public static final double maxOutputDown = 1;
-        public static final double minOutputDown = -1;
+        public static final double maxOutputUp = 0.3;
+        public static final double minOutputUp = -0.3;
+        public static final double maxOutputDown = 0.3;
+        public static final double minOutputDown = -0.3;
     }
 }

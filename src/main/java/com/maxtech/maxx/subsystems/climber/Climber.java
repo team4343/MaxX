@@ -39,8 +39,6 @@ public class Climber extends Subsystem {
         statemachine.associateState(Climber.ClimberState.Extend, this::handleExtend);
         statemachine.associateState(Climber.ClimberState.Raising, this::handleRaising);
         statemachine.start();
-
-        var tab = Shuffleboard.getTab("Climber");
     }
 
     /** We want to raise the Climber. */

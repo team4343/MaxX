@@ -5,6 +5,7 @@ import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.Constants;
 import com.maxtech.maxx.RobotContainer;
 import com.maxtech.maxx.subsystems.flywheel.Flywheel;
+import com.maxtech.maxx.subsystems.intake.Intake;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 /**
@@ -13,12 +14,14 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 public class Indexer extends Subsystem {
     RobotLogger logger = RobotLogger.getInstance();
     private static Indexer instance;
+    private static Intake intake;
     private final Flywheel flywheel;
     private IndexerIO io;
 
     public static Indexer getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new Indexer();
+        }
         return instance;
     }
 
@@ -29,11 +32,8 @@ public class Indexer extends Subsystem {
             default: logger.err("Could not pick I/O, no matches."); break;
         }
 
-        var tab = Shuffleboard.getTab("Indexer");
-        tab.addBoolean("top sensor", this::isTopActive);
-        tab.addBoolean("bottom sensor", this::isBottomActive);
-
         flywheel = Flywheel.getInstance();
+        intake = Intake.getInstance();
     }
 
     @Override
@@ -51,18 +51,22 @@ public class Indexer extends Subsystem {
         return getSensors().bottom;
     }
 
-    public void run(boolean passThrough) {
+    public void run() {
         // If the bottom spot is full and the top spot is empty, move it up.
         // However, if we need to pass it through to the shooter ignore the sensor.
         double topOut = 0.0;
-        double botOut = Constants.Indexer.maxOutput;
+        double botOut = 0.0;
 
-        if (passThrough || (!isBottomActive() && isTopActive())) {
+        if (flywheel.getState() == Flywheel.FlywheelStates.ShootHigh ||
+                flywheel.getState() == Flywheel.FlywheelStates.ShootLow) {
+            botOut = Constants.Indexer.maxOutput;
             topOut = Constants.Indexer.maxOutput;
         }
-        if (flywheel.getState() == Flywheel.FlywheelStates.ShootHigh) {
+        if (intake.getState() == Intake.IntakeState.Lowered) {
             topOut = Constants.Indexer.maxOutput;
         }
+
+        RobotLogger.getInstance().dbg("top: %s, bot: %s", topOut, botOut);
 
         io.set(topOut, botOut);
     }

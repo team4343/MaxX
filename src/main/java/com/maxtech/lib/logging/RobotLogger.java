@@ -88,12 +88,13 @@ public class RobotLogger {
     private void send() {
         // Get the current cycle number. This is the elapsed time since start, divided by cycle time.
         double cycle = (System.currentTimeMillis() / 1000. - startTime) / period;
+        if (true) {
+            for (String log : (ArrayList<String>) buffer.clone()) {
+                System.out.println(log);
+                ntTable.getEntry(String.valueOf(cycle)).setStringArray(buffer.toArray(new String[0]));
 
-        for (String log : (ArrayList<String>) buffer.clone()) {
-            System.out.println(log);
-            ntTable.getEntry(String.valueOf(cycle)).setStringArray(buffer.toArray(new String[0]));
-
-            buffer.remove(log);
+                buffer.remove(log);
+            }
         }
     }
 

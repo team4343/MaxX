@@ -7,16 +7,12 @@ import com.maxtech.lib.statemachines.StateMachineMeta;
 import com.maxtech.maxx.Constants;
 import com.maxtech.maxx.RobotContainer;
 import com.maxtech.maxx.subsystems.indexer.Indexer;
-import com.maxtech.maxx.subsystems.indexer.IndexerIO;
-import com.maxtech.maxx.subsystems.indexer.IndexerIOMax;
-import com.maxtech.maxx.subsystems.indexer.IndexerIOPeter;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 public class Intake extends Subsystem {
     StateMachine<IntakeState> statemachine = new StateMachine<>("Intake", IntakeState.Raised);
     private static final RobotLogger logger = RobotLogger.getInstance();
     private static Intake instance;
-    private static Indexer indexer;
     private IntakeIO io;
     private boolean dumpDown = false;
 
@@ -28,7 +24,7 @@ public class Intake extends Subsystem {
         return instance;
     }
 
-    private enum IntakeState {
+    public enum IntakeState {
         Raised, Lowered, Dumping
     }
 
@@ -44,7 +40,6 @@ public class Intake extends Subsystem {
         statemachine.start();
 
         var tab = Shuffleboard.getTab("Intake");
-        indexer = Indexer.getInstance();
     }
 
     /** We want to raise the intake. */
@@ -52,21 +47,19 @@ public class Intake extends Subsystem {
         io.setPos(Constants.Intake.upPos);
         io.setWheels(0);
         // Does the indexer need a stop command?
-        indexer.stop();
+       // indexer.stop();
     }
 
     /** We want to lower the intake. */
     private void handleLowering(StateMachineMeta m) {
         io.setPos(Constants.Intake.downPos);
         io.setWheels(Constants.Intake.wheelsInPercentOut);
-        indexer.run(false);
     }
 
     /** We want to lower the intake. */
     private void handleDumping(StateMachineMeta m) {
         io.setPos(Constants.Intake.upPos);
         io.setWheels(-Constants.Intake.wheelsInPercentOut);
-        indexer.dump();
     }
 
 
@@ -86,5 +79,9 @@ public class Intake extends Subsystem {
     @Override
     public void sendTelemetry(String prefix) {
 
+    }
+
+    public IntakeState getState() {
+        return statemachine.currentState();
     }
 }

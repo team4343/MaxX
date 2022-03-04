@@ -14,10 +14,9 @@ public class Flywheel extends Subsystem {
     RobotLogger logger = RobotLogger.getInstance();
 
     private static Flywheel instance;
-    private static Indexer indexer;
 
     public enum FlywheelStates {
-        Idle, ShootHigh, ShootLow
+        Idle, ShootHigh, ShootLow, SpinupHigh, SpinupLow
     }
 
     public static Flywheel getInstance() {
@@ -48,16 +47,9 @@ public class Flywheel extends Subsystem {
         statemachine.associateState(FlywheelStates.Idle, this::handleIdle);
         statemachine.associateState(FlywheelStates.ShootHigh, this::handleShootHigh);
         statemachine.associateState(FlywheelStates.ShootLow, this::handleShootLow);
+        statemachine.associateState(FlywheelStates.SpinupHigh, this::handleSpinupHigh);
+        statemachine.associateState(FlywheelStates.SpinupLow, this::handleSpinupLow);
         statemachine.start();
-
-        // Create the shuffleboard tab.
-        var tab = Shuffleboard.getTab("Flywheel");
-        tab.addString("IO", io::toString);
-        tab.addString("state", statemachine::currentStateName);
-        tab.addNumber("speed", io::getVelocity);
-        tab.addNumber("voltage", io::getVoltage);
-
-        indexer = Indexer.getInstance();
 
         logger.dbg("Created new FlyWheel Object");
     }
@@ -73,25 +65,37 @@ public class Flywheel extends Subsystem {
 
     private void handleIdle(StateMachineMeta meta) {
         setVelocity(0.0);
-        indexer.stop();
     }
 
     private void handleShootHigh(StateMachineMeta meta) {
+        if (io.getVelocity() < Constants.Flywheel.topBinRPM * Constants.Flywheel.rpmThreshold)
+            statemachine.toState(FlywheelStates.SpinupHigh);
         shoot(Constants.Flywheel.topBinRPM);
     }
 
+    private void handleSpinupHigh(StateMachineMeta meta) {
+        shoot(Constants.Flywheel.topBinRPM);
+        if (io.getVelocity() > Constants.Flywheel.topBinRPM *  Constants.Flywheel.rpmThreshold) {
+            statemachine.toState(FlywheelStates.ShootHigh);
+        }
+    }
+
     private void handleShootLow(StateMachineMeta meta) {
+        if (io.getVelocity() < Constants.Flywheel.bottomBinRPM * Constants.Flywheel.rpmThreshold)
+           statemachine.toState(FlywheelStates.SpinupLow);
         shoot(Constants.Flywheel.bottomBinRPM);
+    }
+
+    private void handleSpinupLow(StateMachineMeta meta) {
+        shoot(Constants.Flywheel.bottomBinRPM);
+        if (io.getVelocity() > Constants.Flywheel.bottomBinRPM * Constants.Flywheel.rpmThreshold) {
+            statemachine.toState(FlywheelStates.ShootLow);
+        }
     }
 
     private void shoot(int rpm) {
         setVelocity(rpm);
         logger.dbg("Velocity at %s", getVelocity());
-
-        if (getVelocity() < rpm * Constants.Flywheel.rpmThreshold)
-            indexer.run(true);
-        else
-            indexer.stop();
     }
 
     private FlywheelIO io;
@@ -115,7 +119,6 @@ public class Flywheel extends Subsystem {
 
     public void stop() {
         statemachine.toState(FlywheelStates.Idle);
-        indexer.stop();
     }
 
 

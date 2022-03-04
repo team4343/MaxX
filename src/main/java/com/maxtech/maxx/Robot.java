@@ -31,7 +31,11 @@ public class Robot extends TimedRobot {
 
         // Add telemetry subsystems to the manager, and start it.
         manager.addSubsystems(robotContainer.getTelemetrySubsystems());
-        manager.start();
+        //manager.start();
+
+        CommandScheduler.getInstance().onCommandInitialize((Command c) -> {
+            logger.dbg("Running %s", c.getName());
+        });
     }
 
     /**
