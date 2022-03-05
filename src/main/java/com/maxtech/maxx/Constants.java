@@ -77,7 +77,7 @@ public final class Constants {
         public static final boolean SensorPhase = false;
         public static final boolean MotorInvert = false;
         public static final int topBinRPM = 20000;
-        public static final int bottomBinRPM = 8000;
+        public static final int bottomBinRPM = 10000;
         public static final double rpmThreshold = 0.7;
         public static final int talonFXResolution = 2048;
     }

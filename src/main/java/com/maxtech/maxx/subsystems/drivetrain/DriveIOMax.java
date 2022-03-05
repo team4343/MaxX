@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 public class DriveIOMax implements DriveIO {
     private final CANSparkMax left1 = new CANSparkMax(Constants.left1ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     private final CANSparkMax left2 = new CANSparkMax(Constants.left2ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private final MotorControllerGroup left = new MotorControllerGroup(left1, left2);
+    private MotorControllerGroup left;
 
 
     private final CANSparkMax right1 = new CANSparkMax(Constants.right1ID, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -62,8 +62,12 @@ public class DriveIOMax implements DriveIO {
         right1.setOpenLoopRampRate(Constants.Drive.rampRate);
         right2.setOpenLoopRampRate(Constants.Drive.rampRate);
 
+        //left1.setInverted(true);
+        left = new MotorControllerGroup(left1, left2);
+
         left.setInverted(true);
         right.setInverted(true);
+
         gyro.reset();
 
         drivetrain = new DifferentialDrive(left, right);
