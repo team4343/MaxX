@@ -11,6 +11,7 @@ import com.maxtech.maxx.subsystems.climber.Climber;
 import com.maxtech.maxx.subsystems.climber.ClimberIO;
 import com.maxtech.maxx.subsystems.climber.ClimberIOMax;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Climber extends Subsystem {
     StateMachine<Climber.ClimberState> statemachine = new StateMachine<>("Climber", Climber.ClimberState.Raising);
@@ -78,6 +79,11 @@ public class Climber extends Subsystem {
 
     public void halt() {
         io.halt();
+    }
+
+    @Override
+    public void periodic(){
+        SmartDashboard.putString("Climber Status",statemachine.currentStateName());
     }
 
     @Override

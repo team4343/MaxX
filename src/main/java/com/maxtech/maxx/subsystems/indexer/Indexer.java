@@ -7,6 +7,7 @@ import com.maxtech.maxx.RobotContainer;
 import com.maxtech.maxx.subsystems.flywheel.Flywheel;
 import com.maxtech.maxx.subsystems.intake.Intake;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * A drivetrain subsystem for Max X.
@@ -38,6 +39,12 @@ public class Indexer extends Subsystem {
 
     @Override
     public void sendTelemetry(String prefix) {}
+
+    @Override
+    public void periodic(){
+        SmartDashboard.putBoolean("Ball 1",isTopActive());
+        SmartDashboard.putBoolean("Ball 2",isBottomActive());
+    }
 
     public IndexerSensors getSensors() {
         return io.getSensors();
