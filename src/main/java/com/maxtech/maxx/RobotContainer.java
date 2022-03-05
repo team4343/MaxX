@@ -3,6 +3,7 @@ package com.maxtech.maxx;
 import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.NextLEDPattern;
+import com.maxtech.maxx.commands.autonomous.Quick;
 import com.maxtech.maxx.commands.autonomous.paths.main.MainPath;
 import com.maxtech.maxx.commands.climber.Extend;
 import com.maxtech.maxx.commands.climber.Raise;
@@ -89,9 +90,7 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        // return new TrackBall();
-        // return new ExamplePath();
-        return new MainPath();
+        return new Quick();
     }
 
     /** All of these subsystems send telemetry. */
