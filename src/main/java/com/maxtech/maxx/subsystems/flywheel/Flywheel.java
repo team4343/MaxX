@@ -61,6 +61,12 @@ public class Flywheel extends Subsystem {
         SmartDashboard.putNumber(prefix + "voltage", io.getVoltage());
     }
 
+    @Override
+    public void periodic(){
+        SmartDashboard.putNumber("Shooter Speed",io.getVelocity());
+        SmartDashboard.putNumber("Ready",getVelocity()/Constants.Flywheel.topBinRPM*100);
+    }
+
     private final StateMachine<FlywheelStates> statemachine = new StateMachine<>("Flywheel", FlywheelStates.Idle);
 
     private void handleIdle(StateMachineMeta meta) {

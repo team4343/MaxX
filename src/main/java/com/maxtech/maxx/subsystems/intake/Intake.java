@@ -8,6 +8,7 @@ import com.maxtech.maxx.Constants;
 import com.maxtech.maxx.RobotContainer;
 import com.maxtech.maxx.subsystems.indexer.Indexer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake extends Subsystem {
     StateMachine<IntakeState> statemachine = new StateMachine<>("Intake", IntakeState.Raised);
@@ -79,6 +80,11 @@ public class Intake extends Subsystem {
     @Override
     public void sendTelemetry(String prefix) {
 
+    }
+
+    @Override
+    public void periodic(){
+        SmartDashboard.putString("Intake Pos",statemachine.currentStateName());
     }
 
     public IntakeState getState() {
