@@ -18,6 +18,5 @@ public class SetFlywheel extends CommandBase {
     public void execute() {
         indexer.run();
         flywheel.run(this.state);
-
     }
 }
