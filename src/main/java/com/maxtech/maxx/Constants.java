@@ -76,8 +76,8 @@ public final class Constants {
         public static final int TimeoutMs = 30;
         public static final boolean SensorPhase = false;
         public static final boolean MotorInvert = false;
-        public static final int topBinRPM = 2000;
-        public static final int bottomBinRPM = 800;
+        public static final int topBinRPM = 20000;
+        public static final int bottomBinRPM = 8000;
         public static final double rpmThreshold = 0.7;
         public static final int talonFXResolution = 2048;
     }
@@ -117,13 +117,15 @@ public final class Constants {
     }
 
     public static class Climber {
+        public static boolean pinned = true;
         public static final int leftID = 19;
         public static final int rightID = 17;
-        public static final double upPos = 45;
+        public static final double upPos = 65;
         // https://pidexplained.com/how-to-tune-a-pid-controller/
-        public static final double downPos = 0;
-        public static final double down_P = 0.4;
-        public static final double down_I = 0.003;
+        public static final double downPos = 1;
+        public static final double releasePos = -4;
+        public static final double down_P = 0.3;
+        public static final double down_I = 0.0;
         public static final double down_Iz = 0;
         public static final double down_D = 0;
         public static final double down_F = 0;
@@ -134,12 +136,11 @@ public final class Constants {
         public static final double up_F = 0;
         public static final int upPidID = 0;
         public static final int downPidID = 1;
-        public static final double maxOutputUp = 0.7;
-        public static final double minOutputUp = -0.7;
-        public static final double maxOutputDown = 0.7;
-        public static final double minOutputDown = -0.7;
-        // TODO CHANGE THIS AFTER TEST DIRECTION CHANGE
-        public static final float forwardSoftLimit = 5;
+        public static final double maxOutputUp = 0.6;
+        public static final double minOutputUp = -0.6;
+        public static final double maxOutputDown = 0.8;
+        public static final double minOutputDown = -0.8;
+        public static final float forwardSoftLimit = 65;
         public static final float reverseSoftLimit = -5;
     }
 }

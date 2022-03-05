@@ -6,6 +6,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 
+import static java.lang.Math.round;
+
 public class ClimberIOMax implements ClimberIO{
     private CANSparkMax winchR = new CANSparkMax(Constants.Climber.rightID, MotorType.kBrushless);
     private CANSparkMax winchL = new CANSparkMax(Constants.Climber.leftID,  MotorType.kBrushless);
@@ -16,26 +18,25 @@ public class ClimberIOMax implements ClimberIO{
         winchL.restoreFactoryDefaults();
         winchR.restoreFactoryDefaults();
 
-        winchL.setInverted(true);
+        winchL.setInverted(false);
         winchR.setInverted(false);
         winchR.setIdleMode(CANSparkMax.IdleMode.kBrake);
         winchL.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
-        winchR.follow(CANSparkMax.ExternalFollower.kFollowerDisabled, 0);
-        winchL.follow(winchR, true);
+        winchR.follow(winchL, true);
 
-        pidController = winchR.getPIDController();
-        encoder = winchR.getEncoder();
+        pidController = winchL.getPIDController();
+        encoder = winchL.getEncoder();
 
         winchL.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
         winchL.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
         winchR.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
         winchR.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
 
-        winchL.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 5);
-        winchR.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 5);
-        winchL.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, -5);
-        winchR.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, -5);
+        winchL.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, Constants.Climber.forwardSoftLimit);
+        winchR.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, Constants.Climber.forwardSoftLimit);
+        winchL.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, Constants.Climber.reverseSoftLimit);
+        winchR.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, Constants.Climber.reverseSoftLimit);
 
         pidController.setP(Constants.Climber.up_P , Constants.Climber.upPidID);
         pidController.setI(Constants.Climber.up_I , Constants.Climber.upPidID);
@@ -56,8 +57,10 @@ public class ClimberIOMax implements ClimberIO{
 
     @Override
     public void setPos(double pos) {
-        if (pos < 0 || pos > Constants.Climber.upPos * 1.05)
+        if (pos < Constants.Climber.releasePos || pos > Constants.Climber.upPos * 1.05)
             return;
+        //System.out.println(winchL.getEncoder().getPosition());
+        //System.out.println(winchR.getEncoder().getPosition());
 
         if (pos < getPos())
             pidController.setReference(pos, CANSparkMax.ControlType.kPosition, Constants.Climber.downPidID);
@@ -72,8 +75,10 @@ public class ClimberIOMax implements ClimberIO{
 
     @Override
     public void halt() {
-        pidController.setReference(getPos(), CANSparkMax.ControlType.kPosition);
+        pidController.setReference(Math.round(getPos()), CANSparkMax.ControlType.kPosition);
     }
+
+
 
 
 }

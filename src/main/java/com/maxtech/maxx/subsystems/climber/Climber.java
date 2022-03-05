@@ -45,11 +45,21 @@ public class Climber extends Subsystem {
     private void handleRaising(StateMachineMeta m) {
         if ( io.getPos() > Constants.Climber.downPos * 0.95 )
             io.setPos(Constants.Climber.downPos);
+        if (io.getPos() < Constants.Climber.downPos + 10)
+            Constants.Climber.pinned = true;
     }
 
     /** We want to lower the Climber. */
     private void handleExtend(StateMachineMeta m) {
-        if ( io.getPos() < Constants.Climber.upPos * 0.95 )
+        System.out.println(io.getPos());
+        System.out.println(Constants.Climber.pinned);
+
+        if (Constants.Climber.pinned) {
+            io.setPos(Constants.Climber.releasePos);
+            if (io.getPos() < 0) {
+                Constants.Climber.pinned = false;
+            }
+        } else if ( io.getPos() < Constants.Climber.upPos * 0.95 )
             io.setPos(Constants.Climber.upPos);
     }
 
