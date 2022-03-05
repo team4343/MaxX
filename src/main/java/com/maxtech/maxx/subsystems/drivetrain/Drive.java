@@ -66,6 +66,9 @@ public class Drive extends Subsystem {
     public double getDistanceTravelled(CANSparkMax controller) {
         return io.getDistanceTravelled(controller);
     }
+    public double getDistanceTravelled() {
+        return io.getDistanceTravelled();
+    }
 
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         return io.getWheelSpeeds();

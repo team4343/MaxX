@@ -57,6 +57,9 @@ public interface DriveIO {
     /** Get the distance travelled of one Spark Max motor controller. */
     double getDistanceTravelled(CANSparkMax controller, double gearing, double wheelDiameter);
 
+    /** Raw Neo Encoder **/
+    double getDistanceTravelled();
+
     /** Get the distance travelled of one Spark Max controller with default values. */
     default double getDistanceTravelled(CANSparkMax controller) {
         return getDistanceTravelled(controller, Constants.Drive.gearing, Constants.Drive.wheelDiameter);

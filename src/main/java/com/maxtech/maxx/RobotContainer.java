@@ -5,6 +5,8 @@ import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.NextLEDPattern;
 import com.maxtech.maxx.commands.climber.Extend;
 import com.maxtech.maxx.commands.climber.Raise;
+import com.maxtech.maxx.commands.drivetrain.ArcadeDrive;
+import com.maxtech.maxx.commands.drivetrain.DriveDistance;
 import com.maxtech.maxx.commands.intake.DumpIntake;
 import com.maxtech.maxx.commands.intake.SetIntake;
 import com.maxtech.maxx.commands.flywheel.SetFlywheel;
@@ -89,7 +91,8 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // return new TrackBall();
         // return new ExamplePath();
-        return new SetFlywheel(Flywheel.FlywheelStates.Idle);
+        // return new SetFlywheel(Flywheel.FlywheelStates.Idle);
+        return new DriveDistance(0.3, 0, 50, drivetrain);
     }
 
     /** All of these subsystems send telemetry. */

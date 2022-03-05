@@ -151,6 +151,10 @@ public class DriveIOMax implements DriveIO {
         return getDistanceTravelled(controller, 12.98, Constants.Drive.gearing);
     }
 
+    public double getDistanceTravelled() {
+        return left1.getEncoder().getPosition();
+    }
+
     /**
      * Get the total wheel speeds.
      *
