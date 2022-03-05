@@ -63,6 +63,7 @@ public class DriveIOMax implements DriveIO {
         right2.setOpenLoopRampRate(Constants.Drive.rampRate);
 
         left.setInverted(true);
+        right.setInverted(true);
         gyro.reset();
 
         drivetrain = new DifferentialDrive(left, right);
@@ -75,6 +76,7 @@ public class DriveIOMax implements DriveIO {
 
     @Override
     public void periodic() {
+        odometry.update(gyro.getRotation2d(), getDistanceTravelled(left1), getDistanceTravelled(right1));
     }
 
     @Override

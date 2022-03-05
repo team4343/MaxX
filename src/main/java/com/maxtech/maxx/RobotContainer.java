@@ -3,6 +3,7 @@ package com.maxtech.maxx;
 import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.NextLEDPattern;
+import com.maxtech.maxx.commands.autonomous.paths.main.MainPath;
 import com.maxtech.maxx.commands.climber.Extend;
 import com.maxtech.maxx.commands.climber.Raise;
 import com.maxtech.maxx.commands.intake.DumpIntake;
@@ -57,6 +58,7 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(new RunCommand(() -> {
             double speed = masterController.getRightTriggerAxis() - masterController.getLeftTriggerAxis();
             double rotation = -masterController.getLeftX(); // -(masterController.getLeftX() * masterController.getLeftX());
+            RobotLogger.getInstance().dbg("speed %s rot %s", speed, rotation);
             // TODO Check with zander the rotation speeds
 
             drivetrain.arcade(speed, rotation);
@@ -89,7 +91,7 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // return new TrackBall();
         // return new ExamplePath();
-        return new SetFlywheel(Flywheel.FlywheelStates.Idle);
+        return new MainPath();
     }
 
     /** All of these subsystems send telemetry. */
