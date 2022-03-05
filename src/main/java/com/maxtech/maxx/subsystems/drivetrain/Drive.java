@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive extends Subsystem {
     private final RobotLogger logger = RobotLogger.getInstance();
-
     private static Drive instance;
+    private boolean direction = true;
 
     public static Drive getInstance() {
         if (instance == null) {
@@ -44,11 +44,19 @@ public class Drive extends Subsystem {
     }
 
     public void arcade(double s, double r) {
-        io.arcade(s, r);
+        if (direction) {
+            io.arcade(s, r);
+        } else {
+            io.arcade(-s, -r);
+        }
     }
 
     public void tank(double ls, double rs) {
-        io.tank(ls, rs);
+        if (direction) {
+            io.tank(ls, rs);
+        } else {
+            io.tank(-ls, -rs);
+        }
     }
 
     public void resetOdometry(Pose2d pose) {
@@ -66,12 +74,17 @@ public class Drive extends Subsystem {
     public double getDistanceTravelled(CANSparkMax controller) {
         return io.getDistanceTravelled(controller);
     }
+
     public double getDistanceTravelled() {
         return io.getDistanceTravelled();
     }
 
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         return io.getWheelSpeeds();
+    }
+
+    public void toggleDirection() {
+        direction = !direction;
     }
 
     @Override

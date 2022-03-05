@@ -78,6 +78,7 @@ public class RobotContainer {
         new JoystickButton(masterController, Constants.Buttons.Climb)
                 .whenPressed(new Extend())
                 .whenReleased(new Raise());
+        new JoystickButton(masterController, Constants.Buttons.ToggleDriveDirection).whenPressed(new RunCommand(drivetrain::toggleDirection, drivetrain));
         new POVButton(masterController, Constants.Buttons.DumpPOV)
                 .whenPressed(new DumpIntake())
                 .whenReleased(new SetIntake(false));

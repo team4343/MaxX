@@ -113,6 +113,7 @@ public final class Constants {
         public static final int ShootLow = XboxController.Button.kB.value;
         public static final int Climb = XboxController.Button.kY.value;
         public static final int DumpPOV = 0;
+        public static final int ToggleDriveDirection = XboxController.Button.kRightBumper.value;
         // POV/DPAD is by -1, 0 - 360
     }
 
