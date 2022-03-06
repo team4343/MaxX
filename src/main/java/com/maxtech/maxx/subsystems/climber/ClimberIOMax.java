@@ -18,8 +18,8 @@ public class ClimberIOMax implements ClimberIO{
         winchL.restoreFactoryDefaults();
         winchR.restoreFactoryDefaults();
 
-        winchL.setInverted(false);
-        winchR.setInverted(false);
+        winchL.setInverted(true);
+        winchR.setInverted(true);
         winchR.setIdleMode(CANSparkMax.IdleMode.kBrake);
         winchL.setIdleMode(CANSparkMax.IdleMode.kBrake);
 

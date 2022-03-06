@@ -55,7 +55,7 @@ public class Climber extends Subsystem {
         System.out.println(io.getPos());
         System.out.println(Constants.Climber.pinned);
 
-        if (Constants.Climber.pinned) {
+        if (false) {
             io.setPos(Constants.Climber.releasePos);
             if (io.getPos() < 0) {
                 Constants.Climber.pinned = false;
