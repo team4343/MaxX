@@ -88,7 +88,6 @@ public final class Constants {
         public static final int topID = 9;
         public static final int topSensorDIO = 0;
         public static final int bottomSensorDIO = 1;
-
     }
 
     public static class Intake {

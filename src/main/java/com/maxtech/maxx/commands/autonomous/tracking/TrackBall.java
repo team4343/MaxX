@@ -112,7 +112,7 @@ public class TrackBall extends CommandBase {
 
     @Override
     public void execute() {
-        statemachine.start();
+        statemachine.runCurrentHandler();
     }
 
     @Override

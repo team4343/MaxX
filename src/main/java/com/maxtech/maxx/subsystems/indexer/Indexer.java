@@ -2,22 +2,26 @@ package com.maxtech.maxx.subsystems.indexer;
 
 import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.logging.RobotLogger;
-import com.maxtech.maxx.Constants;
-import com.maxtech.maxx.RobotContainer;
-import com.maxtech.maxx.subsystems.flywheel.Flywheel;
-import com.maxtech.maxx.subsystems.intake.Intake;
+import com.maxtech.lib.statemachines.StateMachine;
+import com.maxtech.lib.statemachines.StateMachineMeta;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import static com.maxtech.maxx.Constants.Indexer.maxOutput;
+import static com.maxtech.maxx.RobotContainer.decideIO;
 
 /**
  * A drivetrain subsystem for Max X.
  */
 public class Indexer extends Subsystem {
-    RobotLogger logger = RobotLogger.getInstance();
     private static Indexer instance;
-    private static Intake intake;
-    private final Flywheel flywheel;
+
     private IndexerIO io;
+    private final StateMachine<State> statemachine = new StateMachine<>("Indexer", State.Unloaded);
+
+    private final RobotLogger logger = RobotLogger.getInstance();
+    private State previousOnState = State.Unloaded;
+    private double shotStartTime;
 
     public static Indexer getInstance() {
         if (instance == null) {
@@ -27,63 +31,105 @@ public class Indexer extends Subsystem {
     }
 
     private Indexer() {
-        switch(RobotContainer.teamNumber) {
-            case 4343: io = new IndexerIOMax(); break;
-            case 914: io = new IndexerIOPeter(); break;
-            default: logger.err("Could not pick I/O, no matches."); break;
+        io = decideIO(IndexerIOMax.class, IndexerIOPeter.class);
+
+        var tab = Shuffleboard.getTab("Indexer");
+        tab.addBoolean("top", this::isTopLoaded);
+        tab.addBoolean("bottom", this::isBottomLoaded);
+
+        statemachine.associateState(State.Off, this::handleOff);
+        statemachine.associateState(State.Unloaded, this::handleUnloaded);
+        statemachine.associateState(State.OneLoaded, this::handleOneLoaded);
+        statemachine.associateState(State.TwoLoaded, this::handleTwoLoaded);
+        statemachine.associateState(State.Shooting, this::handleShooting);
+    }
+
+    private void handleOff(StateMachineMeta m) {
+        // Don't do anything!
+        io.set(0, 0);
+    }
+
+    private void handleUnloaded(StateMachineMeta m) {
+        previousOnState = State.Unloaded;
+
+        // Listen for a ball to come in and direct it to the top position.
+        io.set(0, maxOutput);
+
+        if (isBottomLoaded()) {
+            while (isTopEmpty()) {
+                io.set(0, maxOutput);
+            }
+
+            statemachine.toState(State.OneLoaded);
+        }
+    }
+
+    private void handleOneLoaded(StateMachineMeta m) {
+        previousOnState = State.OneLoaded;
+
+        // Listen for a ball to come in and direct it to the bottom position.
+        io.set(0, maxOutput);
+
+        if (isBottomLoaded()) {
+            statemachine.toState(State.TwoLoaded);
+        }
+    }
+
+    private void handleTwoLoaded(StateMachineMeta m) {
+        previousOnState = State.TwoLoaded;
+
+        // Chilling
+        io.set(0, 0);
+    }
+
+    private void handleShooting(StateMachineMeta m) {
+        previousOnState = State.Shooting;
+
+        // Direct both balls to the flywheel, then move to unloaded.
+        if (m.isFirstRun()) {
+            shotStartTime = Timer.getFPGATimestamp();
         }
 
-        flywheel = Flywheel.getInstance();
-        intake = Intake.getInstance();
+        if (shotStartTime - Timer.getFPGATimestamp() > 3) {
+            statemachine.toState(State.Unloaded);
+        } else {
+            io.set(maxOutput, maxOutput);
+        }
     }
 
-    @Override
-    public void sendTelemetry(String prefix) {}
-
-    @Override
-    public void periodic(){
-        SmartDashboard.putBoolean("Ball 1",isTopActive());
-        SmartDashboard.putBoolean("Ball 2",isBottomActive());
-    }
-
-    public IndexerSensors getSensors() {
-        return io.getSensors();
-    }
-
-    public boolean isTopActive() {
-        return getSensors().top;
-    }
-
-    public boolean isBottomActive() {
-        return getSensors().bottom;
+    private enum State {
+        Off, Unloaded, OneLoaded, TwoLoaded, Shooting,
     }
 
     public void run() {
-        // If the bottom spot is full and the top spot is empty, move it up.
-        // However, if we need to pass it through to the shooter ignore the sensor.
-        double topOut = 0.0;
-        double botOut = 0.0;
-
-        if (flywheel.getState() == Flywheel.FlywheelStates.ShootHigh ||
-                flywheel.getState() == Flywheel.FlywheelStates.ShootLow) {
-            botOut = Constants.Indexer.maxOutput;
-            topOut = Constants.Indexer.maxOutput;
-        }
-        if (intake.getState() == Intake.IntakeState.Lowered) {
-            botOut = Constants.Indexer.maxOutput;
-        }
-
-        //RobotLogger.getInstance().dbg("top: %s, bot: %s", topOut, botOut);
-
-        io.set(topOut, botOut);
+        statemachine.runCurrentHandler();
     }
 
-    public void dump() {
-        this.stop();
-        io.set(-Constants.Indexer.maxOutput, -Constants.Indexer.maxOutput);
+    public void turnOff() {
+        statemachine.toState(State.Off);
     }
 
-    public void stop() {
-        io.set(0,0);
+    public void turnOn() {
+        statemachine.toState(previousOnState);
+    }
+
+    private IndexerSensors getSensors() {
+        return io.getSensors();
+    }
+
+    private boolean isTopEmpty() {
+        return getSensors().top;
+    }
+
+    private boolean isBottomEmpty() {
+        return getSensors().bottom;
+    }
+
+    private boolean isTopLoaded() {
+        return !isTopEmpty();
+    }
+
+    private boolean isBottomLoaded() {
+        return !isBottomEmpty();
     }
 }

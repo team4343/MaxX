@@ -27,10 +27,11 @@ public class StateMachine<T> {
             internalState = state;
             logger.log("Entered state %s.", state);
             SmartDashboard.putString(name, internalState.toString());
+            handlers.getOrDefault(state, x -> {}).accept(new StateMachineMeta(true));
+        } else {
+            // Run the associated handler, if there is one. If not, run the default consumer of nothing.
+            handlers.getOrDefault(state, x -> {}).accept(new StateMachineMeta(false));
         }
-
-        // Run the associated handler, if there is one. If not, run the default consumer of nothing.
-        handlers.getOrDefault(state, x -> {}).accept(new StateMachineMeta());
     }
 
     /** Associate a state with a Consumer action. */
@@ -40,8 +41,8 @@ public class StateMachine<T> {
     }
 
     /** Start the machine. */
-    public void start() {
-        handlers.getOrDefault(internalState, x -> {}).accept(new StateMachineMeta());
+    public void runCurrentHandler() {
+        handlers.getOrDefault(internalState, x -> {}).accept(new StateMachineMeta(false));
     }
 
     public T currentState() {

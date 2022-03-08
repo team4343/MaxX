@@ -20,7 +20,7 @@ public class LEDs extends Subsystem {
 
     private LEDs() {
         statemachine.associateState(LEDTypes.Solid, this::handleSolid);
-        statemachine.start();
+        statemachine.runCurrentHandler();
     }
 
     private enum LEDTypes {

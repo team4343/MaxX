@@ -9,6 +9,9 @@ import com.maxtech.maxx.commands.climber.Raise;
 import com.maxtech.maxx.commands.intake.DumpIntake;
 import com.maxtech.maxx.commands.intake.SetIntake;
 import com.maxtech.maxx.commands.flywheel.SetFlywheel;
+import com.maxtech.maxx.subsystems.indexer.IndexerIO;
+import com.maxtech.maxx.subsystems.indexer.IndexerIOMax;
+import com.maxtech.maxx.subsystems.indexer.IndexerIOPeter;
 import com.maxtech.maxx.subsystems.intake.Intake;
 import com.maxtech.maxx.subsystems.LEDs;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
@@ -16,6 +19,7 @@ import com.maxtech.maxx.subsystems.flywheel.Flywheel;
 import com.maxtech.maxx.subsystems.indexer.Indexer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -27,10 +31,9 @@ import java.util.List;
  * is then called from {@link Robot}.
  */
 public class RobotContainer {
-    // TODO: modify this I/O selection system, it's too long.
     public static final int teamNumber = 4343;
 
-    private final RobotLogger logger = RobotLogger.getInstance();
+    private static final RobotLogger logger = RobotLogger.getInstance();
 
     /**
      * A handle to an Xbox controller on port 0.
@@ -57,15 +60,12 @@ public class RobotContainer {
         // We set the default command for the drivetrain to arcade driving based on the controller values.
         drivetrain.setDefaultCommand(new RunCommand(() -> {
             double speed = masterController.getRightTriggerAxis() - masterController.getLeftTriggerAxis();
-            double rotation = -(masterController.getLeftX());
-            // TODO Check with zander the rotation speeds
+            double rotation = -(masterController.getLeftX() / 2);
 
             drivetrain.arcade(speed, rotation);
         }, drivetrain));
 
-        indexer.setDefaultCommand(new RunCommand(() -> {
-            indexer.run();
-        }, indexer));
+        indexer.setDefaultCommand(new InstantCommand(indexer::run, indexer));
 
         // TODO: review this method of binding commands to methods. It's almost certainly too verbose.
         new JoystickButton(masterController, XboxController.Button.kLeftBumper.value).whenPressed(new NextLEDPattern());
@@ -95,5 +95,22 @@ public class RobotContainer {
     /** All of these subsystems send telemetry. */
     public List<Subsystem> getTelemetrySubsystems() {
         return List.of(drivetrain, flywheel, intake);
+    }
+
+    /** Decide on the I/O based on the current team number. */
+    public static <R, T extends R, U extends R> R decideIO(Class<T> m4343, Class<U> m914) {
+        try {
+            if (teamNumber == 4343) {
+                return m4343.newInstance();
+            } else if (teamNumber == 914) {
+                return m914.newInstance();
+            } else {
+                logger.err("Could not pick I/O. Team number: %s, based on %s and %s.", teamNumber, m4343, m914);
+            }
+        } catch (InstantiationException | IllegalAccessException e) {
+            logger.err("%s", e);
+        }
+
+        return null;
     }
 }

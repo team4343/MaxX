@@ -6,8 +6,6 @@ import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import com.maxtech.maxx.Constants;
 import com.maxtech.maxx.RobotContainer;
-import com.maxtech.maxx.subsystems.indexer.Indexer;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake extends Subsystem {
@@ -38,7 +36,7 @@ public class Intake extends Subsystem {
         statemachine.associateState(IntakeState.Raised, this::handleRaising);
         statemachine.associateState(IntakeState.Lowered, this::handleLowering);
         statemachine.associateState(IntakeState.Dumping, this::handleDumping);
-        statemachine.start();
+        statemachine.runCurrentHandler();
 
        // var tab = Shuffleboard.getTab("Intake");
     }

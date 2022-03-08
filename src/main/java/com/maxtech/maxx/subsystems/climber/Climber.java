@@ -6,11 +6,6 @@ import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import com.maxtech.maxx.Constants;
 import com.maxtech.maxx.RobotContainer;
-import com.maxtech.maxx.subsystems.indexer.Indexer;
-import com.maxtech.maxx.subsystems.climber.Climber;
-import com.maxtech.maxx.subsystems.climber.ClimberIO;
-import com.maxtech.maxx.subsystems.climber.ClimberIOMax;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Climber extends Subsystem {
@@ -39,7 +34,7 @@ public class Climber extends Subsystem {
 
         statemachine.associateState(Climber.ClimberState.Extend, this::handleExtend);
         statemachine.associateState(Climber.ClimberState.Raising, this::handleRaising);
-        statemachine.start();
+        statemachine.runCurrentHandler();
     }
 
     /** We want to raise the Climber. */

@@ -6,8 +6,6 @@ import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import com.maxtech.maxx.Constants;
 import com.maxtech.maxx.RobotContainer;
-import com.maxtech.maxx.subsystems.indexer.Indexer;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Flywheel extends Subsystem {
@@ -49,7 +47,7 @@ public class Flywheel extends Subsystem {
         statemachine.associateState(FlywheelStates.ShootLow, this::handleShootLow);
         statemachine.associateState(FlywheelStates.SpinupHigh, this::handleSpinupHigh);
         statemachine.associateState(FlywheelStates.SpinupLow, this::handleSpinupLow);
-        statemachine.start();
+        statemachine.runCurrentHandler();
 
         logger.dbg("Created new FlyWheel Object");
     }
