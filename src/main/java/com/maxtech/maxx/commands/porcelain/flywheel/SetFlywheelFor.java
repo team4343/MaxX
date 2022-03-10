@@ -1,4 +1,4 @@
-package com.maxtech.maxx.commands.flywheel;
+package com.maxtech.maxx.commands.porcelain.flywheel;
 
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.subsystems.flywheel.Flywheel;

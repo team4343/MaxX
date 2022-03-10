@@ -36,6 +36,7 @@ public class Indexer extends Subsystem {
         var tab = Shuffleboard.getTab("Indexer");
         tab.addBoolean("top", this::isTopLoaded);
         tab.addBoolean("bottom", this::isBottomLoaded);
+        tab.addString("state", statemachine::currentStateName);
 
         statemachine.associateState(State.Off, this::handleOff);
         statemachine.associateState(State.Unloaded, this::handleUnloaded);
@@ -57,7 +58,7 @@ public class Indexer extends Subsystem {
 
         if (isBottomLoaded()) {
             while (isTopEmpty()) {
-                io.set(0, maxOutput);
+                io.set(maxOutput, maxOutput);
             }
 
             statemachine.toState(State.OneLoaded);
@@ -83,8 +84,6 @@ public class Indexer extends Subsystem {
     }
 
     private void handleShooting(StateMachineMeta m) {
-        previousOnState = State.Shooting;
-
         // Direct both balls to the flywheel, then move to unloaded.
         if (m.isFirstRun()) {
             shotStartTime = Timer.getFPGATimestamp();
@@ -105,11 +104,23 @@ public class Indexer extends Subsystem {
         statemachine.runCurrentHandler();
     }
 
+    public void reset() {
+        statemachine.toState(State.Unloaded);
+    }
+
     public void turnOff() {
         statemachine.toState(State.Off);
     }
 
     public void turnOn() {
+        statemachine.toState(previousOnState);
+    }
+
+    public void shoot() {
+        statemachine.toState(State.Shooting);
+    }
+
+    public void stopShoot() {
         statemachine.toState(previousOnState);
     }
 

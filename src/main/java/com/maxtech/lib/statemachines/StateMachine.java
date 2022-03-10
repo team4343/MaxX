@@ -29,7 +29,7 @@ public class StateMachine<T> {
             SmartDashboard.putString(name, internalState.toString());
             handlers.getOrDefault(state, x -> {}).accept(new StateMachineMeta(true));
         } else {
-            // Run the associated handler, if there is one. If not, run the default consumer of nothing.
+            // RunIndexer the associated handler, if there is one. If not, run the default consumer of nothing.
             handlers.getOrDefault(state, x -> {}).accept(new StateMachineMeta(false));
         }
     }

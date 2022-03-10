@@ -3,7 +3,7 @@ package com.maxtech.maxx.commands.autonomous.tracking;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
-import com.maxtech.maxx.commands.flywheel.SetFlywheel;
+import com.maxtech.maxx.commands.porcelain.flywheel.SetFlywheel;
 import com.maxtech.maxx.subsystems.flywheel.Flywheel;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 

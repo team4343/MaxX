@@ -3,15 +3,16 @@ package com.maxtech.maxx;
 import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.NextLEDPattern;
+import com.maxtech.maxx.commands.ShootHigh;
+import com.maxtech.maxx.commands.StopShot;
 import com.maxtech.maxx.commands.autonomous.Quick;
 import com.maxtech.maxx.commands.climber.Extend;
 import com.maxtech.maxx.commands.climber.Raise;
-import com.maxtech.maxx.commands.intake.DumpIntake;
-import com.maxtech.maxx.commands.intake.SetIntake;
-import com.maxtech.maxx.commands.flywheel.SetFlywheel;
-import com.maxtech.maxx.subsystems.indexer.IndexerIO;
-import com.maxtech.maxx.subsystems.indexer.IndexerIOMax;
-import com.maxtech.maxx.subsystems.indexer.IndexerIOPeter;
+import com.maxtech.maxx.commands.porcelain.indexer.RunIndexer;
+import com.maxtech.maxx.commands.porcelain.indexer.ShootIndexer;
+import com.maxtech.maxx.commands.porcelain.intake.DumpIntake;
+import com.maxtech.maxx.commands.porcelain.intake.SetIntake;
+import com.maxtech.maxx.commands.porcelain.flywheel.SetFlywheel;
 import com.maxtech.maxx.subsystems.intake.Intake;
 import com.maxtech.maxx.subsystems.LEDs;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
@@ -19,7 +20,6 @@ import com.maxtech.maxx.subsystems.flywheel.Flywheel;
 import com.maxtech.maxx.subsystems.indexer.Indexer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -58,22 +58,24 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         // We set the default command for the drivetrain to arcade driving based on the controller values.
+/*
         drivetrain.setDefaultCommand(new RunCommand(() -> {
             double speed = masterController.getRightTriggerAxis() - masterController.getLeftTriggerAxis();
             double rotation = -(masterController.getLeftX() / 2);
 
             drivetrain.arcade(speed, rotation);
         }, drivetrain));
+*/
 
-        indexer.setDefaultCommand(new InstantCommand(indexer::run, indexer));
+        indexer.setDefaultCommand(new RunIndexer());
 
         // TODO: review this method of binding commands to methods. It's almost certainly too verbose.
         new JoystickButton(masterController, XboxController.Button.kLeftBumper.value).whenPressed(new NextLEDPattern());
         new JoystickButton(masterController, Constants.Buttons.Intake)
                 .whenPressed(new SetIntake(true))
                 .whenReleased(new SetIntake(false));
-        new JoystickButton(masterController, Constants.Buttons.ShootHigh).whenPressed( new SetFlywheel(Flywheel.FlywheelStates.ShootHigh)).whenReleased(new SetFlywheel(Flywheel.FlywheelStates.Idle));
-        new JoystickButton(masterController, Constants.Buttons.ShootLow).whileHeld( new SetFlywheel(Flywheel.FlywheelStates.ShootLow)).whenReleased(new SetFlywheel(Flywheel.FlywheelStates.Idle));
+        new JoystickButton(masterController, Constants.Buttons.ShootHigh).whenPressed(new ShootHigh()).whenReleased(new StopShot());
+        new JoystickButton(masterController, Constants.Buttons.ShootLow).whileHeld(new SetFlywheel(Flywheel.FlywheelStates.ShootLow)).whenReleased(new SetFlywheel(Flywheel.FlywheelStates.Idle));
         new JoystickButton(masterController, Constants.Buttons.Climb)
                 .whenPressed(new Extend())
                 .whenReleased(new Raise());

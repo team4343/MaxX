@@ -6,12 +6,14 @@ import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import com.maxtech.maxx.Constants;
 import com.maxtech.maxx.RobotContainer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Flywheel extends Subsystem {
-    RobotLogger logger = RobotLogger.getInstance();
-
     private static Flywheel instance;
+
+    private static final RobotLogger logger = RobotLogger.getInstance();
+    private double goal;
 
     public enum FlywheelStates {
         Idle, ShootHigh, ShootLow, SpinupHigh, SpinupLow
@@ -41,6 +43,12 @@ public class Flywheel extends Subsystem {
                 break;
         }
 
+        var tab = Shuffleboard.getTab("Flywheel");
+        tab.addString("state", statemachine::currentStateName);
+        tab.addBoolean("at goal", this::atGoal);
+        tab.addNumber("goal", this::getGoal);
+        tab.addNumber("velocity", this::getVelocity);
+
         // Associate handlers for states.
         statemachine.associateState(FlywheelStates.Idle, this::handleIdle);
         statemachine.associateState(FlywheelStates.ShootHigh, this::handleShootHigh);
@@ -48,8 +56,6 @@ public class Flywheel extends Subsystem {
         statemachine.associateState(FlywheelStates.SpinupHigh, this::handleSpinupHigh);
         statemachine.associateState(FlywheelStates.SpinupLow, this::handleSpinupLow);
         statemachine.runCurrentHandler();
-
-        logger.dbg("Created new FlyWheel Object");
     }
 
     @Override
@@ -99,7 +105,8 @@ public class Flywheel extends Subsystem {
         }
     }
 
-    private void shoot(int rpm) {
+    public void shoot(int rpm) {
+        this.goal = rpm;
         setVelocity(rpm);
         logger.dbg("Velocity at %s", getVelocity());
     }
@@ -114,10 +121,17 @@ public class Flywheel extends Subsystem {
         return io.getVelocity();
     }
 
+    public double getGoal() {
+        return goal;
+    }
+
+    public boolean atGoal() {
+        return Math.abs(getVelocity() - goal) < 5000;
+    }
+
     public FlywheelStates getState() {
         return statemachine.currentState();
     }
-
 
     public void run(FlywheelStates state) {
         statemachine.toState(state);
@@ -126,6 +140,4 @@ public class Flywheel extends Subsystem {
     public void stop() {
         statemachine.toState(FlywheelStates.Idle);
     }
-
-
 }

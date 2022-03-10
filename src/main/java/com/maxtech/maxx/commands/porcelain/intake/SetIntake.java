@@ -1,4 +1,4 @@
-package com.maxtech.maxx.commands.intake;
+package com.maxtech.maxx.commands.porcelain.intake;
 
 import com.maxtech.maxx.subsystems.intake.Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;

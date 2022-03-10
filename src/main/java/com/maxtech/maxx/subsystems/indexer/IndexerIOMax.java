@@ -1,7 +1,6 @@
 package com.maxtech.maxx.subsystems.indexer;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.maxtech.maxx.Constants;
 import edu.wpi.first.wpilibj.DigitalInput;
