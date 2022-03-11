@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Flywheel extends Subsystem {
     private static Flywheel instance;
 
+    private FlywheelIO io;
+    private final StateMachine<FlywheelStates> statemachine = new StateMachine<>("Flywheel", FlywheelStates.Idle);
+
     private static final RobotLogger logger = RobotLogger.getInstance();
     private double goal;
 
@@ -71,8 +74,6 @@ public class Flywheel extends Subsystem {
         SmartDashboard.putNumber("Ready",getVelocity()/Constants.Flywheel.topBinRPM*100);
     }
 
-    private final StateMachine<FlywheelStates> statemachine = new StateMachine<>("Flywheel", FlywheelStates.Idle);
-
     private void handleIdle(StateMachineMeta meta) {
         setVelocity(0.0);
     }
@@ -110,8 +111,6 @@ public class Flywheel extends Subsystem {
         setVelocity(rpm);
         logger.dbg("Velocity at %s", getVelocity());
     }
-
-    private FlywheelIO io;
 
     private void setVelocity(double velocity) {
         io.setVelocity(velocity);

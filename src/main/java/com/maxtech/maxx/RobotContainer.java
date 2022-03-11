@@ -20,6 +20,7 @@ import com.maxtech.maxx.subsystems.flywheel.Flywheel;
 import com.maxtech.maxx.subsystems.indexer.Indexer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -57,19 +58,15 @@ public class RobotContainer {
      * More documentation on how this is achieved at https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
      */
     private void configureButtonBindings() {
-        // We set the default command for the drivetrain to arcade driving based on the controller values.
-/*
         drivetrain.setDefaultCommand(new RunCommand(() -> {
             double speed = masterController.getRightTriggerAxis() - masterController.getLeftTriggerAxis();
             double rotation = -(masterController.getLeftX() / 2);
 
             drivetrain.arcade(speed, rotation);
         }, drivetrain));
-*/
 
         indexer.setDefaultCommand(new RunIndexer());
 
-        // TODO: review this method of binding commands to methods. It's almost certainly too verbose.
         new JoystickButton(masterController, XboxController.Button.kLeftBumper.value).whenPressed(new NextLEDPattern());
         new JoystickButton(masterController, Constants.Buttons.Intake)
                 .whenPressed(new SetIntake(true))
@@ -79,7 +76,8 @@ public class RobotContainer {
         new JoystickButton(masterController, Constants.Buttons.Climb)
                 .whenPressed(new Extend())
                 .whenReleased(new Raise());
-        new JoystickButton(masterController, Constants.Buttons.ToggleDriveDirection).whenPressed(new RunCommand(drivetrain::toggleDirection, drivetrain));
+
+        new JoystickButton(masterController, Constants.Buttons.ToggleDriveDirection).whenPressed(new InstantCommand(drivetrain::toggleDirection, drivetrain));
         new POVButton(masterController, Constants.Buttons.DumpPOV)
                 .whenPressed(new DumpIntake())
                 .whenReleased(new SetIntake(false));

@@ -9,10 +9,12 @@ import com.maxtech.maxx.RobotContainer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Climber extends Subsystem {
-    StateMachine<Climber.ClimberState> statemachine = new StateMachine<>("Climber", Climber.ClimberState.Raising);
-    private static final RobotLogger logger = RobotLogger.getInstance();
     private static Climber instance;
+
     private ClimberIO io;
+    private final StateMachine<Climber.ClimberState> statemachine = new StateMachine<>("Climber", Climber.ClimberState.Raising);
+
+    private static final RobotLogger logger = RobotLogger.getInstance();
 
     public static Climber getInstance() {
         if (instance == null) {
@@ -79,10 +81,5 @@ public class Climber extends Subsystem {
     @Override
     public void periodic(){
         SmartDashboard.putString("Climber Status",statemachine.currentStateName());
-    }
-
-    @Override
-    public void sendTelemetry(String prefix) {
-
     }
 }

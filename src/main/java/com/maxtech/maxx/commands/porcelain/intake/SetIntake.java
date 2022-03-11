@@ -24,7 +24,7 @@ public class SetIntake extends CommandBase {
     @Override
     public void execute() {
         if (dump)
-            intake.runDump(down);
+            intake.runDump();
         else if (down) {
             intake.run();
         }

@@ -9,11 +9,12 @@ import com.maxtech.maxx.RobotContainer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake extends Subsystem {
-    StateMachine<IntakeState> statemachine = new StateMachine<>("Intake", IntakeState.Raised);
-    private static final RobotLogger logger = RobotLogger.getInstance();
     private static Intake instance;
+
     private IntakeIO io;
-    private boolean dumpDown = false;
+    private final StateMachine<IntakeState> statemachine = new StateMachine<>("Intake", IntakeState.Raised);
+
+    private static final RobotLogger logger = RobotLogger.getInstance();
 
     public static Intake getInstance() {
         if (instance == null) {
@@ -45,8 +46,6 @@ public class Intake extends Subsystem {
     private void handleRaising(StateMachineMeta m) {
         io.setPos(Constants.Intake.upPos);
         io.setWheels(0);
-        // Does the indexer need a stop command?
-       // indexer.stop();
     }
 
     /** We want to lower the intake. */
@@ -66,8 +65,7 @@ public class Intake extends Subsystem {
         statemachine.toState(IntakeState.Lowered);
     }
 
-    public void runDump(boolean down) {
-        this.dumpDown = down;
+    public void runDump() {
         statemachine.toState(IntakeState.Dumping);
     }
 

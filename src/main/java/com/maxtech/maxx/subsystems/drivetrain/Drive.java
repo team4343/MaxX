@@ -9,9 +9,10 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive extends Subsystem {
-    private final RobotLogger logger = RobotLogger.getInstance();
     private static Drive instance;
-    private boolean direction = true;
+
+    private final RobotLogger logger = RobotLogger.getInstance();
+    private boolean inverted = false;
 
     public static Drive getInstance() {
         if (instance == null) {
@@ -44,7 +45,7 @@ public class Drive extends Subsystem {
     }
 
     public void arcade(double s, double r) {
-        if (direction) {
+        if (!inverted) {
             io.arcade(s, r);
         } else {
             io.arcade(-s, -r);
@@ -52,7 +53,7 @@ public class Drive extends Subsystem {
     }
 
     public void tank(double ls, double rs) {
-        if (direction) {
+        if (!inverted) {
             io.tank(ls, rs);
         } else {
             io.tank(-ls, -rs);
@@ -84,7 +85,7 @@ public class Drive extends Subsystem {
     }
 
     public void toggleDirection() {
-        direction = !direction;
+        inverted = !inverted;
     }
 
     @Override

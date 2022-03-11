@@ -4,7 +4,6 @@ import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 import static com.maxtech.maxx.Constants.Indexer.maxOutput;
@@ -16,12 +15,11 @@ import static com.maxtech.maxx.RobotContainer.decideIO;
 public class Indexer extends Subsystem {
     private static Indexer instance;
 
-    private IndexerIO io;
+    private IndexerIO io = decideIO(IndexerIOMax.class, IndexerIOPeter.class);
     private final StateMachine<State> statemachine = new StateMachine<>("Indexer", State.Unloaded);
 
-    private final RobotLogger logger = RobotLogger.getInstance();
+    private static final RobotLogger logger = RobotLogger.getInstance();
     private State previousOnState = State.Unloaded;
-    private double shotStartTime;
 
     public static Indexer getInstance() {
         if (instance == null) {
@@ -31,8 +29,6 @@ public class Indexer extends Subsystem {
     }
 
     private Indexer() {
-        io = decideIO(IndexerIOMax.class, IndexerIOPeter.class);
-
         var tab = Shuffleboard.getTab("Indexer");
         tab.addBoolean("top", this::isTopLoaded);
         tab.addBoolean("bottom", this::isBottomLoaded);
@@ -84,16 +80,7 @@ public class Indexer extends Subsystem {
     }
 
     private void handleShooting(StateMachineMeta m) {
-        // Direct both balls to the flywheel, then move to unloaded.
-        if (m.isFirstRun()) {
-            shotStartTime = Timer.getFPGATimestamp();
-        }
-
-        if (shotStartTime - Timer.getFPGATimestamp() > 3) {
-            statemachine.toState(State.Unloaded);
-        } else {
-            io.set(maxOutput, maxOutput);
-        }
+        io.set(maxOutput, maxOutput);
     }
 
     private enum State {
