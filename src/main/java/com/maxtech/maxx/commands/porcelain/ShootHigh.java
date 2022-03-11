@@ -1,4 +1,4 @@
-package com.maxtech.maxx.commands;
+package com.maxtech.maxx.commands.porcelain;
 
 import com.maxtech.maxx.commands.porcelain.flywheel.SetFlywheel;
 import com.maxtech.maxx.commands.porcelain.indexer.ShootIndexer;

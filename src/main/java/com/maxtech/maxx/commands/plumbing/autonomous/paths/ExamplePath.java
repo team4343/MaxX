@@ -1,6 +1,6 @@
-package com.maxtech.maxx.commands.autonomous.paths;
+package com.maxtech.maxx.commands.plumbing.autonomous.paths;
 
-import com.maxtech.maxx.commands.drivetrain.TankDrive;
+import com.maxtech.maxx.commands.plumbing.drivetrain.TankDrive;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;

@@ -2,14 +2,13 @@ package com.maxtech.maxx;
 
 import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.logging.RobotLogger;
-import com.maxtech.maxx.commands.NextLEDPattern;
-import com.maxtech.maxx.commands.ShootHigh;
-import com.maxtech.maxx.commands.StopShot;
-import com.maxtech.maxx.commands.autonomous.Quick;
-import com.maxtech.maxx.commands.climber.Extend;
-import com.maxtech.maxx.commands.climber.Raise;
+import com.maxtech.maxx.commands.porcelain.NextLEDPattern;
+import com.maxtech.maxx.commands.porcelain.ShootHigh;
+import com.maxtech.maxx.commands.porcelain.StopShot;
+import com.maxtech.maxx.commands.plumbing.autonomous.Quick;
+import com.maxtech.maxx.commands.plumbing.climber.Extend;
+import com.maxtech.maxx.commands.plumbing.climber.Raise;
 import com.maxtech.maxx.commands.porcelain.indexer.RunIndexer;
-import com.maxtech.maxx.commands.porcelain.indexer.ShootIndexer;
 import com.maxtech.maxx.commands.porcelain.intake.DumpIntake;
 import com.maxtech.maxx.commands.porcelain.intake.SetIntake;
 import com.maxtech.maxx.commands.porcelain.flywheel.SetFlywheel;
@@ -100,15 +99,21 @@ public class RobotContainer {
     /** Decide on the I/O based on the current team number. */
     public static <R, T extends R, U extends R> R decideIO(Class<T> m4343, Class<U> m914) {
         try {
-            if (teamNumber == 4343) {
-                return m4343.newInstance();
-            } else if (teamNumber == 914) {
-                return m914.newInstance();
-            } else {
-                logger.err("Could not pick I/O. Team number: %s, based on %s and %s.", teamNumber, m4343, m914);
-            }
-        } catch (InstantiationException | IllegalAccessException e) {
+            return choose(m4343, m914).newInstance();
+        } catch (NullPointerException | InstantiationException | IllegalAccessException e) {
             logger.err("%s", e);
+            return null;
+        }
+    }
+
+    /** Given a value for 4343 and a value for 914, return this robot's choice. */
+    public static <R, T extends R, U extends R> R choose(T m4343, U m914) {
+        if (teamNumber == 4343) {
+            return m4343;
+        } else if (teamNumber == 914) {
+            return m914;
+        } else {
+            logger.err("Could not choose between given variants. Team number: %s, based on %s and %s.", teamNumber, m4343, m914);
         }
 
         return null;

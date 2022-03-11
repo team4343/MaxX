@@ -1,4 +1,4 @@
-package com.maxtech.maxx.commands.climber;
+package com.maxtech.maxx.commands.plumbing.climber;
 
 import com.maxtech.maxx.subsystems.climber.Climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;

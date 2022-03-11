@@ -1,6 +1,6 @@
-package com.maxtech.maxx.commands.autonomous.tracking;
+package com.maxtech.maxx.commands.plumbing.autonomous.tracking;
 
-import com.maxtech.maxx.commands.drivetrain.DriveTrajectory;
+import com.maxtech.maxx.commands.plumbing.drivetrain.DriveTrajectory;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;

@@ -1,6 +1,6 @@
 # MaxX
 
-![Year banner](./assets/banner.png)
+![Season banner](./assets/banner.png)
 
 MaxTech 4343's and NextGen 914's robot code for *Rapid React, 2022*.
 
@@ -16,7 +16,7 @@ Some common tasks are `simulateJava` and `deploy`.
 
 ### Controls
 
-![controlller bindings](./assets/mappings.png)
+![Controller bindings](./assets/mappings.png)
 
 ## Code highlights
 

@@ -1,4 +1,4 @@
-package com.maxtech.maxx.commands;
+package com.maxtech.maxx.commands.porcelain;
 
 import com.maxtech.maxx.subsystems.LEDs;
 import edu.wpi.first.wpilibj2.command.CommandBase;

@@ -1,7 +1,7 @@
-package com.maxtech.maxx.commands.autonomous;
+package com.maxtech.maxx.commands.plumbing.autonomous;
 
-import com.maxtech.maxx.commands.drivetrain.ArcadeDrive;
-import com.maxtech.maxx.commands.drivetrain.ArcadeDriveFor;
+import com.maxtech.maxx.commands.plumbing.drivetrain.ArcadeDrive;
+import com.maxtech.maxx.commands.plumbing.drivetrain.ArcadeDriveFor;
 import com.maxtech.maxx.commands.porcelain.flywheel.SetFlywheelFor;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
 import com.maxtech.maxx.subsystems.flywheel.Flywheel;

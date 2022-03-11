@@ -1,14 +1,14 @@
-package com.maxtech.maxx.commands.climber;
+package com.maxtech.maxx.commands.plumbing.climber;
 
 
 import com.maxtech.maxx.Constants;
 import com.maxtech.maxx.subsystems.climber.Climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class Extend extends CommandBase {
+public class Raise extends CommandBase {
     private final Climber climber = Climber.getInstance();
 
-    public Extend() {
+    public Raise() {
         addRequirements(climber);
     }
 
@@ -17,7 +17,7 @@ public class Extend extends CommandBase {
 
     @Override
     public void execute() {
-        climber.run(Climber.ClimberState.Extend);
+        climber.run(Climber.ClimberState.Raising);
     }
 
     @Override
