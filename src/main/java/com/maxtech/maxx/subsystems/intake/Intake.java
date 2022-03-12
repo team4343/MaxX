@@ -6,6 +6,7 @@ import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import com.maxtech.maxx.Constants;
 import com.maxtech.maxx.RobotContainer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake extends Subsystem {
@@ -39,7 +40,8 @@ public class Intake extends Subsystem {
         statemachine.associateState(IntakeState.Dumping, this::handleDumping);
         statemachine.runCurrentHandler();
 
-       // var tab = Shuffleboard.getTab("Intake");
+        var tab = Shuffleboard.getTab("Intake");
+        tab.addString("state", statemachine::currentStateName);
     }
 
     /** We want to raise the intake. */
@@ -71,16 +73,6 @@ public class Intake extends Subsystem {
 
     public void stop() {
         statemachine.toState(IntakeState.Raised);
-    }
-
-    @Override
-    public void sendTelemetry(String prefix) {
-
-    }
-
-    @Override
-    public void periodic(){
-        SmartDashboard.putString("Intake Pos",statemachine.currentStateName());
     }
 
     public IntakeState getState() {

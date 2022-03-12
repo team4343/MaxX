@@ -5,13 +5,14 @@ import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.porcelain.NextLEDPattern;
 import com.maxtech.maxx.commands.porcelain.ShootHigh;
 import com.maxtech.maxx.commands.porcelain.StopShot;
-import com.maxtech.maxx.commands.plumbing.autonomous.Quick;
+import com.maxtech.maxx.commands.porcelain.autonomous.Quick;
 import com.maxtech.maxx.commands.plumbing.climber.Extend;
 import com.maxtech.maxx.commands.plumbing.climber.Raise;
+import com.maxtech.maxx.commands.porcelain.flywheel.SetFlywheelLow;
+import com.maxtech.maxx.commands.porcelain.flywheel.StopFlywheel;
 import com.maxtech.maxx.commands.porcelain.indexer.RunIndexer;
 import com.maxtech.maxx.commands.porcelain.intake.DumpIntake;
 import com.maxtech.maxx.commands.porcelain.intake.SetIntake;
-import com.maxtech.maxx.commands.porcelain.flywheel.SetFlywheel;
 import com.maxtech.maxx.subsystems.intake.Intake;
 import com.maxtech.maxx.subsystems.LEDs;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
@@ -67,16 +68,20 @@ public class RobotContainer {
         indexer.setDefaultCommand(new RunIndexer());
 
         new JoystickButton(masterController, XboxController.Button.kLeftBumper.value).whenPressed(new NextLEDPattern());
+
         new JoystickButton(masterController, Constants.Buttons.Intake)
                 .whenPressed(new SetIntake(true))
                 .whenReleased(new SetIntake(false));
+
         new JoystickButton(masterController, Constants.Buttons.ShootHigh).whenPressed(new ShootHigh()).whenReleased(new StopShot());
-        new JoystickButton(masterController, Constants.Buttons.ShootLow).whileHeld(new SetFlywheel(Flywheel.FlywheelStates.ShootLow)).whenReleased(new SetFlywheel(Flywheel.FlywheelStates.Idle));
+        new JoystickButton(masterController, Constants.Buttons.ShootLow).whileHeld(new SetFlywheelLow()).whenReleased(new StopFlywheel());
+
         new JoystickButton(masterController, Constants.Buttons.Climb)
                 .whenPressed(new Extend())
                 .whenReleased(new Raise());
 
         new JoystickButton(masterController, Constants.Buttons.ToggleDriveDirection).whenPressed(new InstantCommand(drivetrain::toggleDirection, drivetrain));
+
         new POVButton(masterController, Constants.Buttons.DumpPOV)
                 .whenPressed(new DumpIntake())
                 .whenReleased(new SetIntake(false));

@@ -68,7 +68,6 @@ public class SimpleFlywheelController {
         return withinEpsilon(currentVelocity, 0.1);
     }
 
-    // TODO: Please check that this is accurate...
     public boolean withinEpsilon(double currentVelocity, double epsilon) {
         double v = getDesiredVelocity();
 
