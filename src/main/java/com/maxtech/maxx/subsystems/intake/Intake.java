@@ -5,13 +5,15 @@ import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import com.maxtech.maxx.Constants;
-import com.maxtech.maxx.RobotContainer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import static com.maxtech.maxx.RobotContainer.decideIO;
 
 public class Intake extends Subsystem {
     private static Intake instance;
 
-    private IntakeIO io;
+    private final IntakeIO io = decideIO(IntakeIOMax.class, IntakeIOMax.class);
     private final StateMachine<IntakeState> statemachine = new StateMachine<>("Intake", IntakeState.Raised);
 
     private static final RobotLogger logger = RobotLogger.getInstance();
@@ -29,17 +31,13 @@ public class Intake extends Subsystem {
     }
 
     private Intake() {
-        switch(RobotContainer.teamNumber) {
-            case 4343: io = new IntakeIOMax(); break;
-            default: logger.err("Could not pick I/O, no matches."); break;
-        }
-
         statemachine.associateState(IntakeState.Raised, this::handleRaising);
         statemachine.associateState(IntakeState.Lowered, this::handleLowering);
         statemachine.associateState(IntakeState.Dumping, this::handleDumping);
         statemachine.runCurrentHandler();
 
-       // var tab = Shuffleboard.getTab("Intake");
+        var tab = Shuffleboard.getTab("Intake");
+        tab.addString("state", statemachine::currentStateName);
     }
 
     /** We want to raise the intake. */
@@ -59,7 +57,6 @@ public class Intake extends Subsystem {
         io.setPos(Constants.Intake.upPos);
         io.setWheels(-Constants.Intake.wheelsInPercentOut);
     }
-
 
     public void run() {
         statemachine.toState(IntakeState.Lowered);

@@ -1,7 +1,6 @@
 package com.maxtech.maxx.commands.plumbing.climber;
 
 
-import com.maxtech.maxx.Constants;
 import com.maxtech.maxx.subsystems.climber.Climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -17,7 +16,7 @@ public class Raise extends CommandBase {
 
     @Override
     public void execute() {
-        climber.run(Climber.ClimberState.Raising);
+        climber.run(Climber.State.Raising);
     }
 
     @Override

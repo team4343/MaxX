@@ -8,11 +8,13 @@ import com.maxtech.maxx.Constants;
 import com.maxtech.maxx.RobotContainer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import static com.maxtech.maxx.RobotContainer.decideIO;
+
 public class Climber extends Subsystem {
     private static Climber instance;
 
-    private ClimberIO io;
-    private final StateMachine<Climber.ClimberState> statemachine = new StateMachine<>("Climber", Climber.ClimberState.Raising);
+    private final ClimberIO io = decideIO(ClimberIOMax.class, ClimberIOMax.class);
+    private final StateMachine<State> statemachine = new StateMachine<>("Climber", State.Raising);
 
     private static final RobotLogger logger = RobotLogger.getInstance();
 
@@ -24,18 +26,13 @@ public class Climber extends Subsystem {
         return instance;
     }
 
-    public enum ClimberState {
+    public enum State {
         Extend, Raising
     }
 
     private Climber() {
-        switch(RobotContainer.teamNumber) {
-            case 4343: io = new ClimberIOMax(); break;
-            default: logger.err("Could not pick I/O, no matches."); break;
-        }
-
-        statemachine.associateState(Climber.ClimberState.Extend, this::handleExtend);
-        statemachine.associateState(Climber.ClimberState.Raising, this::handleRaising);
+        statemachine.associateState(State.Extend, this::handleExtend);
+        statemachine.associateState(State.Raising, this::handleRaising);
         statemachine.runCurrentHandler();
     }
 
@@ -69,7 +66,7 @@ public class Climber extends Subsystem {
         return io.getPos() < Constants.Climber.upPos * 0.05;
     }
 
-    public void run(ClimberState state) {
+    public void run(State state) {
         statemachine.toState(state);
     }
 

@@ -15,7 +15,7 @@ import static com.maxtech.maxx.RobotContainer.decideIO;
 public class Indexer extends Subsystem {
     private static Indexer instance;
 
-    private IndexerIO io = decideIO(IndexerIOMax.class, IndexerIOPeter.class);
+    private final IndexerIO io = decideIO(IndexerIOMax.class, IndexerIOPeter.class);
     private final StateMachine<State> statemachine = new StateMachine<>("Indexer", State.Unloaded);
 
     private static final RobotLogger logger = RobotLogger.getInstance();

@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -108,7 +109,7 @@ public class RobotContainer {
     }
 
     /** Decide on the I/O based on the current team number. */
-    public static <R, T extends R, U extends R> R decideIO(Class<T> m4343, Class<U> m914) {
+    public static <R, T extends R, U extends R> @NotNull R decideIO(Class<T> m4343, Class<U> m914) {
         try {
             return decide(m4343, m914).newInstance();
         } catch (NullPointerException | InstantiationException | IllegalAccessException e) {
@@ -124,9 +125,8 @@ public class RobotContainer {
         } else if (teamNumber == 914) {
             return m914;
         } else {
-            logger.err("Could not choose between given variants. Team number: %s, based on %s and %s.", teamNumber, m4343, m914);
+            logger.err("Could not choose between given variants. Team number: %s, based on %s and %s. Defaulting to m4343.", teamNumber, m4343, m914);
+            return m4343;
         }
-
-        return null;
     }
 }

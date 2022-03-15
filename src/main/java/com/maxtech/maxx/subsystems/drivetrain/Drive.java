@@ -8,10 +8,14 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import static com.maxtech.maxx.RobotContainer.decideIO;
+
 public class Drive extends Subsystem {
     private static Drive instance;
 
-    private final RobotLogger logger = RobotLogger.getInstance();
+    private DriveIO io = decideIO(DriveIOMax.class, DriveIOMax.class);
+
+    private static final RobotLogger logger = RobotLogger.getInstance();
     private boolean inverted = false;
 
     public static Drive getInstance() {
@@ -23,16 +27,8 @@ public class Drive extends Subsystem {
     }
 
     private Drive() {
-        switch(RobotContainer.teamNumber) {
-            case 4343: io = new DriveIOMax(); break;
-            case -1: io = new DriveIOMax(); break;
-            default: logger.err("Could not pick I/O, no matches."); break;
-        }
-
         logger.log("Chose %s for I/O", io.getClass().getName());
     }
-
-    private DriveIO io;
 
     @Override
     public void periodic() {
