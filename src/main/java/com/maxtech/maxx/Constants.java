@@ -7,6 +7,8 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.XboxController;
 
+import static com.maxtech.maxx.RobotContainer.decide;
+
 /**
  * A convenient place to keep constant values, that will certainly never change throughout robot execution.
  */
@@ -94,7 +96,7 @@ public final class Constants {
         public static final int pivotID = 6;
         public static final int wheelsID = 7;
         public static final int upPos = 0;
-        public static final int downPos = -1100;
+        public static final int downPos = decide(-1100, -1200);
         public static final double P = 0.5;
         public static final double I = 0;
         public static final double D = 0;

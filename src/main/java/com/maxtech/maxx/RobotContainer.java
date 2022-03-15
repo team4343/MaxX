@@ -110,7 +110,7 @@ public class RobotContainer {
     /** Decide on the I/O based on the current team number. */
     public static <R, T extends R, U extends R> R decideIO(Class<T> m4343, Class<U> m914) {
         try {
-            return choose(m4343, m914).newInstance();
+            return decide(m4343, m914).newInstance();
         } catch (NullPointerException | InstantiationException | IllegalAccessException e) {
             logger.err("%s", e);
             return null;
@@ -118,7 +118,7 @@ public class RobotContainer {
     }
 
     /** Given a value for 4343 and a value for 914, return this robot's choice. */
-    public static <R, T extends R, U extends R> R choose(T m4343, U m914) {
+    public static <R, T extends R, U extends R> R decide(T m4343, U m914) {
         if (teamNumber == 4343) {
             return m4343;
         } else if (teamNumber == 914) {
