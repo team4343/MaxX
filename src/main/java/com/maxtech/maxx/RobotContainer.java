@@ -2,10 +2,12 @@ package com.maxtech.maxx;
 
 import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.logging.RobotLogger;
+import com.maxtech.maxx.commands.plumbing.autonomous.OneBallAuto;
+import com.maxtech.maxx.commands.plumbing.autonomous.ReversingAuto;
 import com.maxtech.maxx.commands.porcelain.NextLEDPattern;
 import com.maxtech.maxx.commands.porcelain.ShootHigh;
 import com.maxtech.maxx.commands.porcelain.StopShot;
-import com.maxtech.maxx.commands.plumbing.autonomous.Quick;
+import com.maxtech.maxx.commands.plumbing.autonomous.TwoBallAuto;
 import com.maxtech.maxx.commands.plumbing.climber.Extend;
 import com.maxtech.maxx.commands.plumbing.climber.Raise;
 import com.maxtech.maxx.commands.porcelain.indexer.RunIndexer;
@@ -18,6 +20,7 @@ import com.maxtech.maxx.subsystems.drivetrain.Drive;
 import com.maxtech.maxx.subsystems.flywheel.Flywheel;
 import com.maxtech.maxx.subsystems.indexer.Indexer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -46,9 +49,17 @@ public class RobotContainer {
     private final Intake intake = Intake.getInstance();
     private final LEDs leds = LEDs.getInstance();
 
+    private final SendableChooser<Command> autonomousCommand = new SendableChooser<>();
+
     public RobotContainer() {
-        // Configure the button bindings.
+        configureAutonomousCommand();
         configureButtonBindings();
+    }
+
+    private void configureAutonomousCommand() {
+        autonomousCommand.setDefaultOption("reverse + pickup + shoot", new TwoBallAuto());
+        autonomousCommand.addOption("shoot + reverse", new OneBallAuto());
+        autonomousCommand.addOption("reverse", new ReversingAuto());
     }
 
     /**
@@ -88,7 +99,7 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return new Quick();
+        return autonomousCommand.getSelected();
     }
 
     /** All of these subsystems send telemetry. */
