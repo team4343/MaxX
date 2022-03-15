@@ -73,7 +73,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         drivetrain.setDefaultCommand(new RunCommand(() -> {
             double speed = masterController.getRightTriggerAxis() - masterController.getLeftTriggerAxis();
-            double rotation = -(masterController.getLeftX() / 2);
+            double rotation = Math.min(Math.max(Math.pow(-masterController.getLeftX(), 3) * 2, -1), 1); // https://www.desmos.com/calculator/loml1f8rvw
 
             drivetrain.arcade(speed, rotation);
         }, drivetrain));
