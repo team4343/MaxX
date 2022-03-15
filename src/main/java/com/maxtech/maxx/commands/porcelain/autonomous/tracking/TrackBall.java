@@ -1,9 +1,9 @@
-package com.maxtech.maxx.commands.plumbing.autonomous.tracking;
+package com.maxtech.maxx.commands.porcelain.autonomous.tracking;
 
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
-import com.maxtech.maxx.commands.porcelain.flywheel.SetFlywheel;
+import com.maxtech.maxx.commands.porcelain.ShootHigh;
 import com.maxtech.maxx.subsystems.flywheel.Flywheel;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -98,8 +98,7 @@ public class TrackBall extends CommandBase {
 
     /** If we are in this state, we are positioned and just need to turn the intake on. */
     private void handleCollecting(StateMachineMeta m) {
-        // TODO: replace this with a ShootLow() command
-        new SetFlywheel(Flywheel.FlywheelStates.Idle).execute();
+        new ShootHigh();
     }
 
     /**

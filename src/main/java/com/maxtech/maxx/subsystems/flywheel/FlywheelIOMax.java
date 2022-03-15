@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.maxtech.lib.logging.RobotLogger;
+import com.maxtech.lib.wrappers.ctre.TalonEncoder;
 import com.maxtech.maxx.Constants;
 
 public class FlywheelIOMax implements FlywheelIO {
@@ -28,11 +29,16 @@ public class FlywheelIOMax implements FlywheelIO {
     }
 
     @Override
+    public void setVoltage(double voltage) {
+        motor.set(ControlMode.PercentOutput, voltage / 12);
+    }
+
+    @Override
     public void setVelocity(double velocity) {
-        RobotLogger.getInstance().dbg("Setting velocity to %s", velocity);
         if (velocity == 0) {
             motor.set(ControlMode.PercentOutput, 0);
         }
+
         motor.set(TalonFXControlMode.Velocity, velocity * (16 / 36f) * Constants.Flywheel.talonFXResolution / (60 * 10));
     }
 

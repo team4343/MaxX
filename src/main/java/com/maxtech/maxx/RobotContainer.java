@@ -10,10 +10,11 @@ import com.maxtech.maxx.commands.porcelain.StopShot;
 import com.maxtech.maxx.commands.plumbing.autonomous.TwoBallAuto;
 import com.maxtech.maxx.commands.plumbing.climber.Extend;
 import com.maxtech.maxx.commands.plumbing.climber.Raise;
+import com.maxtech.maxx.commands.porcelain.flywheel.SetFlywheelLow;
+import com.maxtech.maxx.commands.porcelain.flywheel.StopFlywheel;
 import com.maxtech.maxx.commands.porcelain.indexer.RunIndexer;
 import com.maxtech.maxx.commands.porcelain.intake.DumpIntake;
 import com.maxtech.maxx.commands.porcelain.intake.SetIntake;
-import com.maxtech.maxx.commands.porcelain.flywheel.SetFlywheel;
 import com.maxtech.maxx.subsystems.intake.Intake;
 import com.maxtech.maxx.subsystems.LEDs;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
@@ -82,8 +83,10 @@ public class RobotContainer {
         new JoystickButton(masterController, Constants.Buttons.Intake)
                 .whenPressed(new SetIntake(true))
                 .whenReleased(new SetIntake(false));
+
         new JoystickButton(masterController, Constants.Buttons.ShootHigh).whenPressed(new ShootHigh()).whenReleased(new StopShot());
-        new JoystickButton(masterController, Constants.Buttons.ShootLow).whileHeld(new SetFlywheel(Flywheel.FlywheelStates.ShootLow)).whenReleased(new SetFlywheel(Flywheel.FlywheelStates.Idle));
+        new JoystickButton(masterController, Constants.Buttons.ShootLow).whenPressed(new SetFlywheelLow()).whenReleased(new StopShot());
+
         new JoystickButton(masterController, Constants.Buttons.Climb)
                 .whenPressed(new Extend())
                 .whenReleased(new Raise());
