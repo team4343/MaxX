@@ -6,6 +6,7 @@ import com.maxtech.maxx.commands.plumbing.autonomous.OneBallAuto;
 import com.maxtech.maxx.commands.plumbing.autonomous.ReversingAuto;
 import com.maxtech.maxx.commands.porcelain.NextLEDPattern;
 import com.maxtech.maxx.commands.porcelain.ShootHigh;
+import com.maxtech.maxx.commands.porcelain.ShootLow;
 import com.maxtech.maxx.commands.porcelain.StopShot;
 import com.maxtech.maxx.commands.plumbing.autonomous.TwoBallAuto;
 import com.maxtech.maxx.commands.plumbing.climber.Extend;
@@ -85,7 +86,7 @@ public class RobotContainer {
                 .whenReleased(new SetIntake(false));
 
         new JoystickButton(masterController, Constants.Buttons.ShootHigh).whenPressed(new ShootHigh()).whenReleased(new StopShot());
-        new JoystickButton(masterController, Constants.Buttons.ShootLow).whenPressed(new SetFlywheelLow()).whenReleased(new StopShot());
+        new JoystickButton(masterController, Constants.Buttons.ShootLow).whenPressed(new ShootLow()).whenReleased(new StopShot());
 
         new JoystickButton(masterController, Constants.Buttons.Climb)
                 .whenPressed(new Extend())
