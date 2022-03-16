@@ -4,6 +4,7 @@ import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.plumbing.autonomous.OneBallAuto;
 import com.maxtech.maxx.commands.plumbing.autonomous.ReversingAuto;
+import com.maxtech.maxx.commands.plumbing.climber.Rotate;
 import com.maxtech.maxx.commands.porcelain.NextLEDPattern;
 import com.maxtech.maxx.commands.porcelain.ShootHigh;
 import com.maxtech.maxx.commands.porcelain.ShootLow;
@@ -29,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import org.jetbrains.annotations.NotNull;
+import com.maxtech.maxx.Constants.Buttons;
 
 import java.util.List;
 
@@ -73,29 +75,51 @@ public class RobotContainer {
     private void configureButtonBindings() {
         drivetrain.setDefaultCommand(new RunCommand(() -> {
             double speed = masterController.getRightTriggerAxis() - masterController.getLeftTriggerAxis();
-            double rotation = Math.min(Math.max(Math.pow(-masterController.getLeftX(), 3) * 2, -1), 1); // https://www.desmos.com/calculator/loml1f8rvw
+            double rotation = Math.min(Math.max(Math.pow(-masterController.getLeftX(), 3) * 2, -1), 1);
+            // https://www.desmos.com/calculator/xmotljqdal
 
             drivetrain.arcade(speed, rotation);
         }, drivetrain));
 
+        // Start Indexer system
         indexer.setDefaultCommand(new RunIndexer());
 
         new JoystickButton(masterController, XboxController.Button.kLeftBumper.value).whenPressed(new NextLEDPattern());
-        new JoystickButton(masterController, Constants.Buttons.Intake)
+        new JoystickButton(masterController, Buttons.Intake)
                 .whenPressed(new SetIntake(true))
                 .whenReleased(new SetIntake(false));
 
-        new JoystickButton(masterController, Constants.Buttons.ShootHigh).whenPressed(new ShootHigh()).whenReleased(new StopShot());
-        new JoystickButton(masterController, Constants.Buttons.ShootLow).whenPressed(new ShootLow()).whenReleased(new StopShot());
+        // Shooter
+        new JoystickButton(masterController, Buttons.ShootHigh).whenPressed(new ShootHigh()).whenReleased(new StopShot());
+        new JoystickButton(masterController, Buttons.ShootLow).whenPressed(new ShootLow()).whenReleased(new StopShot());
 
-        new JoystickButton(masterController, Constants.Buttons.Climb)
+        // Toggle Drive
+        new JoystickButton(masterController, Buttons.ToggleDriveDirection)
+                .whenPressed(new InstantCommand(drivetrain::toggleDirection, drivetrain));
+
+        // Dump Intake TODO Add a debounce
+        new POVButton(masterController, Buttons.DumpPOV)
+                .whenPressed(new DumpIntake())
+                .whenReleased(new SetIntake(false));
+
+        // Basic Climb
+        new JoystickButton(masterController, Buttons.Climb)
                 .whenPressed(new Extend())
                 .whenReleased(new Raise());
 
-        new JoystickButton(masterController, Constants.Buttons.ToggleDriveDirection).whenPressed(new InstantCommand(drivetrain::toggleDirection, drivetrain));
-        new POVButton(masterController, Constants.Buttons.DumpPOV)
-                .whenPressed(new DumpIntake())
-                .whenReleased(new SetIntake(false));
+        // TODO Add a debounce to the climber.
+        // Extend Climb
+        new POVButton(masterController, Buttons.ExtendClimbPOV)
+                .whenPressed(new Extend());
+
+        // Retract Winch
+        new POVButton(masterController, Buttons.ReleaseClimbPOV)
+                .whenPressed(new Raise());
+
+        // Initiate Climber
+        new POVButton(masterController, Buttons.HangClimbPOV)
+                .whenPressed(new Rotate());
+
     }
 
     /**
@@ -129,7 +153,8 @@ public class RobotContainer {
         } else if (teamNumber == 914) {
             return m914;
         } else {
-            logger.err("Could not choose between given variants. Team number: %s, based on %s and %s. Defaulting to m4343.", teamNumber, m4343, m914);
+            logger.err("Could not choose between given variants. Team number: %s, based on %s and %s. " +
+                    "Defaulting to m4343.", teamNumber, m4343, m914);
             return m4343;
         }
     }

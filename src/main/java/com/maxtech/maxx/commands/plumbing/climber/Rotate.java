@@ -7,14 +7,16 @@ public class Rotate extends CommandBase {
     // TODO Make this when needed...
     private final Climber climber = Climber.getInstance();
 
-    public Rotate() {}
+    public Rotate() {addRequirements(climber);}
 
     @Override
     public void initialize() {}
 
     @Override
-    public void execute() {}
+    public void execute() {
+        climber.run(Climber.State.Hanging);
+    }
 
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {climber.halt();}
 }

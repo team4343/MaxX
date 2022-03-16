@@ -1,5 +1,8 @@
 package com.maxtech.maxx.subsystems.climber;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.maxtech.maxx.Constants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -9,15 +12,22 @@ import com.revrobotics.SparkMaxPIDController;
 import static java.lang.Math.round;
 
 public class ClimberIOMax implements ClimberIO{
-    private CANSparkMax winchR = new CANSparkMax(Constants.Climber.rightID, MotorType.kBrushless);
-    private CANSparkMax winchL = new CANSparkMax(Constants.Climber.leftID,  MotorType.kBrushless);
+    private CANSparkMax winchR = new CANSparkMax(Constants.Climber.rightWinchID, MotorType.kBrushless);
+    private CANSparkMax winchL = new CANSparkMax(Constants.Climber.leftWinchID,  MotorType.kBrushless);
+    private TalonSRX pivotR = new TalonSRX(Constants.Climber.rightPivotID);
+    private TalonSRX pivotL = new TalonSRX(Constants.Climber.leftPivotID);
+    private double absolutePosition = 0;
     private SparkMaxPIDController pidController;
     private RelativeEncoder encoder;
 
     public ClimberIOMax() {
+        // Factory defaults
         winchL.restoreFactoryDefaults();
         winchR.restoreFactoryDefaults();
+        pivotL.configFactoryDefault();
+        pivotR.configFactoryDefault();
 
+        // WINCH
         winchL.setInverted(true);
         winchR.setInverted(true);
         winchR.setIdleMode(CANSparkMax.IdleMode.kBrake);
@@ -33,10 +43,10 @@ public class ClimberIOMax implements ClimberIO{
         winchR.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
         winchR.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
 
-        winchL.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, Constants.Climber.forwardSoftLimit);
-        winchR.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, Constants.Climber.forwardSoftLimit);
-        winchL.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, Constants.Climber.reverseSoftLimit);
-        winchR.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, Constants.Climber.reverseSoftLimit);
+        winchL.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, Constants.Climber.winchForwardSoftLimit);
+        winchR.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, Constants.Climber.winchForwardSoftLimit);
+        winchL.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, Constants.Climber.winchReverseSoftLimit);
+        winchR.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, Constants.Climber.winchReverseSoftLimit);
 
         pidController.setP(Constants.Climber.up_P , Constants.Climber.upPidID);
         pidController.setI(Constants.Climber.up_I , Constants.Climber.upPidID);
@@ -53,29 +63,63 @@ public class ClimberIOMax implements ClimberIO{
         pidController.setOutputRange(Constants.Climber.minOutputUp, Constants.Climber.maxOutputUp, Constants.Climber.upPidID);
         pidController.setOutputRange(Constants.Climber.minOutputDown, Constants.Climber.maxOutputDown, Constants.Climber.downPidID);
 
+        // PIVOT
+        pivotR.configNominalOutputForward(Constants.Climber.maxPivotOutputForward);
+        pivotR.configNominalOutputReverse(Constants.Climber.maxPivotOutputReverse);
+        pivotL.configNominalOutputForward(Constants.Climber.maxPivotOutputForward);
+        pivotL.configNominalOutputReverse(Constants.Climber.maxPivotOutputReverse);
+
+        pivotR.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,
+                Constants.Climber.pivotpidID,
+                Constants.Climber.pivotTimeoutMs);
+        pivotR.setSensorPhase(Constants.Climber.pivotSensorPhase);
+        pivotR.setInverted(Constants.Climber.pivotMotorInvert);
+
+        pivotR.config_kF(Constants.Climber.pivotpidID, Constants.Climber.pivotF, Constants.Climber.pivotTimeoutMs);
+        pivotR.config_kP(Constants.Climber.pivotpidID, Constants.Climber.pivotP, Constants.Climber.pivotTimeoutMs);
+        pivotR.config_kI(Constants.Climber.pivotpidID, Constants.Climber.pivotI, Constants.Climber.pivotTimeoutMs);
+        pivotR.config_kD(Constants.Climber.pivotpidID, Constants.Climber.pivotD, Constants.Climber.pivotTimeoutMs);
+
+        absolutePosition = pivotR.getSensorCollection().getPulseWidthPosition();
+
+        pivotR.set(ControlMode.PercentOutput, 0);
+        pivotR.set(ControlMode.Position, 0);
+
+        pivotL.follow(pivotR);
+
     }
 
     @Override
-    public void setPos(double pos) {
-        if (pos < Constants.Climber.releasePos || pos > Constants.Climber.upPos * 1.05)
+    public void setPivotPos(double pos) {
+
+    }
+
+    @Override
+    public void setWinchPos(double pos) {
+        if (pos < Constants.Climber.releasePos || pos > Constants.Climber.winchUpPos * 1.05)
             return;
         //System.out.println(winchL.getEncoder().getPosition());
         //System.out.println(winchR.getEncoder().getPosition());
 
-        if (pos < getPos())
+        if (pos < getWinchPos())
             pidController.setReference(pos, CANSparkMax.ControlType.kPosition, Constants.Climber.downPidID);
         else
             pidController.setReference(pos, CANSparkMax.ControlType.kPosition, Constants.Climber.upPidID);
     }
 
     @Override
-    public double getPos() {
+    public double getWinchPos() {
         return encoder.getPosition();
     }
 
     @Override
+    public double getPivotPos() {
+        return pivotL.getSelectedSensorPosition();
+    }
+
+    @Override
     public void halt() {
-        pidController.setReference(Math.round(getPos()), CANSparkMax.ControlType.kPosition);
+        pidController.setReference(Math.round(getWinchPos()), CANSparkMax.ControlType.kPosition);
     }
 
 

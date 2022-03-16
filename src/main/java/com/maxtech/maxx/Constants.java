@@ -109,23 +109,28 @@ public final class Constants {
     }
 
     public static class Buttons {
+        public static final int ToggleDriveDirection = XboxController.Button.kRightBumper.value;
         public static final int Intake = XboxController.Button.kX.value;
         public static final int ShootHigh = XboxController.Button.kA.value;
         public static final int ShootLow = XboxController.Button.kB.value;
         public static final int Climb = XboxController.Button.kY.value;
-        public static final int DumpPOV = 0;
-        public static final int ToggleDriveDirection = XboxController.Button.kRightBumper.value;
+        public static final int DumpPOV = 90;
+        public static final int ExtendClimbPOV = 0;
+        public static final int ReleaseClimbPOV = -1;
+        public static final int HangClimbPOV = 180;
+
+
         // POV/DPAD is by -1, 0 - 360
     }
 
     public static class Climber {
         public static boolean pinned = true;
-        public static final int leftID = 19;
-        public static final int rightID = 17;
-        public static final double upPos = 70;
-        // https://pidexplained.com/how-to-tune-a-pid-controller/
-        public static final double downPos = 1;
-        public static final double releasePos = 0.99;
+        public static final int leftWinchID = 19;
+        public static final int rightWinchID = 17;
+        public static final int leftPivotID = 21; // TODO FILL IN IDs
+        public static final int rightPivotID = 22;
+
+        // WINCH
         public static final double down_P = 0.2;
         public static final double down_I = 0.0;
         public static final double down_Iz = 0;
@@ -142,7 +147,35 @@ public final class Constants {
         public static final double minOutputUp = -0.8;
         public static final double maxOutputDown = 0.8;
         public static final double minOutputDown = -0.8;
-        public static final float forwardSoftLimit = 70;
-        public static final float reverseSoftLimit = 0;
+        public static final float winchForwardSoftLimit = 70;
+        public static final float winchReverseSoftLimit = 0;
+
+        // PIVOT
+        public static final int pivotpidID = 0;
+        public static final int pivotTimeoutMs = 0;
+        public static final boolean pivotSensorPhase = false;
+        public static final boolean pivotMotorInvert = false;
+        public static final double pivotP = 0;// TODO tune
+        public static final double pivotI = 0;// TODO tune
+        public static final double pivotD = 0;// TODO tune
+        public static final double pivotF = 0;// TODO tune
+        public static final double maxPivotOutputForward = 0;// TODO tune
+        public static final double maxPivotOutputReverse = 0;// TODO tune
+
+        public static final double winchUpPos = 70;
+        public static final double winchUpThreshold = 0; // TODO tune
+        public static final double winchDownPos = 1;
+        public static final double winchDownThreshold = 0; // TODO tune
+        public static final double winchHangingPos = 25; // TODO tune
+        public static final double winchHangingThreshold = 0; // TODO tune
+        public static final double winchReleasePos = 0.99;
+        public static final int pivotHangingPos = 0;// TODO tune
+        public static final int pivotHandoffPos = 0;// TODO tune
+        public static final int pivotHandoffThreshold = 0;// TODO tune
+        public static final int pivotClearBarPos = 0;// TODO tune
+        public static final int pivotClearBarThreshold = 0;// TODO tune
+        public static final int pivotContactHighBarPos = 0;// TODO tune
+        public static final int pivotContactHighBarThreshold = 0;// TODO tune
+        public static final int pivotHangingThreshold = 0;// TODO tune
     }
 }
