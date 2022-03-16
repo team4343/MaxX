@@ -69,7 +69,8 @@ public final class Constants {
     }
 
     public static class Flywheel {
-        public static final int id = 5;
+        public static final int masterID = 5;
+        public static final int slaveID = 25;
         public static final double P = 0.2;
         public static final double I = 0;
         public static final double D = 0;
@@ -78,9 +79,9 @@ public final class Constants {
         public static final int TimeoutMs = 30;
         public static final boolean SensorPhase = false;
         public static final boolean MotorInvert = false;
-        public static final int topBinRPM = 15000;
-        public static final int bottomBinRPM = 8000;
-        public static final double rpmThreshold = 0.7;
+        public static final int topBinRPM = 0;
+        public static final int bottomBinRPM = 0;
+        public static final double rpmThreshold = 0;
         public static final int talonFXResolution = 2048;
     }
 
@@ -124,7 +125,6 @@ public final class Constants {
     }
 
     public static class Climber {
-        public static boolean pinned = true;
         public static final int leftWinchID = 19;
         public static final int rightWinchID = 17;
         public static final int leftPivotID = 21; // TODO FILL IN IDs
@@ -161,6 +161,8 @@ public final class Constants {
         public static final double pivotF = 0;// TODO tune
         public static final double maxPivotOutputForward = 0;// TODO tune
         public static final double maxPivotOutputReverse = 0;// TODO tune
+        public static final double maxPivotPosForward = 0;// TODO tune
+        public static final double maxPivotPosReverse = 0;// TODO tune
 
         public static final double winchUpPos = 70;
         public static final double winchUpThreshold = 0; // TODO tune
@@ -168,10 +170,9 @@ public final class Constants {
         public static final double winchDownThreshold = 0; // TODO tune
         public static final double winchHangingPos = 25; // TODO tune
         public static final double winchHangingThreshold = 0; // TODO tune
-        public static final double winchReleasePos = 0.99;
-        public static final int pivotHangingPos = 0;// TODO tune
-        public static final int pivotHandoffPos = 0;// TODO tune
-        public static final int pivotHandoffThreshold = 0;// TODO tune
+        public static final int pivotHangingPos = 0;// Behind bar doing nothing TODO tune
+        public static final int pivotHandoffPos = 0;// Contacting bar ready for full robot weight TODO tune
+        public static final int pivotHandoffThreshold = 0;// Should be very tight to bar TODO tune
         public static final int pivotClearBarPos = 0;// TODO tune
         public static final int pivotClearBarThreshold = 0;// TODO tune
         public static final int pivotContactHighBarPos = 0;// TODO tune

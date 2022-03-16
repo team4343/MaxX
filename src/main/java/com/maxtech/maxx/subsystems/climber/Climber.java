@@ -67,44 +67,40 @@ public class Climber extends Subsystem {
 
     /** We want to raise the Climber. */
     private void handleRaising(StateMachineMeta m) {
-        if ( io.getWinchPos() > Constants.Intake.downPos * 0.95 )
-            io.setWinchPos(Constants.Intake.downPos);
-        if (io.getWinchPos() < Constants.Intake.downPos + 10)
-            pinned = true;
+        io.setWinchPos(winchDownPos);
     }
 
     /** We want to lower the Climber. */
     private void handleExtend(StateMachineMeta m) {
-        System.out.println(io.getWinchPos());
-        System.out.println(pinned);
-
-        if (false) {
-            io.setWinchPos(winchReleasePos);
-            if (io.getWinchPos() < 0) {
-                pinned = false;
-            }
-        } else if ( io.getWinchPos() < winchUpPos * 0.95 )
-            io.setWinchPos(winchUpPos);
+        io.setWinchPos(winchDownPos);
     }
 
+    /** Makes sure the pivot arms are on correct side of the bar **/
     private void handleHanging(StateMachineMeta m) {
+        // Set winch to ~20% extended
+        io.setWinchPos(winchHangingPos);
+
         // Check if winch is around 20% extended (room for pivot under bar).
         if (threshold(winchHangingPos, io.getWinchPos(), winchHangingThreshold)) {
-            io.setPivotPos(pivotHangingPos);
-            io.setWinchPos(winchHangingPos);
+            io.setPivotPos(pivotHangingPos); // Set pivot hooks out of the way
             if (threshold(pivotHangingPos, io.getPivotPos(), pivotHangingThreshold))
-                statemachine.toState(State.Handoff);
-        } else {
-            io.setWinchPos(winchHangingPos);
+                statemachine.toState(State.Finish);
+                //statemachine.toState(State.Handoff);
         }
     }
 
+    /** Hands off the weight of the robot to the pivot arms **/
     private void handleHandoff(StateMachineMeta m) {
+        // Lift enough for pivot hook to pass over bar
         io.setWinchPos(winchDownPos);
+
+        // If fully retracted move the pivot to contact bar.
         if (threshold(winchDownPos, io.getWinchPos(), winchDownThreshold)) {
-            io.setPivotPos(pivotHandoffPos);
+            io.setPivotPos(pivotHandoffPos); // Contact Bar
+            // If contacting bar move to highbar transition
             if (threshold(pivotHandoffPos, io.getPivotPos(), pivotHandoffThreshold))
-                statemachine.toState(State.HighBar);
+                statemachine.toState(State.Finish);
+                //statemachine.toState(State.HighBar);
         }
     }
 
@@ -134,7 +130,9 @@ public class Climber extends Subsystem {
     }
 
     private void handleTraverse(StateMachineMeta m) {
-        statemachine.toState(State.Finish); // Don't do anything for now
+        // Don't do anything for now.
+        // We can potentially shorten our last climb by using double-sided hooks and not reaching all the way under.
+        statemachine.toState(State.Finish);
     }
 
     private void handleFinish(StateMachineMeta m) {

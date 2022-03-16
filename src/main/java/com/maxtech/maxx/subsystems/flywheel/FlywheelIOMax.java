@@ -4,51 +4,53 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.maxtech.lib.logging.RobotLogger;
-import com.maxtech.lib.wrappers.ctre.TalonEncoder;
 import com.maxtech.maxx.Constants;
 
 public class FlywheelIOMax implements FlywheelIO {
-    private final TalonFX motor = new TalonFX(Constants.Flywheel.id);
+    private final TalonFX master = new TalonFX(Constants.Flywheel.masterID);
+    private final TalonFX slave = new TalonFX(Constants.Flywheel.slaveID);
 
     public FlywheelIOMax() {
-        motor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,
+        master.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,
                 Constants.Flywheel.pidID,
                 Constants.Flywheel.TimeoutMs);
-        motor.setSensorPhase(Constants.Flywheel.SensorPhase);
-        motor.setInverted(Constants.Flywheel.MotorInvert);
+        master.setSensorPhase(Constants.Flywheel.SensorPhase);
+        master.setInverted(Constants.Flywheel.MotorInvert);
 
         /* Config Position Closed Loop gains in slot0, typically kF stays zero. */
-        motor.config_kF(Constants.Flywheel.pidID, Constants.Flywheel.F, Constants.Flywheel.TimeoutMs);
-        motor.config_kP(Constants.Flywheel.pidID, Constants.Flywheel.P, Constants.Flywheel.TimeoutMs);
-        motor.config_kI(Constants.Flywheel.pidID, Constants.Flywheel.I, Constants.Flywheel.TimeoutMs);
-        motor.config_kD(Constants.Flywheel.pidID, Constants.Flywheel.D, Constants.Flywheel.TimeoutMs);
+        master.config_kF(Constants.Flywheel.pidID, Constants.Flywheel.F, Constants.Flywheel.TimeoutMs);
+        master.config_kP(Constants.Flywheel.pidID, Constants.Flywheel.P, Constants.Flywheel.TimeoutMs);
+        master.config_kI(Constants.Flywheel.pidID, Constants.Flywheel.I, Constants.Flywheel.TimeoutMs);
+        master.config_kD(Constants.Flywheel.pidID, Constants.Flywheel.D, Constants.Flywheel.TimeoutMs);
 
-        motor.set(ControlMode.PercentOutput, 0);
-        motor.set(ControlMode.Velocity, 0);
+        master.set(ControlMode.PercentOutput, 0);
+        master.set(ControlMode.Velocity, 0);
+
+        slave.setInverted(!master.getInverted());
+        slave.follow(master);
     }
 
     @Override
     public void setVoltage(double voltage) {
-        motor.set(ControlMode.PercentOutput, voltage / 12);
+        master.set(ControlMode.PercentOutput, voltage / 12);
     }
 
     @Override
     public void setVelocity(double velocity) {
         if (velocity == 0) {
-            motor.set(ControlMode.PercentOutput, 0);
+            master.set(ControlMode.PercentOutput, 0);
         }
 
-        motor.set(TalonFXControlMode.Velocity, velocity * (16 / 36f) * Constants.Flywheel.talonFXResolution / (60 * 10));
+        master.set(TalonFXControlMode.Velocity, velocity * Constants.Flywheel.talonFXResolution / (60 * 10));
     }
 
     @Override
     public double getVelocity() {
-        return ((motor.getSelectedSensorVelocity(Constants.Flywheel.pidID) / Constants.Flywheel.talonFXResolution) * (60 * 10)) / (16 / 36f);
+        return ((master.getSelectedSensorVelocity(Constants.Flywheel.pidID) / Constants.Flywheel.talonFXResolution) * (60 * 10)) ;
     }
 
     @Override
     public double getVoltage() {
-        return motor.getMotorOutputVoltage();
+        return master.getMotorOutputVoltage();
     }
 }
