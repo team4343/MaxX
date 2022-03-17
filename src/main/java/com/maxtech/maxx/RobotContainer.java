@@ -4,6 +4,7 @@ import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.plumbing.autonomous.OneBallAuto;
 import com.maxtech.maxx.commands.plumbing.autonomous.ReversingAuto;
+import com.maxtech.maxx.commands.plumbing.climber.Default;
 import com.maxtech.maxx.commands.plumbing.climber.Rotate;
 import com.maxtech.maxx.commands.porcelain.NextLEDPattern;
 import com.maxtech.maxx.commands.porcelain.ShootHigh;
@@ -109,16 +110,20 @@ public class RobotContainer {
 
         // TODO Add a debounce to the climber.
         // Extend Climb
-        //new POVButton(masterController, Buttons.ExtendClimbPOV)
-        //        .whenPressed(new Extend());
+        new POVButton(masterController, Buttons.ExtendClimbPOV)
+                .whenPressed(new Extend());
 
         // Retract Winch
-        //new POVButton(masterController, Buttons.ReleaseClimbPOV)
-        //        .whenPressed(new Raise());
+        new POVButton(masterController, Buttons.ReleaseClimbPOV)
+                .whenPressed(new Raise());
 
         // Initiate Climber
         new POVButton(masterController, Buttons.HangClimbPOV)
                 .whenPressed(new Rotate());
+
+        // Default Config during match.
+        new POVButton(masterController, Buttons.DefaultConfigPOV)
+                .whenPressed(new Default());
 
     }
 

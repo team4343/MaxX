@@ -117,8 +117,9 @@ public final class Constants {
         public static final int Climb = XboxController.Button.kY.value;
         public static final int DumpPOV = 90;
         public static final int ExtendClimbPOV = 0;
-        public static final int ReleaseClimbPOV = -1;
-        public static final int HangClimbPOV = 180;
+        public static final int ReleaseClimbPOV = 180;
+        public static final int HangClimbPOV = 270;
+        public static final int DefaultConfigPOV = -1;
 
 
         // POV/DPAD is by -1, 0 - 360
@@ -167,7 +168,7 @@ public final class Constants {
         public static final double winchUpPos = 60;
         public static final double winchUpThreshold = 0.2;
         public static final double winchDownPos = 1;
-        public static final double winchDownThreshold = 0.5;
+        public static final double winchDownThreshold = 10; // Set to within 10 revolutions of bottom.
         public static final double winchHangingPos = 25;
         public static final double winchHangingThreshold = 0.1;
         public static final double pivotHangingPos = 500;// Behind bar doing nothing

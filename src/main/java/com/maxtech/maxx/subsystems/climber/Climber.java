@@ -39,6 +39,8 @@ public class Climber extends Subsystem {
     Pivot to contact next bar              3 - Nextbar
     Winch to 20%                           1 - Hanging
     Repeat...
+
+    The Climb should use the manual process
      */
 
     public static Climber getInstance() {
@@ -49,7 +51,7 @@ public class Climber extends Subsystem {
     }
 
     public enum State {
-        Extend, Raising, Hanging, Handoff, HighBar, Traverse, Finish
+        Extend, Raising, Hanging, Handoff, HighBar, Traverse, Finish, Match
     }
 
     private Climber() {
@@ -63,6 +65,7 @@ public class Climber extends Subsystem {
         statemachine.associateState(State.HighBar, this::handleHighBar);
         statemachine.associateState(State.Traverse, this::handleTraverse);
         statemachine.associateState(State.Finish, this::handleFinish);
+        statemachine.associateState(State.Match, this::handleMatch);
         statemachine.runCurrentHandler();
 
         var tab = Shuffleboard.getTab("Climber");
@@ -81,6 +84,12 @@ public class Climber extends Subsystem {
         io.setWinchPos(winchUpPos);
     }
 
+    /** How the climber is stored during the match. **/
+    private void handleMatch(StateMachineMeta m) {
+        io.setWinchPos(winchDownPos);
+        io.setPivotPos(pivotHangingPos);
+    }
+
     /** Makes sure the pivot arms are on correct side of the bar **/
     private void handleHanging(StateMachineMeta m) {
         // Set winch to ~20% extended
@@ -89,9 +98,9 @@ public class Climber extends Subsystem {
         // Check if winch is around 20% extended (room for pivot under bar).
         System.out.println(io.getWinchPos());
         if (threshold(winchHangingPos, io.getWinchPos(), winchHangingThreshold)) {
-            io.setPivotPos(pivotHangingPos); // Set pivot hooks out of the way
+            // Set pivot hooks out of the way
+            io.setPivotPos(pivotHangingPos);
             if (threshold(pivotHangingPos, io.getPivotPos(), pivotHangingThreshold))
-                //statemachine.toState(State.Finish);
                 statemachine.toState(State.Handoff);
         }
     }
@@ -104,38 +113,37 @@ public class Climber extends Subsystem {
         // If fully retracted move the pivot to contact bar.
         if (threshold(winchDownPos, io.getWinchPos(), winchDownThreshold)) {
             io.setPivotPos(pivotHandoffPos); // Contact Bar
+            System.out.println("Handoff - Pivot to bar.");
             // If contacting bar move to highbar transition
             if (threshold(pivotHandoffPos, io.getPivotPos(), pivotHandoffThreshold))
                 statemachine.toState(State.HighBar);
-        }
+        } else
+            System.out.println("Handoff - Winch not down yet.");
     }
 
     private void handleHighBar(StateMachineMeta m) {
         double newPivot = io.getPivotPos();
-        double newWinch = io.getWinchPos();
+        double newWinch = winchUpPos/2; // Winch to 50%
 
-        // Initial Unhook
-        if (io.getWinchPos() < (winchUpPos * 0.2))
-            newWinch = winchUpPos;
-        else
+        // If winch extended halfway --- Pivot robot to under next bar.
+        if (threshold(winchUpPos/2, io.getWinchPos(), winchUpThreshold*2)) {
             newPivot = pivotClearBarPos;
-
-        // If pivot past bar fully extend winch
-        if (threshold(pivotClearBarPos, io.getPivotPos(), pivotClearBarThreshold) && threshold(winchUpPos, io.getWinchPos(), winchUpThreshold))
-            newWinch = winchUpPos;
-
-        newWinch = winchUpPos;
-
-        // If winch within extended threshold contact the bar
-        if (threshold(winchUpPos, io.getWinchPos(), winchUpThreshold)) {
-            newPivot = pivotContactHighBarPos;
-            if (threshold(pivotContactHighBarPos, io.getPivotPos(), pivotContactHighBarThreshold))
-                newWinch = winchDownPos;
         }
 
-        // If Contacting move into the hanging state
-        //if (threshold(pivotContactHighBarPos, io.getPivotPos(), pivotContactHighBarThreshold))
-        //    statemachine.toState(State.Traverse);
+        // If pivot past bar --- Winch to 100%
+        if (threshold(pivotClearBarPos, io.getPivotPos(), pivotClearBarThreshold))
+            newWinch = winchUpPos;
+
+        // If winch at 100% --- Pivot to contact next bar.
+        if (threshold(winchUpPos, io.getWinchPos(), winchUpThreshold)) {
+            newPivot = pivotContactHighBarPos;
+        }
+
+        // If contacting high bar and winch at 100% --- Move to hanging position.
+        if (threshold(pivotContactHighBarPos, io.getPivotPos(), pivotContactHighBarThreshold)
+                && (threshold(winchUpPos, io.getWinchPos(), winchUpThreshold))) {
+            statemachine.toState(State.Hanging);
+        }
 
         io.setPivotPos(newPivot);
         io.setWinchPos(newWinch);
