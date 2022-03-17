@@ -18,5 +18,12 @@ public class Rotate extends CommandBase {
     }
 
     @Override
-    public void end(boolean interrupted) {climber.halt();}
+    public void end(boolean interrupted) {
+        //climber.halt();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
 }

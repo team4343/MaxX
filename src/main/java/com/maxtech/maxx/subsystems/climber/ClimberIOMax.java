@@ -123,17 +123,16 @@ public class ClimberIOMax implements ClimberIO{
         pivotL.set(ControlMode.Position, 0);
 
         // Left Follows Right and should be mirrored (inverted)
+        pivotR.setInverted(true);
         pivotL.setInverted(true);
-        pivotL.follow(pivotR);
+        pivotR.follow(pivotL);
 
         gyro.reset();
     }
 
     @Override
     public void setPivotPos(double pos) {
-        // TODO Still unsure if each side should be independent, probably not.
-        // pivotL.set(TalonSRXControlMode.Position, pos);
-        pivotR.set(TalonSRXControlMode.Position, pos);
+        pivotL.set(TalonSRXControlMode.Position, pos);
     }
 
     @Override
@@ -154,7 +153,7 @@ public class ClimberIOMax implements ClimberIO{
 
     @Override
     public double getPivotPos() {
-        return pivotR.getSelectedSensorPosition();
+        return pivotL.getSelectedSensorPosition();
     }
 
     @Override

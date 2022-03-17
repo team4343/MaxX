@@ -70,7 +70,7 @@ public final class Constants {
 
     public static class Flywheel {
         public static final int masterID = 5;
-        public static final int slaveID = 25;
+        public static final int slaveID = 6;
         public static final double P = 0.2;
         public static final double I = 0;
         public static final double D = 0;
@@ -127,8 +127,8 @@ public final class Constants {
     public static class Climber {
         public static final int leftWinchID = 19;
         public static final int rightWinchID = 17;
-        public static final int leftPivotID = 21; // TODO FILL IN IDs
-        public static final int rightPivotID = 22;
+        public static final int leftPivotID = 1; // TODO FILL IN IDs
+        public static final int rightPivotID = 2;
 
         // WINCH
         public static final double down_P = 0.2;
@@ -155,28 +155,28 @@ public final class Constants {
         public static final int pivotTimeoutMs = 0;
         public static final boolean pivotSensorPhase = false;
         public static final boolean pivotMotorInvert = false;
-        public static final double pivotP = 0;// TODO tune
-        public static final double pivotI = 0;// TODO tune
-        public static final double pivotD = 0;// TODO tune
-        public static final double pivotF = 0;// TODO tune
-        public static final double maxPivotOutputForward = 0;// TODO tune
-        public static final double maxPivotOutputReverse = 0;// TODO tune
-        public static final double maxPivotPosForward = 0;// TODO tune
-        public static final double maxPivotPosReverse = 0;// TODO tune
+        public static final double pivotP = 0.3;
+        public static final double pivotI = 0;
+        public static final double pivotD = 0;
+        public static final double pivotF = 0;
+        public static final double maxPivotOutputForward = 0.15;
+        public static final double maxPivotOutputReverse = 0.15;
+        public static final double maxPivotPosForward = 800;
+        public static final double maxPivotPosReverse = -800;
 
-        public static final double winchUpPos = 70;
-        public static final double winchUpThreshold = 0; // TODO tune
+        public static final double winchUpPos = 60;
+        public static final double winchUpThreshold = 0.2;
         public static final double winchDownPos = 1;
-        public static final double winchDownThreshold = 0; // TODO tune
-        public static final double winchHangingPos = 25; // TODO tune
-        public static final double winchHangingThreshold = 0; // TODO tune
-        public static final int pivotHangingPos = 0;// Behind bar doing nothing TODO tune
-        public static final int pivotHandoffPos = 0;// Contacting bar ready for full robot weight TODO tune
-        public static final int pivotHandoffThreshold = 0;// Should be very tight to bar TODO tune
-        public static final int pivotClearBarPos = 0;// TODO tune
-        public static final int pivotClearBarThreshold = 0;// TODO tune
-        public static final int pivotContactHighBarPos = 0;// TODO tune
-        public static final int pivotContactHighBarThreshold = 0;// TODO tune
-        public static final int pivotHangingThreshold = 0;// TODO tune
+        public static final double winchDownThreshold = 0.5;
+        public static final double winchHangingPos = 25;
+        public static final double winchHangingThreshold = 0.1;
+        public static final double pivotHangingPos = 500;// Behind bar doing nothing
+        public static final double pivotHandoffPos = -100;// Contacting bar ready for full robot weig
+        public static final double pivotHandoffThreshold = 0.5;// Should be very tight to b
+        public static final double pivotClearBarPos = 600;
+        public static final double pivotClearBarThreshold = 0.1;
+        public static final double pivotContactHighBarPos = 300;
+        public static final double pivotContactHighBarThreshold = 0.05;
+        public static final double pivotHangingThreshold = 0.1;
     }
 }

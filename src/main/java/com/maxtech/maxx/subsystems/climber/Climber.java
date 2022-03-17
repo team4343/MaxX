@@ -4,6 +4,7 @@ import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import com.maxtech.maxx.Constants;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static com.maxtech.maxx.Constants.Climber.*;
@@ -63,6 +64,11 @@ public class Climber extends Subsystem {
         statemachine.associateState(State.Traverse, this::handleTraverse);
         statemachine.associateState(State.Finish, this::handleFinish);
         statemachine.runCurrentHandler();
+
+        var tab = Shuffleboard.getTab("Climber");
+        tab.addString("state", statemachine::currentStateName);
+        tab.addNumber("winch position", io::getWinchPos);
+        tab.addNumber("pivot position", io::getPivotPos);
     }
 
     /** We want to raise the Climber. */
@@ -72,7 +78,7 @@ public class Climber extends Subsystem {
 
     /** We want to lower the Climber. */
     private void handleExtend(StateMachineMeta m) {
-        io.setWinchPos(winchDownPos);
+        io.setWinchPos(winchUpPos);
     }
 
     /** Makes sure the pivot arms are on correct side of the bar **/
@@ -81,11 +87,12 @@ public class Climber extends Subsystem {
         io.setWinchPos(winchHangingPos);
 
         // Check if winch is around 20% extended (room for pivot under bar).
+        System.out.println(io.getWinchPos());
         if (threshold(winchHangingPos, io.getWinchPos(), winchHangingThreshold)) {
             io.setPivotPos(pivotHangingPos); // Set pivot hooks out of the way
             if (threshold(pivotHangingPos, io.getPivotPos(), pivotHangingThreshold))
-                statemachine.toState(State.Finish);
-                //statemachine.toState(State.Handoff);
+                //statemachine.toState(State.Finish);
+                statemachine.toState(State.Handoff);
         }
     }
 
@@ -99,31 +106,36 @@ public class Climber extends Subsystem {
             io.setPivotPos(pivotHandoffPos); // Contact Bar
             // If contacting bar move to highbar transition
             if (threshold(pivotHandoffPos, io.getPivotPos(), pivotHandoffThreshold))
-                statemachine.toState(State.Finish);
-                //statemachine.toState(State.HighBar);
+                statemachine.toState(State.HighBar);
         }
     }
 
     private void handleHighBar(StateMachineMeta m) {
         double newPivot = io.getPivotPos();
         double newWinch = io.getWinchPos();
+
         // Initial Unhook
         if (io.getWinchPos() < (winchUpPos * 0.2))
-            newWinch = winchUpPos * 0.4;
+            newWinch = winchUpPos;
         else
             newPivot = pivotClearBarPos;
 
         // If pivot past bar fully extend winch
-        if (threshold(pivotClearBarPos, io.getPivotPos(), pivotClearBarThreshold))
+        if (threshold(pivotClearBarPos, io.getPivotPos(), pivotClearBarThreshold) && threshold(winchUpPos, io.getWinchPos(), winchUpThreshold))
             newWinch = winchUpPos;
 
+        newWinch = winchUpPos;
+
         // If winch within extended threshold contact the bar
-        if (threshold(winchUpPos, io.getWinchPos(), winchUpThreshold))
+        if (threshold(winchUpPos, io.getWinchPos(), winchUpThreshold)) {
             newPivot = pivotContactHighBarPos;
+            if (threshold(pivotContactHighBarPos, io.getPivotPos(), pivotContactHighBarThreshold))
+                newWinch = winchDownPos;
+        }
 
         // If Contacting move into the hanging state
-        if (threshold(pivotContactHighBarPos, io.getPivotPos(), pivotContactHighBarThreshold))
-            statemachine.toState(State.Finish);
+        //if (threshold(pivotContactHighBarPos, io.getPivotPos(), pivotContactHighBarThreshold))
+        //    statemachine.toState(State.Traverse);
 
         io.setPivotPos(newPivot);
         io.setWinchPos(newWinch);
@@ -156,6 +168,7 @@ public class Climber extends Subsystem {
 
     @Override
     public void periodic(){
+        statemachine.runCurrentHandler();
         SmartDashboard.putString("Climber Status",statemachine.currentStateName());
     }
 }
