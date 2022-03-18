@@ -12,7 +12,6 @@ public class DumpIntake extends CommandBase {
 
     @Override
     public void initialize() {
-
     }
 
     @Override

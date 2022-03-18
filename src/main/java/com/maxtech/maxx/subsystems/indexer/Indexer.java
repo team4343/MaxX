@@ -18,13 +18,13 @@ public class Indexer extends Subsystem {
     private final IndexerIO io = decideIO(IndexerIOMax.class, IndexerIOPeter.class);
     private final StateMachine<State> statemachine = new StateMachine<>("Indexer", State.Unloaded);
 
-    private static final RobotLogger logger = RobotLogger.getInstance();
     private State previousOnState = State.Unloaded;
 
     public static Indexer getInstance() {
         if (instance == null) {
             instance = new Indexer();
         }
+
         return instance;
     }
 

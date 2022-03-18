@@ -1,7 +1,6 @@
 package com.maxtech.maxx.subsystems.intake;
 
 import com.maxtech.lib.command.Subsystem;
-import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import com.maxtech.maxx.Constants;
@@ -14,8 +13,6 @@ public class Intake extends Subsystem {
 
     private final IntakeIO io = decideIO(IntakeIOMax.class, IntakeIOMax.class);
     private final StateMachine<IntakeState> statemachine = new StateMachine<>("Intake", IntakeState.Raised);
-
-    private static final RobotLogger logger = RobotLogger.getInstance();
 
     public static Intake getInstance() {
         if (instance == null) {

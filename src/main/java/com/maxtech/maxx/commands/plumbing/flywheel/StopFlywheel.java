@@ -1,4 +1,4 @@
-package com.maxtech.maxx.commands.porcelain.flywheel;
+package com.maxtech.maxx.commands.plumbing.flywheel;
 
 import com.maxtech.maxx.subsystems.flywheel.Flywheel;
 import edu.wpi.first.wpilibj2.command.CommandBase;

@@ -1,15 +1,18 @@
 package com.maxtech.maxx.commands.porcelain.intake;
 
+import com.maxtech.maxx.subsystems.indexer.Indexer;
 import com.maxtech.maxx.subsystems.intake.Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SetIntake extends CommandBase {
     private final Intake intake = Intake.getInstance();
+    private final Indexer indexer = Indexer.getInstance();
+
     private boolean down = false;
     private boolean dump = false;
 
     public SetIntake(boolean setDown) {
-        addRequirements(intake);
+        addRequirements(intake, indexer);
         down = setDown;
     }
 
@@ -28,9 +31,11 @@ public class SetIntake extends CommandBase {
             intake.runDump();
         else if (down) {
             intake.run();
+            indexer.turnOn();
         }
         else {
             intake.stop();
+            indexer.turnOff();
         }
     }
 }

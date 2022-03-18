@@ -29,9 +29,6 @@ public class Drive extends Subsystem {
         return instance;
     }
 
-    private Drive() {
-    }
-
     @Override
     public void periodic() {
         io.periodic();

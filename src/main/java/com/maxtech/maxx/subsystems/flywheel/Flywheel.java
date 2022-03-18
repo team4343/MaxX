@@ -2,7 +2,6 @@ package com.maxtech.maxx.subsystems.flywheel;
 
 import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.controllers.SimpleFlywheelController;
-import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -12,10 +11,9 @@ import static com.maxtech.maxx.RobotContainer.decideIO;
 public class Flywheel extends Subsystem {
     private static Flywheel instance;
 
-    private FlywheelIO io = decideIO(FlywheelIOMax.class, FlywheelIOPeter.class);
+    private final FlywheelIO io = decideIO(FlywheelIOMax.class, FlywheelIOPeter.class);
     private final StateMachine<State> statemachine = new StateMachine<>("Flywheel", State.Idle);
 
-    private static final RobotLogger logger = RobotLogger.getInstance();
     private final SimpleFlywheelController controller = new SimpleFlywheelController(1, 1);
 
     private enum State {
@@ -41,11 +39,10 @@ public class Flywheel extends Subsystem {
         statemachine.associateState(State.Idle, this::handleIdle);
         statemachine.associateState(State.Spinning, this::handleSpinning);
         statemachine.associateState(State.SpinningAtGoal, this::handleSpinningAtGoal);
-        statemachine.runCurrentHandler();
     }
 
     private void handleIdle(StateMachineMeta meta) {
-        // Set the velocity to zero, unless we have a goal.
+        // Set the voltage to zero, unless we have a goal.
         io.setVoltage(0);
 
         if (!atGoal()) {
@@ -67,10 +64,6 @@ public class Flywheel extends Subsystem {
         if (!atGoal()) {
             statemachine.toState(State.Spinning);
         }
-    }
-
-    public void run() {
-        statemachine.runCurrentHandler();
     }
 
     public void stop() {

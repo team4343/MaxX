@@ -5,9 +5,9 @@ import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.plumbing.climber.Default;
 import com.maxtech.maxx.commands.plumbing.climber.Rotate;
 import com.maxtech.maxx.commands.porcelain.NextLEDPattern;
-import com.maxtech.maxx.commands.porcelain.ShootHigh;
-import com.maxtech.maxx.commands.porcelain.ShootLow;
-import com.maxtech.maxx.commands.porcelain.StopShot;
+import com.maxtech.maxx.commands.porcelain.shooter.ShootHigh;
+import com.maxtech.maxx.commands.porcelain.shooter.ShootLow;
+import com.maxtech.maxx.commands.porcelain.shooter.StopShot;
 import com.maxtech.maxx.commands.plumbing.climber.Extend;
 import com.maxtech.maxx.commands.plumbing.climber.Raise;
 import com.maxtech.maxx.commands.porcelain.autonomous.TwoBallFromFender;
@@ -64,23 +64,25 @@ public class RobotContainer {
     }
 
     /**
-     * Our global button -> command mappings.
-     * <p>
-     * More documentation on how this is achieved at https://docs.wpilib.org/en/stable/docs/software/commandbased/binding-commands-to-triggers.html
+     * Our global button -> command mappings. This method binds joystick buttons to commands, and sets default commands
+     * that are run in the background.
+     *
+     * Default commands:
+     *   * Drive takes a default command that reads stick values and calculates a resulting arcade drive. See
+     *     https://www.desmos.com/calculator/xmotljqdal for more details.
+     *
+     * Button mappings: see /assets/mappings.png for more details.
      */
     private void configureButtonBindings() {
         drivetrain.setDefaultCommand(new RunCommand(() -> {
-            // https://www.desmos.com/calculator/xmotljqdal
             double speed = masterController.getRightTriggerAxis() - masterController.getLeftTriggerAxis();
             double rotation = Math.min(Math.max(Math.pow(-masterController.getLeftX(), 3) * 2, -1), 1);
 
             drivetrain.arcade(speed, rotation);
         }, drivetrain));
 
-        // Start Indexer system
-        // indexer.setDefaultCommand(new RunIndexer());
-
         new JoystickButton(masterController, XboxController.Button.kLeftBumper.value).whenPressed(new NextLEDPattern());
+
         new JoystickButton(masterController, Buttons.Intake)
                 .whenPressed(new SetIntake(true))
                 .whenReleased(new SetIntake(false));

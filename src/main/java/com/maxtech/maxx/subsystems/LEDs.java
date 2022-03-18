@@ -10,6 +10,8 @@ import com.maxtech.lib.statemachines.StateMachineMeta;
 public class LEDs extends Subsystem {
     private static LEDs instance;
 
+    private final StateMachine<LEDTypes> statemachine = new StateMachine<LEDTypes>("LEDs", LEDTypes.Solid);
+
     public static LEDs getInstance() {
         if (instance == null) {
             instance = new LEDs();
@@ -26,8 +28,6 @@ public class LEDs extends Subsystem {
     private enum LEDTypes {
         Off, Solid,
     }
-
-    private StateMachine<LEDTypes> statemachine = new StateMachine<LEDTypes>("LEDs", LEDTypes.Solid);
 
     private void handleSolid(StateMachineMeta m) {
         RobotLogger.getInstance().dbg("Switched to solid state.");
