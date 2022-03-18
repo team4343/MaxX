@@ -12,6 +12,7 @@ public class SetIntake extends CommandBase {
         addRequirements(intake);
         down = setDown;
     }
+
     public SetIntake(boolean setDown, boolean setDump) {
         addRequirements(intake);
         down = setDown;

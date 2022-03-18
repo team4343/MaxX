@@ -13,127 +13,17 @@
         "tiles": {
           "0,0": {
             "size": [
-              3,
-              3
-            ],
-            "content": {
-              "_type": "Subsystem Layout",
-              "_title": "Drivetrain",
-              "Layout/Label position": "LEFT",
-              "_children": [
-                {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Drive/y",
-                  "_title": "Drive/y"
-                },
-                {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Drive/x",
-                  "_title": "Drive/x"
-                }
-              ]
-            }
-          },
-          "3,0": {
-            "size": [
-              8,
-              5
+              13,
+              7
             ],
             "content": {
               "_type": "Field",
-              "_source0": "network_table:///SmartDashboard/Drive/field",
-              "_title": "SmartDashboard/Drive/field",
-              "Game/Game": "A2021_Infinite_Recharge",
+              "_source0": "network_table:///SmartDashboard/Drivetrain field",
+              "_title": "SmartDashboard/Drivetrain field",
+              "Game/Game": "A2022_Rapid_React",
               "Visuals/Robot Icon Size": 50.0,
-              "Visuals/Show Outside Circles": false
-            }
-          },
-          "19,4": {
-            "size": [
-              4,
-              2
-            ],
-            "content": {
-              "_type": "Subsystem Layout",
-              "_title": "Intake",
-              "Layout/Label position": "LEFT",
-              "_children": [
-                {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Intake/voltage",
-                  "_title": "Intake/voltage"
-                },
-                {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Intake/temperature",
-                  "_title": "Intake/temperature"
-                }
-              ]
-            }
-          },
-          "17,8": {
-            "size": [
-              6,
-              2
-            ],
-            "content": {
-              "_type": "Basic FMS Info",
-              "_title": "FMS"
-            }
-          },
-          "19,0": {
-            "size": [
-              4,
-              4
-            ],
-            "content": {
-              "_type": "Gyro",
-              "_source0": "network_table:///LiveWindow/Ungrouped/navX-Sensor[4]",
-              "_title": "LiveWindow/Ungrouped/navX-Sensor[4]",
-              "Visuals/Major tick spacing": 45.0,
-              "Visuals/Starting angle": 180.0,
-              "Visuals/Show tick mark ring": true,
-              "Visuals/Counter clockwise": false
-            }
-          },
-          "3,5": {
-            "size": [
-              8,
-              5
-            ],
-            "content": {
-              "_type": "Differential Drivebase",
-              "_source0": "network_table:///LiveWindow/Ungrouped/DifferentialDrive[1]",
-              "_title": "LiveWindow/Ungrouped/DifferentialDrive[1]",
-              "Wheels/Number of wheels": 4,
-              "Wheels/Wheel diameter": 80.0,
-              "Visuals/Show velocity vectors": true
-            }
-          },
-          "11,8": {
-            "size": [
-              6,
-              2
-            ],
-            "content": {
-              "_type": "Voltage View",
-              "_title": "Voltage View",
-              "Range/Min": 0.0,
-              "Range/Max": 12.0,
-              "Range/Center": 0.0,
-              "Visuals/Orientation": "HORIZONTAL",
-              "Visuals/Number of tick marks": 5
-            }
-          },
-          "11,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Flywheel/state",
-              "_title": "Flywheel/state"
+              "Visuals/Show Outside Circles": false,
+              "Colors/traj": "#FFFFFFFF"
             }
           },
           "13,0": {
@@ -143,8 +33,8 @@
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Flywheel/speed",
-              "_title": "Flywheel/speed"
+              "_source0": "network_table:///SmartDashboard/Intake Pos",
+              "_title": "Intake Pos"
             }
           },
           "15,0": {
@@ -154,32 +44,8 @@
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Flywheel/voltage",
-              "_title": "Flywheel/voltage"
-            }
-          },
-          "11,1": {
-            "size": [
-              3,
-              3
-            ],
-            "content": {
-              "_type": "Boolean Box",
-              "_source0": "network_table:///SmartDashboard/Flywheel/atGoal",
-              "_title": "Flywheel/atGoal",
-              "Colors/Color when true": "#7CFC00FF",
-              "Colors/Color when false": "#8B0000FF"
-            }
-          },
-          "17,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Flywheel",
-              "_title": "Flywheel"
+              "_source0": "network_table:///SmartDashboard/Climber Status",
+              "_title": "Climber Status"
             }
           }
         }

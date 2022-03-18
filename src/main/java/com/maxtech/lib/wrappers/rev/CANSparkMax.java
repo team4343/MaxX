@@ -1,7 +1,5 @@
 package com.maxtech.lib.wrappers.rev;
 
-import com.maxtech.lib.logging.RobotLogger;
-
 public class CANSparkMax extends com.revrobotics.CANSparkMax {
     /**
      * Create a new object to control a SPARK MAX motor Controller
@@ -12,11 +10,5 @@ public class CANSparkMax extends com.revrobotics.CANSparkMax {
      */
     public CANSparkMax(int deviceId, MotorType type) {
         super(deviceId, type);
-    }
-
-
-    @Override
-    public void set(double speed) {
-        setVoltage(speed / 100);
     }
 }

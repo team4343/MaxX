@@ -88,4 +88,9 @@ public class Flywheel extends Subsystem {
     public double getVelocity() {
         return io.getVelocity();
     }
+
+    @Override
+    public void periodic() {
+        statemachine.runCurrentHandler();
+    }
 }

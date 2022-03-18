@@ -33,11 +33,6 @@ public class LEDs extends Subsystem {
         RobotLogger.getInstance().dbg("Switched to solid state.");
     }
 
-    @Override
-    public void sendTelemetry(String prefix) {
-
-    }
-
     public void toNextPattern() {
         int currentOrdinal = statemachine.currentState().ordinal();
         int nextOrdinal;

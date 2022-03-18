@@ -87,10 +87,6 @@ public class Indexer extends Subsystem {
         Off, Unloaded, OneLoaded, TwoLoaded, Shooting,
     }
 
-    public void run() {
-        statemachine.runCurrentHandler();
-    }
-
     public void reset() {
         statemachine.toState(State.Unloaded);
     }
@@ -129,5 +125,10 @@ public class Indexer extends Subsystem {
 
     private boolean isBottomLoaded() {
         return !isBottomEmpty();
+    }
+
+    @Override
+    public void periodic() {
+        statemachine.runCurrentHandler();
     }
 }

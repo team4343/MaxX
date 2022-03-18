@@ -1,21 +1,16 @@
 package com.maxtech.maxx;
 
-import com.maxtech.lib.command.Subsystem;
+import com.maxtech.lib.command.AutonomousSequentialCommandGroup;
 import com.maxtech.lib.logging.RobotLogger;
-import com.maxtech.maxx.commands.plumbing.autonomous.OneBallAuto;
-import com.maxtech.maxx.commands.plumbing.autonomous.ReversingAuto;
 import com.maxtech.maxx.commands.plumbing.climber.Default;
 import com.maxtech.maxx.commands.plumbing.climber.Rotate;
 import com.maxtech.maxx.commands.porcelain.NextLEDPattern;
 import com.maxtech.maxx.commands.porcelain.ShootHigh;
 import com.maxtech.maxx.commands.porcelain.ShootLow;
 import com.maxtech.maxx.commands.porcelain.StopShot;
-import com.maxtech.maxx.commands.plumbing.autonomous.TwoBallAuto;
 import com.maxtech.maxx.commands.plumbing.climber.Extend;
 import com.maxtech.maxx.commands.plumbing.climber.Raise;
-import com.maxtech.maxx.commands.porcelain.flywheel.SetFlywheelLow;
-import com.maxtech.maxx.commands.porcelain.flywheel.StopFlywheel;
-import com.maxtech.maxx.commands.porcelain.indexer.RunIndexer;
+import com.maxtech.maxx.commands.porcelain.autonomous.TwoBallFromFender;
 import com.maxtech.maxx.commands.porcelain.intake.DumpIntake;
 import com.maxtech.maxx.commands.porcelain.intake.SetIntake;
 import com.maxtech.maxx.subsystems.intake.Intake;
@@ -24,6 +19,7 @@ import com.maxtech.maxx.subsystems.drivetrain.Drive;
 import com.maxtech.maxx.subsystems.flywheel.Flywheel;
 import com.maxtech.maxx.subsystems.indexer.Indexer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -32,8 +28,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import org.jetbrains.annotations.NotNull;
 import com.maxtech.maxx.Constants.Buttons;
-
-import java.util.List;
 
 /**
  * The bulk connector for our robot. This class unifies subsystems, commands, and button bindings under one place. This
@@ -55,7 +49,7 @@ public class RobotContainer {
     private final Intake intake = Intake.getInstance();
     private final LEDs leds = LEDs.getInstance();
 
-    private final SendableChooser<Command> autonomousCommand = new SendableChooser<>();
+    private final SendableChooser<AutonomousSequentialCommandGroup> autonomousCommand = new SendableChooser<>();
 
     public RobotContainer() {
         configureAutonomousCommand();
@@ -63,9 +57,10 @@ public class RobotContainer {
     }
 
     private void configureAutonomousCommand() {
-        autonomousCommand.setDefaultOption("reverse + pickup + shoot", new TwoBallAuto());
-        autonomousCommand.addOption("shoot + reverse", new OneBallAuto());
-        autonomousCommand.addOption("reverse", new ReversingAuto());
+        autonomousCommand.setDefaultOption("two ball from fender", new TwoBallFromFender());
+
+        var tab = Shuffleboard.getTab("Main");
+        tab.add("Autonomous selector", autonomousCommand);
     }
 
     /**
@@ -75,15 +70,15 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         drivetrain.setDefaultCommand(new RunCommand(() -> {
+            // https://www.desmos.com/calculator/xmotljqdal
             double speed = masterController.getRightTriggerAxis() - masterController.getLeftTriggerAxis();
             double rotation = Math.min(Math.max(Math.pow(-masterController.getLeftX(), 3) * 2, -1), 1);
-            // https://www.desmos.com/calculator/xmotljqdal
 
             drivetrain.arcade(speed, rotation);
         }, drivetrain));
 
         // Start Indexer system
-        indexer.setDefaultCommand(new RunIndexer());
+        // indexer.setDefaultCommand(new RunIndexer());
 
         new JoystickButton(masterController, XboxController.Button.kLeftBumper.value).whenPressed(new NextLEDPattern());
         new JoystickButton(masterController, Buttons.Intake)
@@ -133,12 +128,8 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
+        drivetrain.setStartingPosition(autonomousCommand.getSelected().getStartingPosition());
         return autonomousCommand.getSelected();
-    }
-
-    /** All of these subsystems send telemetry. */
-    public List<Subsystem> getTelemetrySubsystems() {
-        return List.of(drivetrain, flywheel, intake);
     }
 
     /** Decide on the I/O based on the current team number. */

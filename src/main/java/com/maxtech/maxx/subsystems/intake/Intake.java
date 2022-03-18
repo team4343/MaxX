@@ -6,7 +6,6 @@ import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import com.maxtech.maxx.Constants;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static com.maxtech.maxx.RobotContainer.decideIO;
 
@@ -68,16 +67,6 @@ public class Intake extends Subsystem {
 
     public void stop() {
         statemachine.toState(IntakeState.Raised);
-    }
-
-    @Override
-    public void sendTelemetry(String prefix) {
-
-    }
-
-    @Override
-    public void periodic(){
-        SmartDashboard.putString("Intake Pos",statemachine.currentStateName());
     }
 
     public IntakeState getState() {

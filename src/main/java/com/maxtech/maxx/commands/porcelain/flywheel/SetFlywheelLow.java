@@ -17,11 +17,6 @@ public class SetFlywheelLow extends CommandBase {
     }
 
     @Override
-    public void execute() {
-        flywheel.run();
-    }
-
-    @Override
     public boolean isFinished() {
         return flywheel.atGoal();
     }

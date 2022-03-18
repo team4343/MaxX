@@ -2,6 +2,7 @@ package com.maxtech.maxx.subsystems.drivetrain;
 
 import com.maxtech.lib.wrappers.rev.CANSparkMax;
 import com.maxtech.maxx.Constants;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -20,6 +21,8 @@ public interface DriveIO {
      * @see DifferentialDrive
      */
     void tank(double ls, double rs);
+
+    void tankDriveVolts(double lv, double rv);
 
     /**
 
@@ -40,6 +43,8 @@ public interface DriveIO {
      * */
     void resetOdometry(Pose2d pose);
 
+    void setStartingPosition(Pose2d pose);
+
     /**
      * Get the current pose, according to odometry.
      *
@@ -56,9 +61,6 @@ public interface DriveIO {
 
     /** Get the distance travelled of one Spark Max motor controller. */
     double getDistanceTravelled(CANSparkMax controller, double gearing, double wheelDiameter);
-
-    /** Raw Neo Encoder **/
-    double getDistanceTravelled();
 
     /** Get the distance travelled of one Spark Max controller with default values. */
     default double getDistanceTravelled(CANSparkMax controller) {

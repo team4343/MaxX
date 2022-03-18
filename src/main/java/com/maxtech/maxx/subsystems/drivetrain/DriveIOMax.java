@@ -1,13 +1,14 @@
 package com.maxtech.maxx.subsystems.drivetrain;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.Constants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.REVPhysicsSim;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -15,12 +16,12 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveIOMax implements DriveIO {
     private final CANSparkMax left1 = new CANSparkMax(Constants.left1ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     private final CANSparkMax left2 = new CANSparkMax(Constants.left2ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     private final MotorControllerGroup left = new MotorControllerGroup(left1, left2);
-
 
     private final CANSparkMax right1 = new CANSparkMax(Constants.right1ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     private final CANSparkMax right2 = new CANSparkMax(Constants.right2ID, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -38,8 +39,8 @@ public class DriveIOMax implements DriveIO {
             Constants.Drive.trackWidth,
             null);
 
-    private final AHRS gyro = new AHRS();
-    private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(gyro.getRotation2d(), new Pose2d(0.0, 0, new Rotation2d()));
+    private final AHRS gyro = new AHRS(SPI.Port.kMXP);
+    private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(gyro.getAngle()), new Pose2d(7.662, 1.415, new Rotation2d(6.14, 1.158)));
     private final Field2d field = new Field2d();
 
     public DriveIOMax() {
@@ -56,13 +57,17 @@ public class DriveIOMax implements DriveIO {
         right2.setIdleMode(CANSparkMax.IdleMode.kCoast);
 
         // Ramp rate
-        // TODO Replace with better solution.
         left1.setOpenLoopRampRate(Constants.Drive.rampRate);
         left2.setOpenLoopRampRate(Constants.Drive.rampRate);
         right1.setOpenLoopRampRate(Constants.Drive.rampRate);
         right2.setOpenLoopRampRate(Constants.Drive.rampRate);
 
         left.setInverted(true);
+
+        left1.getEncoder().setPosition(0);
+        left2.getEncoder().setPosition(0);
+        right1.getEncoder().setPosition(0);
+        right2.getEncoder().setPosition(0);
         gyro.reset();
 
         drivetrain = new DifferentialDrive(left, right);
@@ -71,14 +76,14 @@ public class DriveIOMax implements DriveIO {
         drivetrainSimulator.addSparkMax(left2, DCMotor.getNEO(1));
         drivetrainSimulator.addSparkMax(right1, DCMotor.getNEO(1));
         drivetrainSimulator.addSparkMax(right2, DCMotor.getNEO(1));
+
+        SmartDashboard.putData("Drivetrain field", field);
     }
 
     @Override
     public void periodic() {
-    }
-
-    @Override
-    public void simulationPeriodic() {
+        odometry.update(Rotation2d.fromDegrees(gyro.getAngle()), getDistanceTravelled(left1), getDistanceTravelled(right1));
+        field.setRobotPose(odometry.getPoseMeters());
     }
 
     /**
@@ -103,6 +108,14 @@ public class DriveIOMax implements DriveIO {
         drivetrain.tankDrive(ls, rs);
     }
 
+    public void tankDriveVolts(double lv, double rv) {
+        left.setVoltage(lv);
+        right.setVoltage(rv);
+        drivetrain.feed();
+
+        RobotLogger.getInstance().dbg("lv %s | rv %s", lv, rv);
+    }
+
     /**
      * Resets the odometry to a given pose.
      *
@@ -110,8 +123,18 @@ public class DriveIOMax implements DriveIO {
      * @see DifferentialDriveOdometry
      * */
     public void resetOdometry(Pose2d pose) {
-        // TODO: we may need to reset encoders here.
         odometry.resetPosition(pose, gyro.getRotation2d());
+        field.setRobotPose(pose);
+
+        left1.getEncoder().setPosition(0);
+        left2.getEncoder().setPosition(0);
+        right1.getEncoder().setPosition(0);
+        right2.getEncoder().setPosition(0);
+    }
+
+    @Override
+    public void setStartingPosition(Pose2d pose) {
+        resetOdometry(pose);
     }
 
     /**
@@ -135,7 +158,11 @@ public class DriveIOMax implements DriveIO {
 
     @java.lang.Override
     public double getDistanceTravelled(com.maxtech.lib.wrappers.rev.CANSparkMax controller, double gearing, double wheelDiameter) {
-        return 0;
+        var motorRotations = controller.getEncoder().getPosition();
+        var wheelRotations = motorRotations / gearing;
+        double distanceTravelled = wheelRotations * Math.PI * wheelDiameter;
+
+        return distanceTravelled;
     }
 
     /** Get the distance travelled of one Spark Max motor controller. */
@@ -148,11 +175,8 @@ public class DriveIOMax implements DriveIO {
     }
 
     public double getDistanceTravelled(CANSparkMax controller) {
-        return getDistanceTravelled(controller, 12.98, Constants.Drive.gearing);
-    }
-
-    public double getDistanceTravelled() {
-        return left1.getEncoder().getPosition();
+        // 12.98
+        return getDistanceTravelled(controller, Constants.Drive.gearing, Constants.Drive.wheelDiameter / 2);
     }
 
     /**
@@ -162,6 +186,19 @@ public class DriveIOMax implements DriveIO {
      * @see DifferentialDriveWheelSpeeds
      * */
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-        return new DifferentialDriveWheelSpeeds(left1.getEncoder().getVelocity(), right1.getEncoder().getVelocity());
+        var left = RPMToMetersPerSecond(left1.getEncoder().getVelocity());
+        var right = RPMToMetersPerSecond(right1.getEncoder().getVelocity());
+        return new DifferentialDriveWheelSpeeds(left, right);
+    }
+
+    private double RPMToMetersPerSecond(double rpm, double r) {
+        return 0.1047 * r * rpm;
+    }
+
+    /**
+     * Convert RPM to m/s based on a default wheel radius of 6 inches (.1524 meters).
+     */
+    private double RPMToMetersPerSecond(double rpm) {
+        return RPMToMetersPerSecond(rpm, 0.0762);
     }
 }

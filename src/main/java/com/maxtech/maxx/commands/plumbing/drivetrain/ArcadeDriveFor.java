@@ -38,7 +38,6 @@ public class ArcadeDriveFor extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        // TODO: drivetrain.stop()
         drivetrain.arcade(0, 0);
     }
 }

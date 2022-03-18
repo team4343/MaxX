@@ -5,16 +5,12 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.kauailabs.navx.frc.AHRS;
-import com.maxtech.maxx.Constants;
 import static com.maxtech.maxx.Constants.Climber.*;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
-
-import static java.lang.Math.round;
 
 public class ClimberIOMax implements ClimberIO{
     private CANSparkMax winchR = new CANSparkMax(rightWinchID, MotorType.kBrushless);

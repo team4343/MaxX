@@ -5,7 +5,10 @@ import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.wrappers.rev.CANSparkMax;
 import com.maxtech.maxx.RobotContainer;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static com.maxtech.maxx.RobotContainer.decideIO;
@@ -13,7 +16,7 @@ import static com.maxtech.maxx.RobotContainer.decideIO;
 public class Drive extends Subsystem {
     private static Drive instance;
 
-    private DriveIO io = decideIO(DriveIOMax.class, DriveIOMax.class);
+    private final DriveIO io = decideIO(DriveIOMax.class, DriveIOMax.class);
 
     private static final RobotLogger logger = RobotLogger.getInstance();
     private boolean inverted = false;
@@ -27,7 +30,6 @@ public class Drive extends Subsystem {
     }
 
     private Drive() {
-        logger.log("Chose %s for I/O", io.getClass().getName());
     }
 
     @Override
@@ -56,12 +58,32 @@ public class Drive extends Subsystem {
         }
     }
 
+    public void tankDriveVolts(double lv, double rv) {
+        if (!inverted) {
+            io.tankDriveVolts(lv, rv);
+        } else {
+            io.tankDriveVolts(-lv, -rv);
+        }
+    }
+
+    public void stop() {
+        tankDriveVolts(0, 0);
+    }
+
+    public void setStartingPosition(Pose2d pose) {
+        io.setStartingPosition(pose);
+    }
+
     public void resetOdometry(Pose2d pose) {
         io.resetOdometry(pose);
     }
 
     public Pose2d getPose() {
         return io.getPose();
+    }
+
+    public Field2d getField() {
+        return io.getField();
     }
 
     public double getDistanceTravelled(CANSparkMax controller, double gearing, double wheelDiameter) {
@@ -72,22 +94,11 @@ public class Drive extends Subsystem {
         return io.getDistanceTravelled(controller);
     }
 
-    public double getDistanceTravelled() {
-        return io.getDistanceTravelled();
-    }
-
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         return io.getWheelSpeeds();
     }
 
     public void toggleDirection() {
         inverted = !inverted;
-    }
-
-    @Override
-    public void sendTelemetry(String prefix) {
-        SmartDashboard.putData(prefix + "field", io.getField());
-        SmartDashboard.putNumber(prefix + "x", getPose().getX());
-        SmartDashboard.putNumber(prefix + "y", getPose().getY());
     }
 }

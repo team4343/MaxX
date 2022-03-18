@@ -1,27 +1,26 @@
-package com.maxtech.maxx.commands.porcelain.flywheel;
+package com.maxtech.maxx.commands.porcelain.intake;
 
-import com.maxtech.maxx.Constants;
-import com.maxtech.maxx.subsystems.flywheel.Flywheel;
+import com.maxtech.maxx.subsystems.intake.Intake;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class SetFlywheelHighFor extends CommandBase {
-    private final Flywheel flywheel = Flywheel.getInstance();
+public class SetIntakeDownFor extends CommandBase {
+    private final Intake intake = Intake.getInstance();
 
     private final double startTime;
     private final double length;
 
-    public SetFlywheelHighFor(double length) {
+    public SetIntakeDownFor(double length) {
         this.length = length;
 
         startTime = Timer.getFPGATimestamp();
 
-        addRequirements(flywheel);
+        addRequirements(intake);
     }
 
     @Override
     public void initialize() {
-        flywheel.setGoal(Constants.Flywheel.topBinRPM);
+        intake.run();
     }
 
     @Override
@@ -31,6 +30,6 @@ public class SetFlywheelHighFor extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        flywheel.stop();
+        intake.stop();
     }
 }

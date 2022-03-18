@@ -3,45 +3,41 @@ package com.maxtech.maxx.subsystems.climber;
 import com.maxtech.lib.command.Subsystem;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
-import com.maxtech.maxx.Constants;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static com.maxtech.maxx.Constants.Climber.*;
 import static com.maxtech.maxx.RobotContainer.decideIO;
 
+/**
+ * Climb subsystem for Max X.
+ *
+ * This climb is interesting. The concept uses the winch to elevate the robot to height and then handoff the weight of
+ * the robot to the secondary arms. This handoff has the winch retract, raising the robot. The pivot hooks should be
+ * behind the bar and pivot forward into contact with the bar when the winch is fully retracted. When rotated forward
+ * the winch releases, transferring weight to the pivot hooks. The pivot will rotate slightly to allow the winch to
+ * extend fully underneath the next rung. When the winch is fully extended then the pivot will rotate so the winch is in
+ * contact with the bar. The winch will then retract fully allowing the pivot hooks to pivot back. As soon as there is
+ * movement on the pivot hooks away from the bar the winch extends enough to allow the pivot back under the current bar
+ * and the process restarts from baseline.
+ *
+ * Action                         | # | State
+ * --------------------------------------------
+ * Winch to 20%                   | 1 | Hanging
+ * Pivot Under                    | 1 | Hanging
+ * Winch to 0%                    | 2 | Handoff
+ * Pivot on                       | 2 | Handoff
+ * Winch to 50%                   | 3 | Nextbar
+ * Pivot robot to under next bar  | 3 | Nextbar
+ * Winch to 100%                  | 3 | Nextbar
+ * Pivot to contact next bar      | 3 | Nextbar
+ * Winch to 20%                   | 1 | Hanging
+ * Repeat...
+ */
 public class Climber extends Subsystem {
     private static Climber instance;
+
     private final ClimberIO io = decideIO(ClimberIOMax.class, ClimberIOMax.class);
     private final StateMachine<State> statemachine = new StateMachine<>("Climber", State.Raising);
-
-    /*
-    This climb is interesting. The concept uses the winch to elevate the robot
-    to height and then handoff the weight of the robot to the secondary arms.
-    This handoff has the winch retract, raising the robot. The pivot hooks
-    should be behind the bar and pivot forward into contact with the bar when
-    the winch is fully retracted. When rotated forward the winch releases,
-    transferring weight to the pivot hooks. The pivot will rotate slightly to
-    allow the winch to extend fully underneath the next rung. When the winch is
-    fully extended then the pivot will rotate so the winch is in contact with the
-    bar. The winch will then retract fully allowing the pivot hooks to pivot back.
-    As soon as there is movement on the pivot hooks away from the bar the winch
-    extends enough to allow the pivot back under the current bar and the process
-    restarts from baseline.
-
-    Winch to 20%                           1 - Hanging
-    Pivot Under                            1 - Hanging
-    Winch to 0%                            2 - Handoff
-    Pivot on                               2 - Handoff
-    Winch to 50%                           3 - Nextbar
-    Pivot robot to under next bar          3 - Nextbar
-    Winch to 100%                          3 - Nextbar
-    Pivot to contact next bar              3 - Nextbar
-    Winch to 20%                           1 - Hanging
-    Repeat...
-
-    The Climb should use the manual process
-     */
 
     public static Climber getInstance() {
         if (instance == null) {
@@ -175,8 +171,7 @@ public class Climber extends Subsystem {
     }
 
     @Override
-    public void periodic(){
+    public void periodic() {
         statemachine.runCurrentHandler();
-        SmartDashboard.putString("Climber Status",statemachine.currentStateName());
     }
 }
