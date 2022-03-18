@@ -26,7 +26,7 @@ The library contains robot-agnostic support code. A more accurate description fo
 
 #### Annotations
 
-The library contains reader-oriented Java annotations, such as `Tested` and `IncompleteIO`, that mark specific information for the user.
+The library contains reader-oriented Java annotations, such as `IncompleteIO`, that mark specific information for the user.
 
 #### Command
 
