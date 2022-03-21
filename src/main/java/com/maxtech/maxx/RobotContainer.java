@@ -2,17 +2,13 @@ package com.maxtech.maxx;
 
 import com.maxtech.lib.command.AutonomousSequentialCommandGroup;
 import com.maxtech.lib.logging.RobotLogger;
-import com.maxtech.maxx.commands.plumbing.climber.Default;
-import com.maxtech.maxx.commands.plumbing.climber.Rotate;
+import com.maxtech.maxx.commands.plumbing.climber.*;
 import com.maxtech.maxx.commands.porcelain.NextLEDPattern;
 import com.maxtech.maxx.commands.porcelain.intake.LowerIntakeFor;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootHigh;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootLow;
 import com.maxtech.maxx.commands.porcelain.shooter.StopShot;
-import com.maxtech.maxx.commands.plumbing.climber.Extend;
-import com.maxtech.maxx.commands.plumbing.climber.Raise;
 import com.maxtech.maxx.commands.porcelain.autonomous.TwoBallFromFender;
-import com.maxtech.maxx.commands.porcelain.intake.DumpIntake;
 import com.maxtech.maxx.commands.porcelain.intake.SetIntake;
 import com.maxtech.maxx.subsystems.intake.Intake;
 import com.maxtech.maxx.subsystems.LEDs;
@@ -97,32 +93,32 @@ public class RobotContainer {
                 .whenPressed(new InstantCommand(drivetrain::toggleDirection, drivetrain));
 
         // Dump Intake TODO Add a debounce
-        new POVButton(masterController, Buttons.DumpPOV)
-                .whenPressed(new DumpIntake())
-                .whenReleased(new SetIntake(false));
+        // new POVButton(masterController, Buttons.DumpPOV)
+        //         .whenPressed(new DumpIntake())
+        //         .whenReleased(new SetIntake(false));
 
         // Basic Climb
-        //new JoystickButton(masterController, Buttons.Climb)
-        //        .whenPressed(new Extend())
-        //        .whenReleased(new Raise());
+        // new JoystickButton(masterController, Buttons.Climb)
+        //         .whenPressed(new Extend())
+        //         .whenReleased(new Raise());
 
         // TODO Add a debounce to the climber.
-        // Extend Climb
-        new POVButton(masterController, Buttons.ExtendClimbPOV)
-                .whenPressed(new Extend());
+        // Next Bar
+        new POVButton(masterController, Buttons.DumpPOV) // Down
+                .whenPressed(new NextBar());
 
-        // Retract Winch
-        new POVButton(masterController, Buttons.ReleaseClimbPOV)
-                .whenPressed(new Raise());
+        // Hang
+        new POVButton(masterController, Buttons.HangClimbPOV) // Left
+                .whenPressed(new Hang());
 
-        // Initiate Climber
-        new POVButton(masterController, Buttons.HangClimbPOV)
-                .whenPressed(new Rotate());
+        // Handoff
+        new POVButton(masterController, Buttons.ReleaseClimbPOV) // Right
+                .whenPressed(new Handoff());
 
         // Default Config during match.
-        new POVButton(masterController, Buttons.DefaultConfigPOV)
-                .whenPressed(new Default());
-
+        new JoystickButton(masterController, Buttons.ExtendClimbPOV) // Up
+                .whenPressed(new Extend())
+                .whenReleased(new Raise());
     }
 
     /**
