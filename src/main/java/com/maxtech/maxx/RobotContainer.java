@@ -97,31 +97,27 @@ public class RobotContainer {
         //         .whenReleased(new SetIntake(false));
 
         // Basic Climb
-        new JoystickButton(masterController, Buttons.Climb)
-                .whenPressed(new Extend())
-                .whenReleased(new Raise());
+        // new JoystickButton(masterController, Buttons.Climb)
+        //         .whenPressed(new Extend())
+        //         .whenReleased(new Raise());
 
         // TODO Add a debounce to the climber.
-        // Extend Climb
-        new POVButton(masterController, Buttons.ExtendClimbPOV) // Up
-                .whenPressed(new Extend());
+        // Next Bar
+        new POVButton(masterController, Buttons.DumpPOV) // Down
+                .whenPressed(new NextBar());
 
-        // Retract Winch
-        new POVButton(masterController, Buttons.ReleaseClimbPOV) // Down
-                .whenPressed(new Raise());
-
-        // Initiate Climber
+        // Hang
         new POVButton(masterController, Buttons.HangClimbPOV) // Left
                 .whenPressed(new Hang());
 
-        // Initiate Climber
-        new POVButton(masterController, Buttons.DumpPOV) // Right
+        // Handoff
+        new POVButton(masterController, Buttons.ReleaseClimbPOV) // Right
                 .whenPressed(new Handoff());
 
         // Default Config during match.
-        new JoystickButton(masterController, Buttons.Climb) // Y
-                .whenPressed(new NextBar());
-
+        new JoystickButton(masterController, Buttons.ExtendClimbPOV) // Up
+                .whenPressed(new Extend())
+                .whenReleased(new Raise());
     }
 
     /**
