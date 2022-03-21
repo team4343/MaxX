@@ -1,7 +1,9 @@
 package com.maxtech.maxx.subsystems.drivetrain;
 
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 import com.maxtech.lib.logging.RobotLogger;
+import com.maxtech.lib.wrappers.ctre.TalonEncoder;
 import com.maxtech.maxx.Constants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -9,6 +11,8 @@ import com.revrobotics.REVPhysicsSim;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -40,7 +44,7 @@ public class DriveIOMax implements DriveIO {
             null);
 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
-    private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(gyro.getAngle()), new Pose2d(7.662, 1.415, new Rotation2d(6.14, 1.158)));
+    private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
     private final Field2d field = new Field2d();
 
     public DriveIOMax() {
@@ -68,7 +72,9 @@ public class DriveIOMax implements DriveIO {
         left2.getEncoder().setPosition(0);
         right1.getEncoder().setPosition(0);
         right2.getEncoder().setPosition(0);
+
         gyro.reset();
+        gyro.resetDisplacement();
 
         drivetrain = new DifferentialDrive(left, right);
 
@@ -78,11 +84,19 @@ public class DriveIOMax implements DriveIO {
         drivetrainSimulator.addSparkMax(right2, DCMotor.getNEO(1));
 
         SmartDashboard.putData("Drivetrain field", field);
+        var tab = Shuffleboard.getTab("Drive");
+        tab.addNumber("rotation", gyro::getAngle);
+        tab.addNumber("distance travelled left", () -> this.getDistanceTravelled(left1));
+        tab.addNumber("distance travelled right", () -> this.getDistanceTravelled(right1));
+        tab.addNumber("wheel speeds left", () -> getWheelSpeeds().leftMetersPerSecond);
+        tab.addNumber("wheel speeds right", () -> getWheelSpeeds().rightMetersPerSecond);
+        tab.addNumber("pose x", () -> getPose().getX());
+        tab.addNumber("pose y", () -> getPose().getY());
     }
 
     @Override
     public void periodic() {
-        odometry.update(Rotation2d.fromDegrees(gyro.getAngle()), getDistanceTravelled(left1), getDistanceTravelled(right1));
+        odometry.update(gyro.getRotation2d(), getDistanceTravelled(left1), getDistanceTravelled(right1));
         field.setRobotPose(odometry.getPoseMeters());
     }
 
@@ -112,8 +126,6 @@ public class DriveIOMax implements DriveIO {
         left.setVoltage(lv);
         right.setVoltage(rv);
         drivetrain.feed();
-
-        RobotLogger.getInstance().dbg("lv %s | rv %s", lv, rv);
     }
 
     /**
@@ -123,6 +135,7 @@ public class DriveIOMax implements DriveIO {
      * @see DifferentialDriveOdometry
      * */
     public void resetOdometry(Pose2d pose) {
+        gyro.reset();
         odometry.resetPosition(pose, gyro.getRotation2d());
         field.setRobotPose(pose);
 
@@ -186,9 +199,9 @@ public class DriveIOMax implements DriveIO {
      * @see DifferentialDriveWheelSpeeds
      * */
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-        var left = RPMToMetersPerSecond(left1.getEncoder().getVelocity());
-        var right = RPMToMetersPerSecond(right1.getEncoder().getVelocity());
-        return new DifferentialDriveWheelSpeeds(left, right);
+        var left = RPMToMetersPerSecond((left1.getEncoder().getVelocity() + left2.getEncoder().getVelocity()) / 2);
+        var right = -RPMToMetersPerSecond((right1.getEncoder().getVelocity() + right2.getEncoder().getVelocity()) / 2);
+        return new DifferentialDriveWheelSpeeds(left / 10, right / 10);
     }
 
     private double RPMToMetersPerSecond(double rpm, double r) {

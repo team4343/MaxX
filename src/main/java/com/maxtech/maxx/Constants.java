@@ -35,9 +35,9 @@ public final class Constants {
 
         /**
          *
-         * Diameter of one wheel, in centimeters.
+         * Diameter of one wheel, in meters.
          */
-        public static final double wheelDiameter = 16;
+        public static final double wheelDiameter = 0.16;
 
         /**
          * Encoder distance per pulse.
@@ -79,8 +79,8 @@ public final class Constants {
         public static final int TimeoutMs = 30;
         public static final boolean SensorPhase = false;
         public static final boolean MotorInvert = false;
-        public static final int topBinRPM = 0;
-        public static final int bottomBinRPM = 0;
+        public static final int topBinRPM = 3000;
+        public static final int bottomBinRPM = 1000;
         public static final double rpmThreshold = 0;
         public static final int talonFXResolution = 2048;
     }
@@ -94,7 +94,7 @@ public final class Constants {
     }
 
     public static class Intake {
-        public static final int pivotID = 6;
+        public static final int pivotID = 10;
         public static final int wheelsID = 7;
         public static final int upPos = 0;
         public static final int downPos = decide(-1100, -1200);

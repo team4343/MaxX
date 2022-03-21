@@ -14,7 +14,7 @@ public class Flywheel extends Subsystem {
     private final FlywheelIO io = decideIO(FlywheelIOMax.class, FlywheelIOPeter.class);
     private final StateMachine<State> statemachine = new StateMachine<>("Flywheel", State.Idle);
 
-    private final SimpleFlywheelController controller = new SimpleFlywheelController(1, 1);
+    private final SimpleFlywheelController controller = new SimpleFlywheelController(0.018371, 0.0022809);
 
     private enum State {
         Idle, Spinning, SpinningAtGoal,
@@ -67,7 +67,7 @@ public class Flywheel extends Subsystem {
     }
 
     public void stop() {
-        statemachine.toState(State.Idle);
+        controller.setDesiredVelocity(0);
     }
 
     public void setGoal(double rpm) {

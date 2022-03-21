@@ -5,6 +5,7 @@ import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.plumbing.climber.Default;
 import com.maxtech.maxx.commands.plumbing.climber.Rotate;
 import com.maxtech.maxx.commands.porcelain.NextLEDPattern;
+import com.maxtech.maxx.commands.porcelain.intake.LowerIntakeFor;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootHigh;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootLow;
 import com.maxtech.maxx.commands.porcelain.shooter.StopShot;

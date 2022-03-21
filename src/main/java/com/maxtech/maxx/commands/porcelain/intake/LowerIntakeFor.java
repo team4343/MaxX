@@ -16,6 +16,8 @@ public class LowerIntakeFor extends TimedCommand {
 
     @Override
     public void initialize() {
+        super.initialize();
+
         intake.run();
         indexer.turnOn();
     }
