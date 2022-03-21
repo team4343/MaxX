@@ -163,7 +163,7 @@ public final class Constants {
         public static final double maxPivotOutputForward = 0.15;
         public static final double maxPivotOutputReverse = 0.15;
         public static final double maxPivotPosForward = 800;
-        public static final double maxPivotPosReverse = -800;
+        public static final double maxPivotPosReverse = -800; // TODO Do I have to invert for R?
 
         public static final double winchUpPos = 60;
         public static final double winchUpThreshold = 0.2;

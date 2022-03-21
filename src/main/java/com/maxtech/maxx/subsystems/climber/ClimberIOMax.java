@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import org.opencv.core.Mat;
 
 public class ClimberIOMax implements ClimberIO{
     private CANSparkMax winchR = new CANSparkMax(rightWinchID, MotorType.kBrushless);
@@ -119,16 +120,18 @@ public class ClimberIOMax implements ClimberIO{
         pivotL.set(ControlMode.Position, 0);
 
         // Left Follows Right and should be mirrored (inverted)
-        pivotR.setInverted(true);
+        pivotR.setInverted(true); // TODO CHECK THIS
         pivotL.setInverted(true);
-        pivotR.follow(pivotL);
+        //pivotR.follow(pivotL);
 
         gyro.reset();
     }
 
     @Override
     public void setPivotPos(double pos) {
+        // TODO CHECK IF I NEED TO INVERT THE POSITION ON R
         pivotL.set(TalonSRXControlMode.Position, pos);
+        pivotR.set(TalonSRXControlMode.Position, pos); // THIS IS NEW
     }
 
     @Override
@@ -149,7 +152,20 @@ public class ClimberIOMax implements ClimberIO{
 
     @Override
     public double getPivotPos() {
+        double L = pivotL.getSelectedSensorPosition();
+        double R = pivotR.getSelectedSensorPosition();
+        if (Math.abs(L) < Math.abs(R))
+            return L;
+        else
+            return R;
+    }
+
+    public double getPivotPosL() {
         return pivotL.getSelectedSensorPosition();
+    }
+
+    public double getPivotPosR() {
+        return pivotR.getSelectedSensorPosition();
     }
 
     @Override
