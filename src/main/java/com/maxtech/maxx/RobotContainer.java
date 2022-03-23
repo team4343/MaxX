@@ -76,6 +76,7 @@ public class RobotContainer {
             double rotation = Math.min(Math.max(Math.pow(-masterController.getLeftX(), 3) * 2, -1), 1);
 
             drivetrain.arcade(speed, rotation);
+
         }, drivetrain));
 
         new JoystickButton(masterController, XboxController.Button.kLeftBumper.value).whenPressed(new NextLEDPattern());
@@ -116,9 +117,12 @@ public class RobotContainer {
                 .whenPressed(new Handoff());
 
         // Default Config during match.
-        new JoystickButton(masterController, Buttons.ExtendClimbPOV) // Up
+        new POVButton(masterController, Buttons.ExtendClimbPOV) // Up
                 .whenPressed(new Extend())
                 .whenReleased(new Raise());
+
+        new JoystickButton(masterController, XboxController.Button.kLeftBumper.value)
+                .whenPressed(new Default());
     }
 
     /**

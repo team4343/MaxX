@@ -43,7 +43,7 @@ public class Drive extends Subsystem {
         if (!inverted) {
             io.arcade(s, r);
         } else {
-            io.arcade(-s, -r);
+            io.arcade(-s, r);
         }
     }
 

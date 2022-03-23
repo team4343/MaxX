@@ -79,7 +79,7 @@ public final class Constants {
         public static final int TimeoutMs = 30;
         public static final boolean SensorPhase = false;
         public static final boolean MotorInvert = false;
-        public static final int topBinRPM = 3000;
+        public static final int topBinRPM = 3200;
         public static final int bottomBinRPM = 1000;
         public static final double rpmThreshold = 0;
         public static final int talonFXResolution = 2048;
@@ -132,7 +132,7 @@ public final class Constants {
         public static final int rightPivotID = 2;
 
         // WINCH
-        public static final double down_P = 0.2;
+        public static final double down_P = 0.4;
         public static final double down_I = 0.0;
         public static final double down_Iz = 0;
         public static final double down_D = 0;
@@ -144,12 +144,12 @@ public final class Constants {
         public static final double up_F = 0;
         public static final int upPidID = 0;
         public static final int downPidID = 1;
-        public static final double maxOutputUp = 0.8;
-        public static final double minOutputUp = -0.8;
-        public static final double maxOutputDown = 0.8;
-        public static final double minOutputDown = -0.8;
+        public static final double maxOutputUp = 1;
+        public static final double minOutputUp = -1;
+        public static final double maxOutputDown = 1;
+        public static final double minOutputDown = -1;
         public static final float winchForwardSoftLimit = 70;
-        public static final float winchReverseSoftLimit = 0;
+        public static final float winchReverseSoftLimit = -4;
 
         // PIVOT
         public static final int pivotpidID = 0;
@@ -160,19 +160,19 @@ public final class Constants {
         public static final double pivotI = 0;
         public static final double pivotD = 0;
         public static final double pivotF = 0;
-        public static final double maxPivotOutputForward = 0.15;
-        public static final double maxPivotOutputReverse = 0.15;
+        public static final double maxPivotOutputForward = 0.1;
+        public static final double maxPivotOutputReverse = 0.1;
         public static final double maxPivotPosForward = 800;
         public static final double maxPivotPosReverse = -800; // TODO Do I have to invert for R?
 
-        public static final double winchUpPos = 60;
+        public static final double winchUpPos = 65;
         public static final double winchUpThreshold = 0.2;
-        public static final double winchDownPos = 1;
+        public static final double winchDownPos = -1;
         public static final double winchDownThreshold = 10; // Set to within 10 revolutions of bottom.
         public static final double winchHangingPos = 25;
         public static final double winchHangingThreshold = 0.1;
         public static final double pivotHangingPos = 500;// Behind bar doing nothing
-        public static final double pivotHandoffPos = -100;// Contacting bar ready for full robot weig
+        public static final double pivotHandoffPos = -200;// Contacting bar ready for full robot weig
         public static final double pivotHandoffThreshold = 0.5;// Should be very tight to b
         public static final double pivotClearBarPos = 600;
         public static final double pivotClearBarThreshold = 0.1;

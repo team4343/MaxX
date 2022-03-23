@@ -11,13 +11,12 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
-import org.opencv.core.Mat;
 
 public class ClimberIOMax implements ClimberIO{
-    private CANSparkMax winchR = new CANSparkMax(rightWinchID, MotorType.kBrushless);
-    private CANSparkMax winchL = new CANSparkMax(leftWinchID,  MotorType.kBrushless);
-    private TalonSRX pivotR = new TalonSRX(rightPivotID);
-    private TalonSRX pivotL = new TalonSRX(leftPivotID);
+    public CANSparkMax winchR = new CANSparkMax(rightWinchID, MotorType.kBrushless);
+    public CANSparkMax winchL = new CANSparkMax(leftWinchID,  MotorType.kBrushless);
+    public TalonSRX pivotR = new TalonSRX(rightPivotID);
+    public TalonSRX pivotL = new TalonSRX(leftPivotID);
     private double absolutePivotPositionL = 0;
     private double absolutePivotPositionR = 0;
     private SparkMaxPIDController pidController;
@@ -92,7 +91,7 @@ public class ClimberIOMax implements ClimberIO{
         pivotR.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,
                 pivotpidID,
                 pivotTimeoutMs);
-        pivotR.setSensorPhase(pivotSensorPhase);
+        pivotR.setSensorPhase(!pivotSensorPhase);
         pivotR.setInverted(pivotMotorInvert);
         pivotL.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,
                 pivotpidID,
@@ -167,6 +166,21 @@ public class ClimberIOMax implements ClimberIO{
     public double getPivotPosR() {
         return pivotR.getSelectedSensorPosition();
     }
+
+    public CANSparkMax getWinchL() {
+        return winchL;
+    }
+    public CANSparkMax getWinchR() {
+        return winchR;
+    }
+    public TalonSRX getPivotL() {
+        return pivotL;
+    }
+    public TalonSRX getPivotR() {
+        return pivotR;
+    }
+
+
 
     @Override
     public void halt() {

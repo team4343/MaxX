@@ -83,7 +83,7 @@ public class Climber extends Subsystem {
     /** How the climber is stored during the match. **/
     private void handleMatch(StateMachineMeta m) {
         io.setWinchPos(winchDownPos);
-        io.setPivotPos(pivotHangingPos);
+        io.setPivotPos(750);
     }
 
     /** Makes sure the pivot arms are on correct side of the bar **/
@@ -115,7 +115,7 @@ public class Climber extends Subsystem {
             System.out.println("Handoff - Pivot to bar.");
             // If contacting bar move to highbar transition
             // if (threshold(pivotHandoffPos, io.getPivotPos(), pivotHandoffThreshold))
-            if (io.getPivotPos() < 0)
+            if (io.getPivotPos() < -50)
                 ;//statemachine.toState(State.HighBar);
         } else
             System.out.println("Handoff - Winch not down yet.");
