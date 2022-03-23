@@ -31,4 +31,14 @@ public class FlywheelIOPeter implements FlywheelIO {
     public double getVoltage() {
         return left.getBusVoltage();
     }
+
+    @Override
+    public double getPercentOut() {
+        return 0;
+    }
+
+    @Override
+    public double getCurrent() {
+        return 0;
+    }
 }

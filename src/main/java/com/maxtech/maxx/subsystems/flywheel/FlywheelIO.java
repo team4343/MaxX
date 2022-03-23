@@ -6,4 +6,8 @@ public interface FlywheelIO {
 
     double getVelocity();
     double getVoltage();
+
+    double getPercentOut();
+
+    double getCurrent();
 }

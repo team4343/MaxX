@@ -1,5 +1,10 @@
 package com.maxtech.maxx.subsystems;
 
+import com.maxtech.lib.statemachines.StateMachine;
+import com.maxtech.maxx.Constants;
+import com.maxtech.maxx.subsystems.intake.Intake;
+import com.maxtech.maxx.subsystems.intake.IntakeIO;
+import com.maxtech.maxx.subsystems.intake.IntakeIOMax;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -8,10 +13,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static com.maxtech.maxx.Constants.a1;
 import static com.maxtech.maxx.Constants.a2;
+import static com.maxtech.maxx.RobotContainer.decideIO;
 
 public class Limelight extends SubsystemBase {
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    NetworkTable table;
 
+    private static Limelight instance;
     double tv;
     double tx;
     double ty;
@@ -19,6 +26,15 @@ public class Limelight extends SubsystemBase {
     double ts;
     double tl;
     double td;
+
+    public static Limelight getInstance() {
+        if (instance == null) {
+            instance = new Limelight();
+            instance.table = NetworkTableInstance.getDefault().getTable("limelight");
+        }
+        instance.table.getEntry("pipeline").setNumber(1);
+        return instance;
+    }
 
     @Override
     public void periodic() {
@@ -38,8 +54,10 @@ public class Limelight extends SubsystemBase {
         SmartDashboard.putNumber("ts", ts);
         SmartDashboard.putNumber("tl", tl);
         SmartDashboard.putNumber("td", td);
-        SmartDashboard.putNumber("l", getDistance());
+        SmartDashboard.putNumber("Distance", getDistance());
+        System.out.println(getDistance());
         SmartDashboard.putNumber("Pipeline", pipeline);
+
     }
 
     public double getTv() {
@@ -70,8 +88,20 @@ public class Limelight extends SubsystemBase {
         return td;
     }
 
+    public void setNumberTable(String name, int value) {
+        //instance.table.getEntry(name).setNumber(value);
+    }
+
     public double getDistance() {
+        // Distance is to the center of the flywheel axel.
         // TODO: The height (5) is probably inaccurate, please review.
-        return (5 + 104) / (Math.tan(a1 + a2));
+        // Goal Height 104
+        // Limelight Height 33
+        // Limelight angle to goal is ta
+        // Limelight angle from horizontal 28.51
+        // Axel offset from limelight camera 3
+        setNumberTable("pipeline", 1);
+        System.out.println(table.getEntry("ty").getDouble(0));
+        return (106-33) / (Math.tan((getTy() + 37)* 0.0175)) ;
     }
 }

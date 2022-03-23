@@ -68,10 +68,15 @@ public final class Constants {
         public static final double rampRate = 0.5; // Seconds to reach full output drive motors
     }
 
+    public static class Limelight {
+        public static final double minDistance = 0;
+        public static final double maxDistance = 0;
+    }
+
     public static class Flywheel {
         public static final int masterID = 5;
         public static final int slaveID = 6;
-        public static final double P = 0.2;
+        public static final double P = 0.3;
         public static final double I = 0;
         public static final double D = 0;
         public static final double F = 0;
@@ -79,9 +84,9 @@ public final class Constants {
         public static final int TimeoutMs = 30;
         public static final boolean SensorPhase = false;
         public static final boolean MotorInvert = false;
-        public static final int topBinRPM = 3200;
+        public static final int topBinRPM = 3500;
         public static final int bottomBinRPM = 1000;
-        public static final double rpmThreshold = 0;
+        public static final double rpmThreshold = 1;
         public static final int talonFXResolution = 2048;
     }
 

@@ -3,6 +3,7 @@ package com.maxtech.maxx;
 import com.maxtech.lib.command.AutonomousSequentialCommandGroup;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.plumbing.climber.*;
+import com.maxtech.maxx.commands.plumbing.flywheel.SetFlywheelHighLimelight;
 import com.maxtech.maxx.commands.porcelain.NextLEDPattern;
 import com.maxtech.maxx.commands.porcelain.intake.LowerIntakeFor;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootHigh;
@@ -86,7 +87,7 @@ public class RobotContainer {
                 .whenReleased(new SetIntake(false));
 
         // Shooter
-        new JoystickButton(masterController, Buttons.ShootHigh).whenPressed(new ShootHigh()).whenReleased(new StopShot());
+        new JoystickButton(masterController, Buttons.ShootHigh).whenPressed(new SetFlywheelHighLimelight()).whenReleased(new StopShot());
         new JoystickButton(masterController, Buttons.ShootLow).whenPressed(new ShootLow()).whenReleased(new StopShot());
 
         // Toggle Drive

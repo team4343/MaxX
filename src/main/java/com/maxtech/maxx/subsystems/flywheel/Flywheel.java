@@ -34,11 +34,21 @@ public class Flywheel extends Subsystem {
         tab.addNumber("desired", controller::getDesiredVelocity);
         tab.addBoolean("at goal", this::atGoal);
         tab.addNumber("velocity", this::getVelocity);
+        tab.addNumber("percentout", this::getPercentOut);
+        tab.addNumber("current", this::getCurrent);
 
         // Associate handlers for states.
         statemachine.associateState(State.Idle, this::handleIdle);
         statemachine.associateState(State.Spinning, this::handleSpinning);
         statemachine.associateState(State.SpinningAtGoal, this::handleSpinningAtGoal);
+    }
+
+    private double getCurrent() {
+        return io.getCurrent();
+    }
+
+    private double getPercentOut() {
+        return io.getPercentOut();
     }
 
     private void handleIdle(StateMachineMeta meta) {

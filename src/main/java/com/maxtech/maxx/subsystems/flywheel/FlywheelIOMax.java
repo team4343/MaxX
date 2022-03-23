@@ -41,6 +41,7 @@ public class FlywheelIOMax implements FlywheelIO {
     public void setVelocity(double velocity) {
         if (velocity == 0) {
             master.set(ControlMode.PercentOutput, 0);
+            return;
         }
 
         master.set(TalonFXControlMode.Velocity, velocity * Constants.Flywheel.talonFXResolution / (60 * 10));
@@ -54,5 +55,15 @@ public class FlywheelIOMax implements FlywheelIO {
     @Override
     public double getVoltage() {
         return master.getMotorOutputVoltage();
+    }
+
+    @Override
+    public double getPercentOut() {
+        return master.getMotorOutputPercent();
+    }
+
+    @Override
+    public double getCurrent() {
+        return master.getStatorCurrent();
     }
 }
