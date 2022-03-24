@@ -103,7 +103,7 @@ public final class Constants {
         public static final int wheelsID = 7;
         public static final int upPos = 0;
         public static final int downPos = decide(-1100, -1200);
-        public static final double P = 0.5;
+        public static final double P = 0.6;
         public static final double I = 0;
         public static final double D = 0;
         public static final double F = 0;
@@ -111,7 +111,7 @@ public final class Constants {
         public static final int TimeoutMs = 30;
         public static final boolean SensorPhase = false;
         public static final boolean MotorInvert = false;
-        public static final double wheelsInPercentOut = -0.6;
+        public static final double wheelsInPercentOut = -0.7;
     }
 
     public static class Buttons {
@@ -121,9 +121,9 @@ public final class Constants {
         public static final int ShootLow = XboxController.Button.kB.value;
         public static final int Climb = XboxController.Button.kY.value;
         public static final int DumpPOV = 90;
-        public static final int ExtendClimbPOV = 0;
-        public static final int ReleaseClimbPOV = 180;
-        public static final int HangClimbPOV = 270;
+        public static final int ShootLimelightHighPOV = 0;
+        public static final int ShootLowPOV = 180;
+        public static final int ShootHighPOV = 270;
         public static final int DefaultConfigPOV = -1;
 
 

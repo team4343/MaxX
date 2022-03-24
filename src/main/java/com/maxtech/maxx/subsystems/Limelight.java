@@ -5,6 +5,7 @@ import com.maxtech.maxx.Constants;
 import com.maxtech.maxx.subsystems.intake.Intake;
 import com.maxtech.maxx.subsystems.intake.IntakeIO;
 import com.maxtech.maxx.subsystems.intake.IntakeIOMax;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -19,13 +20,7 @@ public class Limelight extends SubsystemBase {
     NetworkTable table;
 
     private static Limelight instance;
-    double tv;
-    double tx;
-    double ty;
-    double ta;
-    double ts;
-    double tl;
-    double td;
+    private static PIDController pidController;
 
     public static Limelight getInstance() {
         if (instance == null) {
@@ -36,63 +31,50 @@ public class Limelight extends SubsystemBase {
         return instance;
     }
 
+    public Limelight() {
+        pidController = new PIDController(0.1,0,0);
+        pidController.setTolerance(2.0); // 3 degree tolerance.
+        pidController.setIntegratorRange(-0.5,0.5);
+
+    }
+
     @Override
     public void periodic() {
-        tv = table.getEntry("tv").getDouble(0);
-        tx = table.getEntry("tx").getDouble(0);
-        ty = table.getEntry("ty").getDouble(0);
-        ta = table.getEntry("ta").getDouble(0);
-        ts = table.getEntry("ts").getDouble(0);
-        tl = table.getEntry("tl").getDouble(0);
-        td = table.getEntry("td").getDouble(0);
-        double pipeline = table.getEntry("getpipe").getDouble(0);
-
-        SmartDashboard.putNumber("tv", tv);
-        SmartDashboard.putNumber("tx", tx);
-        SmartDashboard.putNumber("ty", ty);
-        SmartDashboard.putNumber("ta", ta);
-        SmartDashboard.putNumber("ts", ts);
-        SmartDashboard.putNumber("tl", tl);
-        SmartDashboard.putNumber("td", td);
         SmartDashboard.putNumber("Distance", getDistance());
-        System.out.println(getDistance());
-        SmartDashboard.putNumber("Pipeline", pipeline);
-
     }
 
-    public double getTv() {
-        return tv;
+    public boolean getTv() {
+        return table.getEntry("tv").getBoolean(false);
     }
-
     public double getTx() {
-        return tv;
+        return table.getEntry("tx").getDouble(0);
     }
-
     public double getTy() {
-        return ty;
+        return table.getEntry("ty").getDouble(0);
     }
-
     public double getTa() {
-        return ta;
+        return table.getEntry("ta").getDouble(0);
     }
-
     public double getTs() {
-        return ts;
+        return table.getEntry("ts").getDouble(0);
     }
-
     public double getTl() {
-        return tl;
+        return table.getEntry("tl").getDouble(0);
     }
-
     public double getTd() {
-        return td;
+        return table.getEntry("td").getDouble(0);
     }
 
     public void setNumberTable(String name, int value) {
-        //instance.table.getEntry(name).setNumber(value);
+        instance.table.getEntry(name).setNumber(value);
     }
 
+    public void setPipeline(int pipeline) {table.getEntry("pipeline").setNumber(pipeline);}
+
     public double getDistance() {
+        if (!getTv())
+            return 30; // However far back the average between fender and limelight vision loss is.
+
         // Distance is to the center of the flywheel axel.
         // TODO: The height (5) is probably inaccurate, please review.
         // Goal Height 104
@@ -101,7 +83,14 @@ public class Limelight extends SubsystemBase {
         // Limelight angle from horizontal 28.51
         // Axel offset from limelight camera 3
         setNumberTable("pipeline", 1);
-        System.out.println(table.getEntry("ty").getDouble(0));
         return (106-33) / (Math.tan((getTy() + 37)* 0.0175)) ;
+    }
+
+    public double getDriveRotation() {
+        return pidController.calculate(getTx(), 0);
+    }
+
+    public boolean aligned() {
+        return pidController.atSetpoint() && getTv();
     }
 }

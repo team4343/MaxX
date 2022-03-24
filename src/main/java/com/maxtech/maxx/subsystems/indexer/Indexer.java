@@ -39,6 +39,8 @@ public class Indexer extends Subsystem {
         statemachine.associateState(State.OneLoaded, this::handleOneLoaded);
         statemachine.associateState(State.TwoLoaded, this::handleTwoLoaded);
         statemachine.associateState(State.Shooting, this::handleShooting);
+
+        statemachine.toState(State.Off);
     }
 
     private void handleOff(StateMachineMeta m) {

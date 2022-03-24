@@ -3,10 +3,10 @@ package com.maxtech.maxx;
 import com.maxtech.lib.command.AutonomousSequentialCommandGroup;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.plumbing.climber.*;
-import com.maxtech.maxx.commands.plumbing.flywheel.SetFlywheelHighLimelight;
 import com.maxtech.maxx.commands.porcelain.NextLEDPattern;
-import com.maxtech.maxx.commands.porcelain.intake.LowerIntakeFor;
+import com.maxtech.maxx.commands.porcelain.intake.DumpIntake;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootHigh;
+import com.maxtech.maxx.commands.porcelain.shooter.ShootHighLimelight;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootLow;
 import com.maxtech.maxx.commands.porcelain.shooter.StopShot;
 import com.maxtech.maxx.commands.porcelain.autonomous.TwoBallFromFender;
@@ -87,7 +87,7 @@ public class RobotContainer {
                 .whenReleased(new SetIntake(false));
 
         // Shooter
-        new JoystickButton(masterController, Buttons.ShootHigh).whenPressed(new SetFlywheelHighLimelight()).whenReleased(new StopShot());
+        new JoystickButton(masterController, Buttons.ShootHigh).whenPressed(new ShootHighLimelight()).whenReleased(new StopShot());
         new JoystickButton(masterController, Buttons.ShootLow).whenPressed(new ShootLow()).whenReleased(new StopShot());
 
         // Toggle Drive
@@ -95,35 +95,30 @@ public class RobotContainer {
                 .whenPressed(new InstantCommand(drivetrain::toggleDirection, drivetrain));
 
         // Dump Intake TODO Add a debounce
-        // new POVButton(masterController, Buttons.DumpPOV)
-        //         .whenPressed(new DumpIntake())
-        //         .whenReleased(new SetIntake(false));
+        new POVButton(masterController, Buttons.DumpPOV) // Right
+                 .whenPressed(new DumpIntake())
+                 .whenReleased(new SetIntake(false));
 
         // Basic Climb
-        // new JoystickButton(masterController, Buttons.Climb)
-        //         .whenPressed(new Extend())
-        //         .whenReleased(new Raise());
+        new JoystickButton(masterController, Buttons.Climb)
+                 .whenPressed(new Extend())
+                 .whenReleased(new Raise());
 
         // TODO Add a debounce to the climber.
-        // Next Bar
-        new POVButton(masterController, Buttons.DumpPOV) // Down
-                .whenPressed(new NextBar());
+        new POVButton(masterController, Buttons.ShootLowPOV) // Down
+                .whenPressed(new ShootLow())
+                .whenReleased(new StopShot());
 
         // Hang
-        new POVButton(masterController, Buttons.HangClimbPOV) // Left
-                .whenPressed(new Hang());
+        new POVButton(masterController, Buttons.ShootHighPOV) // Left
+                .whenPressed(new ShootHigh())
+                .whenReleased(new StopShot());
 
-        // Handoff
-        new POVButton(masterController, Buttons.ReleaseClimbPOV) // Right
-                .whenPressed(new Handoff());
 
-        // Default Config during match.
-        new POVButton(masterController, Buttons.ExtendClimbPOV) // Up
-                .whenPressed(new Extend())
-                .whenReleased(new Raise());
+        new POVButton(masterController, Buttons.ShootLimelightHighPOV) // Up
+                .whenPressed(new ShootHighLimelight())
+                .whenReleased(new StopShot());
 
-        new JoystickButton(masterController, XboxController.Button.kLeftBumper.value)
-                .whenPressed(new Default());
     }
 
     /**
