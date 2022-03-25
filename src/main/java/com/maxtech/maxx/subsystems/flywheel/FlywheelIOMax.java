@@ -11,6 +11,7 @@ import com.maxtech.maxx.Constants;
 public class FlywheelIOMax implements FlywheelIO {
     private final TalonFX master = new TalonFX(Constants.Flywheel.masterID);
     private final TalonFX slave = new TalonFX(Constants.Flywheel.slaveID);
+    private static double lastSpeed = 0;
 
     public FlywheelIOMax() {
         //master.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,
@@ -39,6 +40,11 @@ public class FlywheelIOMax implements FlywheelIO {
 
     @Override
     public void setVelocity(double velocity) {
+        if (lastSpeed == velocity)
+            return;
+        else
+            lastSpeed = velocity;
+
         if (velocity == 0) {
             master.set(ControlMode.PercentOutput, 0);
             return;

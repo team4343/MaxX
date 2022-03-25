@@ -11,6 +11,7 @@ public class IntakeIOMax implements IntakeIO {
     private final TalonSRX pivotMotor = new TalonSRX(Constants.Intake.pivotID);
     private final VictorSPX wheels = new VictorSPX(Constants.Intake.wheelsID);
     public int absolutePosition = 0;
+    private static double lastPos = 0;
 
     public IntakeIOMax() {
         pivotMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,
@@ -33,7 +34,11 @@ public class IntakeIOMax implements IntakeIO {
 
     @Override
     public void setPos(double value) {
-        System.out.println(pivotMotor.getSensorCollection().getPulseWidthPosition());
+        //System.out.println(pivotMotor.getSensorCollection().getPulseWidthPosition());
+        if (lastPos == value)
+            return;
+        else
+            lastPos=value;
         pivotMotor.set(TalonSRXControlMode.Position, value);
     }
 
@@ -42,3 +47,4 @@ public class IntakeIOMax implements IntakeIO {
         wheels.set(ControlMode.PercentOutput, value);
     }
 }
+
