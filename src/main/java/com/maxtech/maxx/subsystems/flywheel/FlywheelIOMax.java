@@ -54,6 +54,7 @@ public class FlywheelIOMax implements FlywheelIO {
     }
 
     @Override
+
     public double getVelocity() {
         return ((master.getSelectedSensorVelocity(Constants.Flywheel.pidID) / Constants.Flywheel.talonFXResolution) * (60 * 10)) ;
     }

@@ -5,6 +5,8 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.maxtech.maxx.Constants;
 import edu.wpi.first.wpilibj.DigitalInput;
 
+import static com.maxtech.maxx.RobotContainer.decide;
+
 public class IndexerIOMax implements IndexerIO {
     private final VictorSPX bottomMotor = new VictorSPX(Constants.Indexer.bottomID);
     private final VictorSPX topMotor = new VictorSPX(Constants.Indexer.topID);
@@ -14,6 +16,10 @@ public class IndexerIOMax implements IndexerIO {
 
     private static double topLast = 0;
     private static double botLast = 0;
+
+    public IndexerIOMax() {
+        bottomMotor.setInverted(decide(false, true));
+    }
 
     @Override
     public void set(double top, double bottom) {

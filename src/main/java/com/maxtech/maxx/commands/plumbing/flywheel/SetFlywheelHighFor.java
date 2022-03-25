@@ -14,6 +14,7 @@ public class SetFlywheelHighFor extends TimedCommand {
 
     @Override
     public void initialize() {
+        super.initialize();
         flywheel.setGoal(Constants.Flywheel.topBinRPM);
     }
 
