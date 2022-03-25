@@ -73,7 +73,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         drivetrain.setDefaultCommand(new RunCommand(() -> {
             double speed = masterController.getRightTriggerAxis() - masterController.getLeftTriggerAxis();
-            double rotation = Math.min(Math.max(Math.pow(-masterController.getLeftX(), 3) * 2, -1), 1);
+            double rotation = Math.min(Math.max((-masterController.getLeftX() * -masterController.getLeftX() * -masterController.getLeftX()) * 2, -1), 1); // -masterController.getLeftX() ^ 3
 
             drivetrain.arcade(speed, rotation);
         }, drivetrain));

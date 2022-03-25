@@ -1,11 +1,9 @@
 package com.maxtech.maxx.subsystems.flywheel;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.maxtech.lib.wrappers.ctre.PhoenixMotorControllerGroup;
 import com.maxtech.maxx.Constants;
 
 public class FlywheelIOMax implements FlywheelIO {
