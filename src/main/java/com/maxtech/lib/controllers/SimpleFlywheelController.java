@@ -64,7 +64,7 @@ public class SimpleFlywheelController {
     }
 
     public boolean withinEpsilon(double currentVelocity) {
-        return withinEpsilon(currentVelocity, 500);
+        return withinEpsilon(currentVelocity, 600);
     }
 
     public boolean withinEpsilon(double currentVelocity, double epsilon) {

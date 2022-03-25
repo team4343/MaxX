@@ -42,12 +42,6 @@ public class Limelight extends SubsystemBase {
         tab.addBoolean("aligned", this::aligned);
     }
 
-    @Override
-    public void periodic() {
-        SmartDashboard.putNumber("Distance", getDistance());
-        SmartDashboard.putBoolean("Aligned", aligned());
-    }
-
     public boolean getTv() {
         return table.getEntry("tv").getBoolean(false);
     }
@@ -74,7 +68,9 @@ public class Limelight extends SubsystemBase {
         instance.table.getEntry(name).setNumber(value);
     }
 
-    public void setPipeline(int pipeline) {table.getEntry("pipeline").setNumber(pipeline);}
+    public void setPipeline(int pipeline) {
+        table.getEntry("pipeline").setNumber(pipeline);
+    }
 
     public double getDistance() {
         if (getTv())

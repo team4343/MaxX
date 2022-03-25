@@ -37,22 +37,6 @@ public class FlywheelIOMax implements FlywheelIO {
     }
 
     @Override
-    public void setVelocity(double velocity) {
-        if (lastSpeed == velocity)
-            return;
-        else
-            lastSpeed = velocity;
-
-        if (velocity == 0) {
-            master.set(ControlMode.PercentOutput, 0);
-            return;
-        }
-
-        master.set(TalonFXControlMode.Velocity, velocity * Constants.Flywheel.talonFXResolution / (60 * 10));
-    }
-
-    @Override
-
     public double getVelocity() {
         return ((master.getSelectedSensorVelocity(Constants.Flywheel.pidID) / Constants.Flywheel.talonFXResolution) * (60 * 10)) ;
     }

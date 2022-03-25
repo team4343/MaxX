@@ -10,5 +10,4 @@ public class ShootHighLimelight extends SequentialCommandGroup {
     public ShootHighLimelight() {
         addCommands(new SetFlywheelHighLimelight(), new ShootIndexer(), new StopIndexer());
     }
-
 }
