@@ -4,7 +4,6 @@ import com.maxtech.lib.command.AutonomousSequentialCommandGroup;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.plumbing.climber.*;
 import com.maxtech.maxx.commands.porcelain.NextLEDPattern;
-import com.maxtech.maxx.commands.porcelain.intake.DumpIntake;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootHigh;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootHighLimelight;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootLow;

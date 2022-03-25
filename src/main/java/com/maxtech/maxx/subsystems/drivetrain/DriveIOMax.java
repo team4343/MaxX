@@ -1,17 +1,12 @@
 package com.maxtech.maxx.subsystems.drivetrain;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.kauailabs.navx.frc.AHRS;
-import com.maxtech.lib.logging.RobotLogger;
-import com.maxtech.lib.wrappers.ctre.TalonEncoder;
 import com.maxtech.maxx.Constants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.REVPhysicsSim;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -21,8 +16,6 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import static com.maxtech.maxx.RobotContainer.decide;
 
 public class DriveIOMax implements DriveIO {
     private final CANSparkMax left1 = new CANSparkMax(Constants.left1ID, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -97,6 +90,10 @@ public class DriveIOMax implements DriveIO {
         tab.addNumber("wheel speeds right", () -> getWheelSpeeds().rightMetersPerSecond);
         tab.addNumber("pose x", () -> getPose().getX());
         tab.addNumber("pose y", () -> getPose().getY());
+        tab.addNumber("left1 voltage", left1::getAppliedOutput);
+        tab.addNumber("left2 voltage", left2::getAppliedOutput);
+        tab.addNumber("right1 voltage", right1::getAppliedOutput);
+        tab.addNumber("right2 voltage", right2::getAppliedOutput);
     }
 
     @Override
@@ -128,8 +125,8 @@ public class DriveIOMax implements DriveIO {
     }
 
     public void tankDriveVolts(double lv, double rv) {
-        left.setVoltage(lv);
-        right.setVoltage(rv);
+        left.setVoltage(rv);
+        right.setVoltage(lv);
         drivetrain.feed();
     }
 
