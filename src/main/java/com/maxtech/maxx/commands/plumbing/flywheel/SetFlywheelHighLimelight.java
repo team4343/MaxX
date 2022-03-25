@@ -34,7 +34,7 @@ public class SetFlywheelHighLimelight extends CommandBase {
         if (!limelight.aligned())
             rpm = 2500;
         flywheel.setGoal(rpm);
-        System.out.println(limelight.getDriveRotation());
+        //System.out.println(limelight.getDriveRotation());
         //drive.arcade(0, limelight.getDriveRotation());
     }
 

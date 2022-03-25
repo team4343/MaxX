@@ -6,6 +6,7 @@ import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
+import static com.maxtech.maxx.RobotContainer.decide;
 import static com.maxtech.maxx.RobotContainer.decideIO;
 
 public class Flywheel extends Subsystem {
@@ -14,7 +15,7 @@ public class Flywheel extends Subsystem {
     private final FlywheelIO io = decideIO(FlywheelIOMax.class, FlywheelIOPeter.class);
     private final StateMachine<State> statemachine = new StateMachine<>("Flywheel", State.Idle);
 
-    private final SimpleFlywheelController controller = new SimpleFlywheelController(0.018371, 0.0022809);
+    private final SimpleFlywheelController controller = new SimpleFlywheelController(decide(0.018371, 0.020706), decide(0.0022809, 0.00074233));
 
     private enum State {
         Idle, Spinning, SpinningAtGoal,
