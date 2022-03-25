@@ -13,8 +13,7 @@ public class SetFlywheelHigh extends CommandBase {
 
     @Override
     public void initialize() {
-        //flywheel.setGoal(Constants.Flywheel.topBinRPM);
-        flywheel.setGoal(3500);
+        flywheel.setGoal(Constants.Flywheel.topBinRPM);
     }
 
     @Override

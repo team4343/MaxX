@@ -32,8 +32,9 @@ public class Limelight extends SubsystemBase {
     }
 
     public Limelight() {
-        pidController = new PIDController(0.1,0,0);
-        pidController.setTolerance(2.0); // 3 degree tolerance.
+        pidController = new PIDController(0.2,0,0);
+        pidController.setTolerance(5); // 3 degree tolerance.
+        pidController.setSetpoint(0.0);
         pidController.setIntegratorRange(-0.5,0.5);
 
     }
@@ -41,6 +42,7 @@ public class Limelight extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Distance", getDistance());
+        SmartDashboard.putBoolean("Aligned", aligned());
     }
 
     public boolean getTv() {
@@ -72,7 +74,7 @@ public class Limelight extends SubsystemBase {
     public void setPipeline(int pipeline) {table.getEntry("pipeline").setNumber(pipeline);}
 
     public double getDistance() {
-        if (!getTv())
+        if (getTv())
             return 30; // However far back the average between fender and limelight vision loss is.
 
         // Distance is to the center of the flywheel axel.
@@ -83,14 +85,19 @@ public class Limelight extends SubsystemBase {
         // Limelight angle from horizontal 28.51
         // Axel offset from limelight camera 3
         setNumberTable("pipeline", 1);
+        //System.out.println((106-33) / (Math.tan((getTy() + 37)* 0.0175)));
         return (106-33) / (Math.tan((getTy() + 37)* 0.0175)) ;
     }
 
     public double getDriveRotation() {
+        if (getTv()) return 0;
         return pidController.calculate(getTx(), 0);
     }
 
     public boolean aligned() {
-        return pidController.atSetpoint() && getTv();
+        if (getTy() == 0) return false;
+        //System.out.println("Tx" + getTx());
+        //System.out.println("Position Error" +  pidController.getPositionError());
+        return (getTx()>-5&&getTx()<5) && !getTv();
     }
 }

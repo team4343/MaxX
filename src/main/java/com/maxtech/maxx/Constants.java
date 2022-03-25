@@ -84,7 +84,7 @@ public final class Constants {
         public static final int TimeoutMs = 30;
         public static final boolean SensorPhase = false;
         public static final boolean MotorInvert = false;
-        public static final int topBinRPM = 3500;
+        public static final int topBinRPM = 2400;
         public static final int bottomBinRPM = 1000;
         public static final double rpmThreshold = 1;
         public static final int talonFXResolution = 2048;
@@ -103,7 +103,7 @@ public final class Constants {
         public static final int wheelsID = 7;
         public static final int upPos = 0;
         public static final int downPos = decide(-1100, -1200);
-        public static final double P = 0.6;
+        public static final double P = 0.7;
         public static final double I = 0;
         public static final double D = 0;
         public static final double F = 0;
@@ -111,7 +111,7 @@ public final class Constants {
         public static final int TimeoutMs = 30;
         public static final boolean SensorPhase = false;
         public static final boolean MotorInvert = false;
-        public static final double wheelsInPercentOut = -0.7;
+        public static final double wheelsInPercentOut = -0.4;
     }
 
     public static class Buttons {

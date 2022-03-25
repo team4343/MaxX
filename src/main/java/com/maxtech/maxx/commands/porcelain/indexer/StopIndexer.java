@@ -12,7 +12,7 @@ public class StopIndexer extends CommandBase {
 
     @Override
     public void execute() {
-        indexer.stopShoot();
+        indexer.turnOff();
     }
 
     @Override

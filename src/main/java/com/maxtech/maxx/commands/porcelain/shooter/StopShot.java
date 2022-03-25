@@ -11,8 +11,8 @@ public class StopShot extends ParallelCommandGroup {
         addCommands(
                 new StopFlywheel(),
                 new SequentialCommandGroup(
-                        new StopIndexer(),
-                        new ResetIndexer()
+                        new ResetIndexer(),
+                        new StopIndexer()
                 ));
     }
 }

@@ -29,6 +29,11 @@ public class Drive extends Subsystem {
         return instance;
     }
 
+    public Drive() {
+        var tab = Shuffleboard.getTab("Drive");
+        tab.addBoolean("dyslexic", () -> this.inverted);
+    }
+
     @Override
     public void periodic() {
         io.periodic();

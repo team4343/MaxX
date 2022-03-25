@@ -106,7 +106,7 @@ public class Indexer extends Subsystem {
     }
 
     public void stopShoot() {
-        statemachine.toState(previousOnState);
+        statemachine.toState(State.Off);
     }
 
     private IndexerSensors getSensors() {

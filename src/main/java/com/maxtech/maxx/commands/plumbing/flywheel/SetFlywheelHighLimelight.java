@@ -20,7 +20,7 @@ public class SetFlywheelHighLimelight extends CommandBase {
     public void initialize() {
         double dist = limelight.getDistance();
 
-        double rpm = 0;
+        double rpm = 2300;
         if (dist < 80)
             rpm = 2300;
         else if (dist < 100)
@@ -28,10 +28,14 @@ public class SetFlywheelHighLimelight extends CommandBase {
         else if (dist < 130)
             rpm = 3300;
 
+        //rpm = Constants.Flywheel.topBinRPM;
+
+
         if (!limelight.aligned())
-            rpm = 0;
+            rpm = 2500;
         flywheel.setGoal(rpm);
-        drive.arcade(0, limelight.getDriveRotation());
+        System.out.println(limelight.getDriveRotation());
+        //drive.arcade(0, limelight.getDriveRotation());
     }
 
     @Override

@@ -77,7 +77,6 @@ public class RobotContainer {
             double rotation = Math.min(Math.max(Math.pow(-masterController.getLeftX(), 3) * 2, -1), 1);
 
             drivetrain.arcade(speed, rotation);
-
         }, drivetrain));
 
         new JoystickButton(masterController, XboxController.Button.kLeftBumper.value).whenPressed(new NextLEDPattern());
@@ -87,17 +86,12 @@ public class RobotContainer {
                 .whenReleased(new SetIntake(false));
 
         // Shooter
-        new JoystickButton(masterController, Buttons.ShootHigh).whenPressed(new ShootHighLimelight()).whenReleased(new StopShot());
+        new JoystickButton(masterController, Buttons.ShootHigh).whenPressed(new ShootHigh()).whenReleased(new StopShot());
         new JoystickButton(masterController, Buttons.ShootLow).whenPressed(new ShootLow()).whenReleased(new StopShot());
 
         // Toggle Drive
         new JoystickButton(masterController, Buttons.ToggleDriveDirection)
                 .whenPressed(new InstantCommand(drivetrain::toggleDirection, drivetrain));
-
-        // Dump Intake TODO Add a debounce
-        new POVButton(masterController, Buttons.DumpPOV) // Right
-                 .whenPressed(new DumpIntake())
-                 .whenReleased(new SetIntake(false));
 
         // Basic Climb
         new JoystickButton(masterController, Buttons.Climb)
@@ -115,9 +109,9 @@ public class RobotContainer {
                 .whenReleased(new StopShot());
 
 
-        new POVButton(masterController, Buttons.ShootLimelightHighPOV) // Up
-                .whenPressed(new ShootHighLimelight())
-                .whenReleased(new StopShot());
+       // new POVButton(masterController, Buttons.ShootLimelightHighPOV) // Up
+         //       .whenPressed(new ShootHighLimelight())
+           //     .whenReleased(new StopShot());
 
     }
 
