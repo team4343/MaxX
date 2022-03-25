@@ -85,7 +85,7 @@ public class RobotContainer {
                 .whenReleased(new SetIntake(false));
 
         // Shooter
-        new JoystickButton(masterController, Buttons.ShootHigh).whenPressed(decideIO(ShootHighLimelight.class, ShootHigh.class)).whenReleased(new StopShot());
+        new JoystickButton(masterController, Buttons.ShootHigh).whenPressed(decideIO(ShootHigh.class, ShootHigh.class)).whenReleased(new StopShot());
         new JoystickButton(masterController, Buttons.ShootLow).whenPressed(new ShootLow()).whenReleased(new StopShot());
 
         // Toggle Drive
@@ -108,9 +108,8 @@ public class RobotContainer {
                 .whenReleased(new StopShot());
 
 
-       // new POVButton(masterController, Buttons.ShootLimelightHighPOV) // Up
-         //       .whenPressed(new ShootHighLimelight())
-           //     .whenReleased(new StopShot());
+        new POVButton(masterController, Buttons.ShootLimelightHighPOV) // Up
+        .whenPressed(decideIO(ShootHighLimelight.class, ShootHigh.class)).whenReleased(new StopShot());
 
     }
 
