@@ -4,11 +4,9 @@ import com.kauailabs.navx.frc.AHRS;
 import com.maxtech.maxx.Constants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.REVPhysicsSim;
-import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
@@ -16,6 +14,8 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import static com.maxtech.maxx.RobotContainer.decide;
 
 public class DriveIOMax implements DriveIO {
     private final CANSparkMax left1 = new CANSparkMax(Constants.left1ID, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -26,17 +26,7 @@ public class DriveIOMax implements DriveIO {
     private final CANSparkMax right2 = new CANSparkMax(Constants.right2ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     private final MotorControllerGroup right = new MotorControllerGroup(right1, right2);
 
-    private final REVPhysicsSim drivetrainSimulator = REVPhysicsSim.getInstance();
-
     private final DifferentialDrive drivetrain;
-    DifferentialDrivetrainSim drivetrainSim = new DifferentialDrivetrainSim (
-            Constants.Drive.gearbox,
-            Constants.Drive.gearing,
-            7.5,
-            60.0,
-            Constants.Drive.wheelDiameter / 2,
-            Constants.Drive.trackWidth,
-            null);
 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
     private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
@@ -75,11 +65,7 @@ public class DriveIOMax implements DriveIO {
         gyro.resetDisplacement();
 
         drivetrain = new DifferentialDrive(left, right);
-
-        drivetrainSimulator.addSparkMax(left1, DCMotor.getNEO(1));
-        drivetrainSimulator.addSparkMax(left2, DCMotor.getNEO(1));
-        drivetrainSimulator.addSparkMax(right1, DCMotor.getNEO(1));
-        drivetrainSimulator.addSparkMax(right2, DCMotor.getNEO(1));
+        drivetrain.setSafetyEnabled(false);
 
         SmartDashboard.putData("Drivetrain field", field);
         var tab = Shuffleboard.getTab("Drive");
@@ -88,18 +74,14 @@ public class DriveIOMax implements DriveIO {
         tab.addNumber("distance travelled right", () -> this.getDistanceTravelled(right1));
         tab.addNumber("wheel speeds left", () -> getWheelSpeeds().leftMetersPerSecond);
         tab.addNumber("wheel speeds right", () -> getWheelSpeeds().rightMetersPerSecond);
-        tab.addNumber("pose x", () -> getPose().getX());
-        tab.addNumber("pose y", () -> getPose().getY());
-        tab.addNumber("left1 voltage", left1::getAppliedOutput);
-        tab.addNumber("left2 voltage", left2::getAppliedOutput);
-        tab.addNumber("right1 voltage", right1::getAppliedOutput);
-        tab.addNumber("right2 voltage", right2::getAppliedOutput);
     }
 
     @Override
     public void periodic() {
-        odometry.update(gyro.getRotation2d(), getDistanceTravelled(left1), getDistanceTravelled(right1));
-        field.setRobotPose(odometry.getPoseMeters());
+        if (DriverStation.getMatchTime() < 15) {
+            odometry.update(gyro.getRotation2d(), getDistanceTravelled(left1), getDistanceTravelled(right1));
+            field.setRobotPose(odometry.getPoseMeters());
+        }
     }
 
     /**
@@ -125,8 +107,8 @@ public class DriveIOMax implements DriveIO {
     }
 
     public void tankDriveVolts(double lv, double rv) {
-        left.setVoltage(rv);
-        right.setVoltage(lv);
+        left.setVoltage(decide(rv, lv));
+        right.setVoltage(decide(lv, rv));
         drivetrain.feed();
     }
 
@@ -177,7 +159,7 @@ public class DriveIOMax implements DriveIO {
         var wheelRotations = motorRotations / gearing;
         double distanceTravelled = wheelRotations * Math.PI * wheelDiameter;
 
-        return distanceTravelled;
+        return decide(1, -1) * distanceTravelled;
     }
 
     /** Get the distance travelled of one Spark Max motor controller. */
@@ -186,7 +168,7 @@ public class DriveIOMax implements DriveIO {
         var wheelRotations = motorRotations / gearing;
         double distanceTravelled = wheelRotations * Math.PI * wheelDiameter;
 
-        return distanceTravelled;
+        return decide(1, -1) * distanceTravelled;
     }
 
     public double getDistanceTravelled(CANSparkMax controller) {
@@ -201,8 +183,8 @@ public class DriveIOMax implements DriveIO {
      * @see DifferentialDriveWheelSpeeds
      * */
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-        var left = RPMToMetersPerSecond((left1.getEncoder().getVelocity() + left2.getEncoder().getVelocity()) / 2);
-        var right = -RPMToMetersPerSecond((right1.getEncoder().getVelocity() + right2.getEncoder().getVelocity()) / 2);
+        var left = decide(1, -1) * RPMToMetersPerSecond((left1.getEncoder().getVelocity() + left2.getEncoder().getVelocity()) / 2);
+        var right = decide(-1, 1) * RPMToMetersPerSecond((right1.getEncoder().getVelocity() + right2.getEncoder().getVelocity()) / 2);
         return new DifferentialDriveWheelSpeeds(left / 10, right / 10);
     }
 

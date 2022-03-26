@@ -1,10 +1,5 @@
 package com.maxtech.maxx.subsystems.climber;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 import static com.maxtech.maxx.Constants.Climber.*;
 import com.revrobotics.CANSparkMax;
@@ -15,10 +10,6 @@ import com.revrobotics.SparkMaxPIDController;
 public class ClimberIOMax implements ClimberIO{
     public CANSparkMax winchR = new CANSparkMax(rightWinchID, MotorType.kBrushless);
     public CANSparkMax winchL = new CANSparkMax(leftWinchID,  MotorType.kBrushless);
-    public TalonSRX pivotR = new TalonSRX(rightPivotID);
-    public TalonSRX pivotL = new TalonSRX(leftPivotID);
-    private double absolutePivotPositionL = 0;
-    private double absolutePivotPositionR = 0;
     private SparkMaxPIDController pidController;
     private RelativeEncoder encoder;
     private final AHRS gyro = new AHRS();
@@ -27,8 +18,6 @@ public class ClimberIOMax implements ClimberIO{
         // Factory defaults
         winchL.restoreFactoryDefaults();
         winchR.restoreFactoryDefaults();
-        pivotL.configFactoryDefault();
-        pivotR.configFactoryDefault();
 
         /* ****** WINCH ******* */
         // Basic Setup
@@ -70,67 +59,11 @@ public class ClimberIOMax implements ClimberIO{
         pidController.setOutputRange(minOutputUp, maxOutputUp, upPidID);
         pidController.setOutputRange(minOutputDown, maxOutputDown, downPidID);
 
-        /* ****** PIVOT ******* */
-        // Soft limits
-        pivotL.setNeutralMode(NeutralMode.Brake);
-        pivotR.setNeutralMode(NeutralMode.Brake);
-        pivotR.configNominalOutputForward(maxPivotOutputForward);
-        pivotR.configNominalOutputReverse(maxPivotOutputReverse);
-        pivotL.configNominalOutputForward(maxPivotOutputForward);
-        pivotL.configNominalOutputReverse(maxPivotOutputReverse);
-        pivotR.configForwardSoftLimitEnable(true);
-        pivotR.configReverseSoftLimitEnable(true);
-        pivotR.configForwardSoftLimitThreshold(maxPivotPosForward);
-        pivotR.configReverseSoftLimitThreshold(maxPivotPosReverse);
-        pivotL.configForwardSoftLimitEnable(true);
-        pivotL.configReverseSoftLimitEnable(true);
-        pivotL.configForwardSoftLimitThreshold(maxPivotPosForward);
-        pivotL.configReverseSoftLimitThreshold(maxPivotPosReverse);
-
-        // Sensor Config
-        pivotR.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,
-                pivotpidID,
-                pivotTimeoutMs);
-        pivotR.setSensorPhase(!pivotSensorPhase);
-        pivotR.setInverted(pivotMotorInvert);
-        pivotL.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,
-                pivotpidID,
-                pivotTimeoutMs);
-        pivotL.setSensorPhase(pivotSensorPhase);
-        pivotL.setInverted(pivotMotorInvert);
-
-        // PID
-        pivotR.config_kF(pivotpidID, pivotF, pivotTimeoutMs);
-        pivotR.config_kP(pivotpidID, pivotP, pivotTimeoutMs);
-        pivotR.config_kI(pivotpidID, pivotI, pivotTimeoutMs);
-        pivotR.config_kD(pivotpidID, pivotD, pivotTimeoutMs);
-        pivotL.config_kF(pivotpidID, pivotF, pivotTimeoutMs);
-        pivotL.config_kP(pivotpidID, pivotP, pivotTimeoutMs);
-        pivotL.config_kI(pivotpidID, pivotI, pivotTimeoutMs);
-        pivotL.config_kD(pivotpidID, pivotD, pivotTimeoutMs);
-
-        // Cleanup
-        absolutePivotPositionR = pivotR.getSensorCollection().getPulseWidthPosition();
-        absolutePivotPositionL = pivotL.getSensorCollection().getPulseWidthPosition();
-
-        pivotR.set(ControlMode.PercentOutput, 0);
-        pivotR.set(ControlMode.Position, 0);
-        pivotL.set(ControlMode.PercentOutput, 0);
-        pivotL.set(ControlMode.Position, 0);
-
-        // Left Follows Right and should be mirrored (inverted)
-        pivotR.setInverted(true); // TODO CHECK THIS
-        pivotL.setInverted(true);
-        //pivotR.follow(pivotL);
-
         gyro.reset();
     }
 
     @Override
     public void setPivotPos(double pos) {
-        // TODO CHECK IF I NEED TO INVERT THE POSITION ON R
-        pivotL.set(TalonSRXControlMode.Position, pos);
-        pivotR.set(TalonSRXControlMode.Position, pos); // THIS IS NEW
     }
 
     @Override
@@ -151,41 +84,11 @@ public class ClimberIOMax implements ClimberIO{
 
     @Override
     public double getPivotPos() {
-        double L = pivotL.getSelectedSensorPosition();
-        double R = pivotR.getSelectedSensorPosition();
-        if (Math.abs(L) < Math.abs(R))
-            return L;
-        else
-            return R;
+        return 0;
     }
-
-    public double getPivotPosL() {
-        return pivotL.getSelectedSensorPosition();
-    }
-
-    public double getPivotPosR() {
-        return pivotR.getSelectedSensorPosition();
-    }
-
-    public CANSparkMax getWinchL() {
-        return winchL;
-    }
-    public CANSparkMax getWinchR() {
-        return winchR;
-    }
-    public TalonSRX getPivotL() {
-        return pivotL;
-    }
-    public TalonSRX getPivotR() {
-        return pivotR;
-    }
-
-
 
     @Override
     public void halt() {
         pidController.setReference(Math.round(getWinchPos()), CANSparkMax.ControlType.kPosition);
-
     }
-
 }

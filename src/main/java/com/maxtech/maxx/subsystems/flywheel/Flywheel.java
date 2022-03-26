@@ -65,10 +65,6 @@ public class Flywheel extends Subsystem {
         // We are not at the goal, so spin to it.
         io.setVoltage(controller.computeNextVoltage(getVelocity()));
 
-        if (controller.getDesiredVelocity() == 0) {
-            statemachine.toState(State.Idle);
-        }
-
         if (atGoal()) {
             statemachine.toState(State.SpinningAtGoal);
         }

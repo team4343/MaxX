@@ -39,61 +39,6 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "0,7": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight_PipelineName",
-              "_title": "limelight_PipelineName"
-            }
-          },
-          "2,7": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight_Interface",
-              "_title": "limelight_Interface"
-            }
-          },
-          "4,7": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight_Stream",
-              "_title": "limelight_Stream"
-            }
-          },
-          "6,7": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Indexer",
-              "_title": "Indexer"
-            }
-          },
-          "8,7": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Flywheel",
-              "_title": "Flywheel"
-            }
-          },
           "13,2": {
             "size": [
               10,
@@ -113,7 +58,31 @@
               "imageHeight": 0
             }
           },
-          "10,7": {
+          "20,7": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/DB/Button 0",
+              "_title": "DB/Button 0",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "0,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Indexer",
+              "_title": "Indexer"
+            }
+          },
+          "2,7": {
             "size": [
               2,
               1
@@ -122,6 +91,188 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Intake",
               "_title": "Intake"
+            }
+          },
+          "4,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Flywheel",
+              "_title": "Flywheel"
+            }
+          },
+          "6,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Auto Selector",
+              "_title": "Auto Selector"
+            }
+          },
+          "8,7": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/DB/Button 1",
+              "_title": "DB/Button 1",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "11,7": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/DB/Button 2",
+              "_title": "DB/Button 2",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "14,7": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/DB/Button 3",
+              "_title": "DB/Button 3",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "17,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/Slider 0",
+              "_title": "DB/Slider 0"
+            }
+          },
+          "0,8": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/Slider 1",
+              "_title": "DB/Slider 1"
+            }
+          },
+          "2,8": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/Slider 2",
+              "_title": "DB/Slider 2"
+            }
+          },
+          "4,8": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/Slider 3",
+              "_title": "DB/Slider 3"
+            }
+          },
+          "6,8": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/String 0",
+              "_title": "DB/String 0"
+            }
+          },
+          "17,8": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/String 1",
+              "_title": "DB/String 1"
+            }
+          },
+          "0,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/String 2",
+              "_title": "DB/String 2"
+            }
+          },
+          "2,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/String 3",
+              "_title": "DB/String 3"
+            }
+          },
+          "4,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/String 4",
+              "_title": "DB/String 4"
+            }
+          },
+          "6,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/String 5",
+              "_title": "DB/String 5"
+            }
+          },
+          "17,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/String 6",
+              "_title": "DB/String 6"
             }
           }
         }

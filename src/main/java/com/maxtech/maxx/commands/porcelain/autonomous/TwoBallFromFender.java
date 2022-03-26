@@ -12,6 +12,8 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 
+import static com.maxtech.maxx.RobotContainer.decide;
+
 public class TwoBallFromFender extends AutonomousSequentialCommandGroup {
     private final Drive drivetrain = Drive.getInstance();
 
@@ -22,15 +24,18 @@ public class TwoBallFromFender extends AutonomousSequentialCommandGroup {
         Trajectory finish = loadPathweaverTrajectory("paths/from ball to fender.wpilib.json");
 
         addCommands(
-                new InstantCommand(drivetrain::toggleDirection, drivetrain),
-                new ShootHighFor(5),
+                new InstantCommand(decide(
+                        () -> drivetrain.setDirection(false),
+                        () -> drivetrain.setDirection(true)),
+                        drivetrain),
+                new ShootHighFor(2),
                 new ParallelDeadlineGroup(
                     new RunTrajectory(start),
                     new SetIntake(true)
                 ),
-                new LowerIntakeFor(2),
+                new LowerIntakeFor(.5),
                 new RunTrajectory(finish),
-                new ShootHighFor(4)
+                new ShootHighFor(2)
         );
     }
 

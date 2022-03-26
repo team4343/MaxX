@@ -103,4 +103,8 @@ public class Drive extends Subsystem {
     public void toggleDirection() {
         inverted = !inverted;
     }
+
+    public void setDirection(boolean direction) {
+        inverted = direction;
+    }
 }
