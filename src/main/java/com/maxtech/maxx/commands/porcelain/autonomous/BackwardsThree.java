@@ -1,0 +1,16 @@
+package com.maxtech.maxx.commands.porcelain.autonomous;
+
+import com.maxtech.lib.command.AutonomousSequentialCommandGroup;
+import com.maxtech.maxx.commands.porcelain.drivetrain.ArcadeDriveFor;
+import edu.wpi.first.math.geometry.Pose2d;
+
+public class BackwardsThree extends AutonomousSequentialCommandGroup {
+    public BackwardsThree() {
+        addCommands(new ArcadeDriveFor(-0.8, 0, 3));
+    }
+
+    @Override
+    public Pose2d getStartingPosition() {
+        return new Pose2d();
+    }
+}

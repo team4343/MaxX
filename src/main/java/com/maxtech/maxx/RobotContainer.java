@@ -4,6 +4,8 @@ import com.maxtech.lib.command.AutonomousSequentialCommandGroup;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.plumbing.climber.*;
 import com.maxtech.maxx.commands.porcelain.NextLEDPattern;
+import com.maxtech.maxx.commands.porcelain.autonomous.BackwardsThree;
+import com.maxtech.maxx.commands.porcelain.autonomous.NoOp;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootHigh;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootHighLimelight;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootLow;
@@ -31,7 +33,7 @@ import com.maxtech.maxx.Constants.Buttons;
  * is then called from {@link Robot}.
  */
 public class RobotContainer {
-    public static final int teamNumber = 4343;
+    public static final int teamNumber = 914;
 
     private static final RobotLogger logger = RobotLogger.getInstance();
 
@@ -55,6 +57,8 @@ public class RobotContainer {
 
     private void configureAutonomousCommand() {
         autonomousCommand.setDefaultOption("two ball from fender", new TwoBallFromFender());
+        autonomousCommand.addOption("no-op", new NoOp());
+        autonomousCommand.addOption("backwards 4", new BackwardsThree());
 
         var tab = Shuffleboard.getTab("Main");
         tab.add("Autonomous selector", autonomousCommand);

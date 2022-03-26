@@ -24,7 +24,7 @@ public class SimpleFlywheelController {
 
     public SimpleFlywheelController(double kV, double kA, double threadSpeed) {
         plant = LinearSystemId.identifyVelocitySystem(kV, kA);
-        filter = new KalmanFilter<>(Nat.N1(), Nat.N1(), plant, VecBuilder.fill(3.), VecBuilder.fill(.0010), 0.02);
+        filter = new KalmanFilter<>(Nat.N1(), Nat.N1(), plant, VecBuilder.fill(3.), VecBuilder.fill(1), 0.02);
         regulator = new LinearQuadraticRegulator<>(plant, VecBuilder.fill(8.0), VecBuilder.fill(12.0), 0.02);
         loop = new LinearSystemLoop<>(plant, regulator, filter, 11, threadSpeed);
     }

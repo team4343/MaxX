@@ -10,7 +10,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 
 public class TwoBallFromFender extends AutonomousSequentialCommandGroup {
@@ -23,6 +22,7 @@ public class TwoBallFromFender extends AutonomousSequentialCommandGroup {
         Trajectory finish = loadPathweaverTrajectory("paths/from ball to fender.wpilib.json");
 
         addCommands(
+                new InstantCommand(drivetrain::toggleDirection, drivetrain),
                 new ShootHighFor(5),
                 new ParallelDeadlineGroup(
                     new RunTrajectory(start),

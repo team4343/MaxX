@@ -19,11 +19,6 @@ public class FlywheelIOPeter implements FlywheelIO {
     }
 
     @Override
-    public void setVelocity(double velocity) {
-        //master.set(velocity);
-    }
-
-    @Override
     public double getVelocity() {
         return master.getEncoder().getVelocity();
     }
