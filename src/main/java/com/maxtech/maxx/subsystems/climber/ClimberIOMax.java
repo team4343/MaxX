@@ -1,5 +1,6 @@
 package com.maxtech.maxx.subsystems.climber;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 import static com.maxtech.maxx.Constants.Climber.*;
 import com.revrobotics.CANSparkMax;
@@ -10,6 +11,8 @@ import com.revrobotics.SparkMaxPIDController;
 public class ClimberIOMax implements ClimberIO{
     public CANSparkMax winchR = new CANSparkMax(rightWinchID, MotorType.kBrushless);
     public CANSparkMax winchL = new CANSparkMax(leftWinchID,  MotorType.kBrushless);
+    public TalonSRX pivotR = new TalonSRX(rightPivotID);
+    public TalonSRX pivotL = new TalonSRX(leftPivotID);
     private SparkMaxPIDController pidController;
     private RelativeEncoder encoder;
     private final AHRS gyro = new AHRS();
