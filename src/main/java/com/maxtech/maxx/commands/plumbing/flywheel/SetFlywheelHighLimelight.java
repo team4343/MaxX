@@ -1,10 +1,8 @@
 package com.maxtech.maxx.commands.plumbing.flywheel;
 
-import com.maxtech.maxx.Constants;
 import com.maxtech.maxx.subsystems.Limelight;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
 import com.maxtech.maxx.subsystems.flywheel.Flywheel;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SetFlywheelHighLimelight extends CommandBase {
@@ -20,7 +18,7 @@ public class SetFlywheelHighLimelight extends CommandBase {
     public void initialize() {
         double dist = limelight.getDistance();
 
-        double rpm = 2300;
+        double rpm = 2500;
         if (dist < 80)
             rpm = 2300;
         else if (dist < 100)

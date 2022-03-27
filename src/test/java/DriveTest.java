@@ -8,10 +8,6 @@ public class DriveTest {
 
     Drive drivetrain = Drive.getInstance();
 
-    @Before
-    public void setup() {
-    }
-
     @Test
     public void startsAtZero() {
         assertEquals(0, drivetrain.getWheelSpeeds().leftMetersPerSecond, DELTA);
