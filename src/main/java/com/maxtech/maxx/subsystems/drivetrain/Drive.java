@@ -69,7 +69,7 @@ public class Drive extends Subsystem {
     }
 
     public void stop() {
-        tankDriveVolts(0, 0);
+        //tankDriveVolts(0, 0);
     }
 
     public void setStartingPosition(Pose2d pose) {

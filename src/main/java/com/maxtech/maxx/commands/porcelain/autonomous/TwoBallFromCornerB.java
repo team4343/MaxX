@@ -10,37 +10,38 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 
 import static com.maxtech.maxx.RobotContainer.decide;
 
-public class TwoBallFromFender extends AutonomousSequentialCommandGroup {
+public class TwoBallFromCornerB extends AutonomousSequentialCommandGroup {
     private final Drive drivetrain = Drive.getInstance();
 
-    public TwoBallFromFender() {
+    public TwoBallFromCornerB() {
         addRequirements(drivetrain);
 
-        Trajectory start = loadPathweaverTrajectory("paths/fender to ball A.wpilib.json");
-        Trajectory finish = loadPathweaverTrajectory("paths/ball A to fender.wpilib.json");
+        Trajectory start = loadPathweaverTrajectory("paths/corner to ball B.wpilib.json");
+        Trajectory finish = loadPathweaverTrajectory("paths/ball B to fender.wpilib.json");
 
         addCommands(
                 new InstantCommand(decide(
                         () -> drivetrain.setDirection(false),
                         () -> drivetrain.setDirection(true)),
                         drivetrain),
-                new ShootHighFor(2),
                 new ParallelDeadlineGroup(
-                    new RunTrajectory(start),
-                    new SetIntake(true)
+                        new RunTrajectory(start),
+                        new SetIntake(true)
                 ),
                 new LowerIntakeFor(.5),
                 new RunTrajectory(finish),
-                new ShootHighFor(2)
+                new ShootHighFor(4)
         );
     }
 
+
     @Override
     public Pose2d getStartingPosition() {
-        return new Pose2d(7.927, 3.120, new Rotation2d(-0.216, -0.798));
+        return new Pose2d(5.879, 5.383, new Rotation2d(-0.097, 0.065));
     }
 }

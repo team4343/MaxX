@@ -14,13 +14,13 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 
 import static com.maxtech.maxx.RobotContainer.decide;
 
-public class TwoBallFromFender extends AutonomousSequentialCommandGroup {
+public class TwoBallFromCorner extends AutonomousSequentialCommandGroup {
     private final Drive drivetrain = Drive.getInstance();
 
-    public TwoBallFromFender() {
+    public TwoBallFromCorner() {
         addRequirements(drivetrain);
 
-        Trajectory start = loadPathweaverTrajectory("paths/fender to ball A.wpilib.json");
+        Trajectory start = loadPathweaverTrajectory("paths/corner to ball A.wpilib.json");
         Trajectory finish = loadPathweaverTrajectory("paths/ball A to fender.wpilib.json");
 
         addCommands(
@@ -28,19 +28,18 @@ public class TwoBallFromFender extends AutonomousSequentialCommandGroup {
                         () -> drivetrain.setDirection(false),
                         () -> drivetrain.setDirection(true)),
                         drivetrain),
-                new ShootHighFor(2),
                 new ParallelDeadlineGroup(
-                    new RunTrajectory(start),
-                    new SetIntake(true)
+                        new RunTrajectory(start),
+                        new SetIntake(true)
                 ),
                 new LowerIntakeFor(.5),
                 new RunTrajectory(finish),
-                new ShootHighFor(2)
+                new ShootHighFor(4)
         );
     }
 
     @Override
     public Pose2d getStartingPosition() {
-        return new Pose2d(7.927, 3.120, new Rotation2d(-0.216, -0.798));
+        return new Pose2d(7.615, 1.439, new Rotation2d(0, -0.442));
     }
 }

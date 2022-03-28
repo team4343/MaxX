@@ -52,13 +52,10 @@ public class Indexer extends Subsystem {
         previousOnState = State.Unloaded;
 
         // Listen for a ball to come in and direct it to the top position.
-        io.set(0, maxOutput);
+        io.set(maxOutput, maxOutput);
 
-        if (isBottomLoaded()) {
-            while (isTopEmpty()) {
-                io.set(maxOutput, maxOutput);
-            }
-
+        if (isTopLoaded()) {
+            io.set(0, 0);
             statemachine.toState(State.OneLoaded);
         }
     }

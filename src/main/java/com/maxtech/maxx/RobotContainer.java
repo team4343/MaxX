@@ -4,13 +4,11 @@ import com.maxtech.lib.command.AutonomousSequentialCommandGroup;
 import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.plumbing.climber.*;
 import com.maxtech.maxx.commands.porcelain.NextLEDPattern;
-import com.maxtech.maxx.commands.porcelain.autonomous.BackwardsThree;
-import com.maxtech.maxx.commands.porcelain.autonomous.NoOp;
+import com.maxtech.maxx.commands.porcelain.autonomous.*;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootHigh;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootHighLimelight;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootLow;
 import com.maxtech.maxx.commands.porcelain.shooter.StopShot;
-import com.maxtech.maxx.commands.porcelain.autonomous.TwoBallFromFender;
 import com.maxtech.maxx.commands.porcelain.intake.SetIntake;
 import com.maxtech.maxx.subsystems.intake.Intake;
 import com.maxtech.maxx.subsystems.LEDs;
@@ -57,6 +55,8 @@ public class RobotContainer {
 
     private void configureAutonomousCommand() {
         autonomousCommand.setDefaultOption("two ball from fender", new TwoBallFromFender());
+        autonomousCommand.addOption("two ball from corner", new TwoBallFromCorner());
+        autonomousCommand.addOption("two ball from corner B", new TwoBallFromCornerB());
         autonomousCommand.addOption("no-op", new NoOp());
         autonomousCommand.addOption("backwards 4", new BackwardsThree());
 

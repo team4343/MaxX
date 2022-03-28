@@ -5,11 +5,13 @@ import com.maxtech.maxx.commands.porcelain.drivetrain.ArcadeDriveFor;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootHighFor;
 import edu.wpi.first.math.geometry.Pose2d;
 
+import static com.maxtech.maxx.RobotContainer.decide;
+
 public class BackwardsThree extends AutonomousSequentialCommandGroup {
     public BackwardsThree() {
         addCommands(
                 new ShootHighFor(4),
-                new ArcadeDriveFor(-0.5, 0, 2.5));
+                new ArcadeDriveFor(decide(1, -1) * 0.5, 0, 2.5));
     }
 
     @Override
