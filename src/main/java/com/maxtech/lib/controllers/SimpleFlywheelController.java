@@ -26,7 +26,7 @@ public class SimpleFlywheelController {
         plant = LinearSystemId.identifyVelocitySystem(kV, kA);
         filter = new KalmanFilter<>(Nat.N1(), Nat.N1(), plant, VecBuilder.fill(3.), VecBuilder.fill(1), 0.02);
         regulator = new LinearQuadraticRegulator<>(plant, VecBuilder.fill(8.0), VecBuilder.fill(12.0), 0.02);
-        loop = new LinearSystemLoop<>(plant, regulator, filter, 11, threadSpeed);
+        loop = new LinearSystemLoop<>(plant, regulator, filter, 12, threadSpeed);
     }
 
     /** Construct {@link this} with a default thread speed. */
@@ -64,7 +64,7 @@ public class SimpleFlywheelController {
     }
 
     public boolean withinEpsilon(double currentVelocity) {
-        return withinEpsilon(currentVelocity, 600);
+        return withinEpsilon(currentVelocity, 500);
     }
 
     public boolean withinEpsilon(double currentVelocity, double epsilon) {

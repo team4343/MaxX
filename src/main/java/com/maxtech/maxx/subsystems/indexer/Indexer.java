@@ -1,12 +1,12 @@
 package com.maxtech.maxx.subsystems.indexer;
 
 import com.maxtech.lib.command.Subsystem;
-import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
-import static com.maxtech.maxx.Constants.Indexer.maxOutput;
+import static com.maxtech.maxx.Constants.Indexer.bottomMaxOutput;
+import static com.maxtech.maxx.Constants.Indexer.topMaxOutput;
 import static com.maxtech.maxx.RobotContainer.decideIO;
 
 /**
@@ -52,7 +52,7 @@ public class Indexer extends Subsystem {
         previousOnState = State.Unloaded;
 
         // Listen for a ball to come in and direct it to the top position.
-        io.set(maxOutput, maxOutput);
+        io.set(topMaxOutput, bottomMaxOutput);
 
         if (isTopLoaded()) {
             io.set(0, 0);
@@ -64,7 +64,7 @@ public class Indexer extends Subsystem {
         previousOnState = State.OneLoaded;
 
         // Listen for a ball to come in and direct it to the bottom position.
-        io.set(0, maxOutput);
+        io.set(0, bottomMaxOutput);
 
         if (isBottomLoaded()) {
             statemachine.toState(State.TwoLoaded);
@@ -79,7 +79,7 @@ public class Indexer extends Subsystem {
     }
 
     private void handleShooting(StateMachineMeta m) {
-        io.set(maxOutput, maxOutput);
+        io.set(topMaxOutput, bottomMaxOutput);
     }
 
     private enum State {

@@ -84,14 +84,16 @@ public final class Constants {
         public static final int TimeoutMs = 30;
         public static final boolean SensorPhase = false;
         public static final boolean MotorInvert = false;
-        public static final int topBinRPM = decide(3050, 4500);
+        // In-practice max speed: 5400
+        public static final int topBinRPM = decide(2700, 4500);
         public static final int bottomBinRPM = decide(1700, 1700);
         public static final double rpmThreshold = 1;
         public static final int talonFXResolution = 2048;
     }
 
     public static class Indexer {
-        public static final double maxOutput = 0.5;
+        public static final double topMaxOutput = .5;
+        public static final double bottomMaxOutput = 1;
         public static final int bottomID = 8;
         public static final int topID = 9;
         public static final int topSensorDIO = 0;
