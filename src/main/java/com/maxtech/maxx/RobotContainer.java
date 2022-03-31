@@ -5,11 +5,11 @@ import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.plumbing.climber.*;
 import com.maxtech.maxx.commands.porcelain.NextLEDPattern;
 import com.maxtech.maxx.commands.porcelain.autonomous.*;
+import com.maxtech.maxx.commands.porcelain.intake.SetIntakeAndIndexer;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootHigh;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootHighLimelight;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootLow;
 import com.maxtech.maxx.commands.porcelain.shooter.StopShot;
-import com.maxtech.maxx.commands.porcelain.intake.SetIntake;
 import com.maxtech.maxx.subsystems.intake.Intake;
 import com.maxtech.maxx.subsystems.LEDs;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
@@ -86,8 +86,8 @@ public class RobotContainer {
         new JoystickButton(masterController, XboxController.Button.kLeftBumper.value).whenPressed(new NextLEDPattern());
 
         new JoystickButton(masterController, Buttons.Intake)
-                .whenPressed(new SetIntake(true))
-                .whenReleased(new SetIntake(false));
+                .whenPressed(new SetIntakeAndIndexer(true))
+                .whenReleased(new SetIntakeAndIndexer(false));
 
         // Shooter
         new JoystickButton(masterController, Buttons.ShootHigh).whenPressed(decideIO(ShootHigh.class, ShootHigh.class)).whenReleased(new StopShot());

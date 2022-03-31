@@ -17,6 +17,7 @@ public class RunTrajectory extends SequentialCommandGroup {
 
     public RunTrajectory(Trajectory trajectory) {
         drivetrain.getField().getObject("trajectory").setTrajectory(trajectory);
+        drivetrain.setStartingPosition(trajectory.getInitialPose());
 
         RamseteCommand command = new RamseteCommand(
                 trajectory,
@@ -35,6 +36,6 @@ public class RunTrajectory extends SequentialCommandGroup {
                 drivetrain
         );
 
-        addCommands(command, new InstantCommand(drivetrain::stop, drivetrain));
+        addCommands(command, new InstantCommand(() -> drivetrain.tankDriveVolts(0, 0), drivetrain));
     }
 }

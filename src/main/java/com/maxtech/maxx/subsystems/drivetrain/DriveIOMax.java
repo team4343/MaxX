@@ -153,7 +153,7 @@ public class DriveIOMax implements DriveIO {
         return field;
     }
 
-    @java.lang.Override
+    @Override
     public double getDistanceTravelled(com.maxtech.lib.wrappers.rev.CANSparkMax controller, double gearing, double wheelDiameter) {
         var motorRotations = controller.getEncoder().getPosition();
         var wheelRotations = motorRotations / gearing;
