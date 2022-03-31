@@ -1,0 +1,5 @@
+corner to ball A.path
+ball A to ball B.path
+ball A to ball B part 2.path
+ball B to STATION.path
+STATION to fender.path

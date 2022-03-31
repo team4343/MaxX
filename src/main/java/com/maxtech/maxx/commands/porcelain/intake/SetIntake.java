@@ -7,14 +7,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SetIntake extends CommandBase {
     private final Intake intake = Intake.getInstance();
-    private final Indexer indexer = Indexer.getInstance();
     private final Limelight limelight = Limelight.getInstance();
 
     private boolean down = false;
     private boolean dump = false;
 
     public SetIntake(boolean setDown) {
-        addRequirements(intake, indexer);
+        addRequirements(intake);
         down = setDown;
     }
 
@@ -33,11 +32,9 @@ public class SetIntake extends CommandBase {
             intake.runDump();
         else if (down) {
             intake.run();
-            indexer.turnOn();
         }
         else {
             intake.stop();
-            indexer.turnOff();
         }
     }
 }

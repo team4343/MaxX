@@ -54,7 +54,8 @@ public class RobotContainer {
     }
 
     private void configureAutonomousCommand() {
-        autonomousCommand.setDefaultOption("two ball from fender", new TwoBallFromFender());
+        autonomousCommand.setDefaultOption("full right side", new ThreeBallOnRight());
+        autonomousCommand.addOption("two ball from fender", new TwoBallFromFender());
         autonomousCommand.addOption("two ball from corner", new TwoBallFromCorner());
         autonomousCommand.addOption("two ball from corner B", new TwoBallFromCornerB());
         autonomousCommand.addOption("no-op", new NoOp());

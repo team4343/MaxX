@@ -86,6 +86,7 @@ public final class Constants {
         public static final boolean MotorInvert = false;
         // In-practice max speed: 5400
         public static final int topBinRPM = decide(2700, 4500);
+        public static final int middleShotTopBinRPM = decide(4500, 5000);
         public static final int bottomBinRPM = decide(1700, 1700);
         public static final double rpmThreshold = 1;
         public static final int talonFXResolution = 2048;
