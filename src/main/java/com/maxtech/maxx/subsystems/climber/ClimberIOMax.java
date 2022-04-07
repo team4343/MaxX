@@ -11,8 +11,6 @@ import com.revrobotics.SparkMaxPIDController;
 public class ClimberIOMax implements ClimberIO{
     public CANSparkMax winchR = new CANSparkMax(rightWinchID, MotorType.kBrushless);
     public CANSparkMax winchL = new CANSparkMax(leftWinchID,  MotorType.kBrushless);
-    public TalonSRX pivotR = new TalonSRX(rightPivotID);
-    public TalonSRX pivotL = new TalonSRX(leftPivotID);
     private SparkMaxPIDController pidController;
     private RelativeEncoder encoder;
     private final AHRS gyro = new AHRS();

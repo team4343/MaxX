@@ -15,7 +15,7 @@ public class Flywheel extends Subsystem {
     private final FlywheelIO io = decideIO(FlywheelIOMax.class, FlywheelIOPeter.class);
     private final StateMachine<State> statemachine = new StateMachine<>("Flywheel", State.Idle);
 
-    private final SimpleFlywheelController controller = new SimpleFlywheelController(decide(0.018371, 0.020706), decide(0.0022809, 0.00074233));
+    private final SimpleFlywheelController controller = new SimpleFlywheelController(decide(0.023122, 0.020706), decide(0.018241, 0.00074233));
 
     private enum State {
         Idle, Spinning, SpinningAtGoal,
@@ -52,9 +52,17 @@ public class Flywheel extends Subsystem {
         return io.getPercentOut();
     }
 
+    private void setVoltage(double v) {
+        if (v < 0) {
+            io.setVoltage(0);
+        } else {
+            io.setVoltage(v);
+        }
+    }
+
     private void handleIdle(StateMachineMeta meta) {
         // Set the voltage to zero, unless we have a goal.
-        io.setVoltage(0);
+        setVoltage(0);
 
         if (!atGoal()) {
             statemachine.toState(State.Spinning);
@@ -63,7 +71,9 @@ public class Flywheel extends Subsystem {
 
     private void handleSpinning(StateMachineMeta m) {
         // We are not at the goal, so spin to it.
-        io.setVoltage(controller.computeNextVoltage(getVelocity()));
+        var nextVoltage = controller.computeNextVoltage(getVelocity());
+        setVoltage(nextVoltage);
+        logger.dbg("Next voltage: %s", nextVoltage);
 
         if (atGoal()) {
             statemachine.toState(State.SpinningAtGoal);

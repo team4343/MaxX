@@ -1,4 +1,4 @@
-package com.maxtech.maxx.commands.porcelain.autonomous;
+package com.maxtech.maxx.commands.porcelain.autonomous.advanced;
 
 import com.maxtech.lib.command.AutonomousSequentialCommandGroup;
 import com.maxtech.maxx.commands.plumbing.autonomous.RunTrajectory;
@@ -33,10 +33,7 @@ public class ThreeBallOnRight extends AutonomousSequentialCommandGroup {
                 ),
                 new ParallelDeadlineGroup(
                         new ShootFarHighFor(2.5),
-                        new SequentialCommandGroup(
-                                new WaitCommand(.5),
-                                new RunTrajectory(middle2)
-                        ),
+                        new RunTrajectory(middle2),
                         new SetIntake(true)
                 ),
                 new StopFlywheel(),
