@@ -5,10 +5,7 @@ import com.maxtech.lib.logging.RobotLogger;
 import com.maxtech.maxx.commands.plumbing.climber.*;
 import com.maxtech.maxx.commands.porcelain.NextLEDPattern;
 import com.maxtech.maxx.commands.porcelain.autonomous.*;
-import com.maxtech.maxx.commands.porcelain.autonomous.advanced.Hijacking;
-import com.maxtech.maxx.commands.porcelain.autonomous.advanced.ThreeBallOnRight;
-import com.maxtech.maxx.commands.porcelain.autonomous.advanced.ThreeBallThroughMiddle;
-import com.maxtech.maxx.commands.porcelain.autonomous.advanced.ThreeBallThroughMiddleAlternative;
+import com.maxtech.maxx.commands.porcelain.autonomous.advanced.*;
 import com.maxtech.maxx.commands.porcelain.intake.SetIntakeAndIndexer;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootHigh;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootHighLimelight;
@@ -58,7 +55,8 @@ public class RobotContainer {
     }
 
     private void configureAutonomousCommand() {
-        autonomousCommand.setDefaultOption("full right side", new ThreeBallOnRight());
+        autonomousCommand.setDefaultOption("simple from fender", new ThreeBallFromFender());
+        autonomousCommand.addOption("full right side", new ThreeBallOnRight());
         autonomousCommand.addOption("hijack other balls", new Hijacking());
         autonomousCommand.addOption("three ball fender 1 through middle", new ThreeBallThroughMiddle());
         autonomousCommand.addOption("three ball fender 1 through middle ALTERNATIVE", new ThreeBallThroughMiddleAlternative());

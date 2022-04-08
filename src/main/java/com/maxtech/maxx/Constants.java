@@ -71,12 +71,12 @@ public final class Constants {
     public static class Flywheel {
         public static final int masterID = 5;
         public static final int slaveID = 6;
-        public static final double P = 0.3;
-        public static final double I = 0;
+        public static final double P = 0.5;
+        public static final double I = 0.001;
         public static final double D = 0;
         public static final double F = 0;
         public static final int pidID = 0;
-        public static final int TimeoutMs = 30;
+        public static final int TimeoutMs = 20;
         public static final boolean SensorPhase = false;
         public static final boolean MotorInvert = false;
         // In-practice max speed: 5400

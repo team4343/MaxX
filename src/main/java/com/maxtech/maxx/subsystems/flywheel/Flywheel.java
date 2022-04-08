@@ -1,7 +1,7 @@
 package com.maxtech.maxx.subsystems.flywheel;
 
 import com.maxtech.lib.command.Subsystem;
-import com.maxtech.lib.controllers.SimpleFlywheelController;
+import com.maxtech.lib.controllers.PIDFlywheelController;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -15,7 +15,9 @@ public class Flywheel extends Subsystem {
     private final FlywheelIO io = decideIO(FlywheelIOMax.class, FlywheelIOPeter.class);
     private final StateMachine<State> statemachine = new StateMachine<>("Flywheel", State.Idle);
 
-    private final SimpleFlywheelController controller = new SimpleFlywheelController(decide(0.023122, 0.020706), decide(0.018241, 0.00074233));
+    private final PIDFlywheelController controller = new PIDFlywheelController(decide(0.023122, 0.020706), decide(0.018241, 0.00074233));
+
+    private double desired;
 
     private enum State {
         Idle, Spinning, SpinningAtGoal,
@@ -32,7 +34,7 @@ public class Flywheel extends Subsystem {
     private Flywheel() {
         var tab = Shuffleboard.getTab("Flywheel");
         tab.addString("state", statemachine::currentStateName);
-        tab.addNumber("desired", controller::getDesiredVelocity);
+        tab.addNumber("desired", () -> desired);
         tab.addBoolean("at goal", this::atGoal);
         tab.addNumber("velocity", this::getVelocity);
         tab.addNumber("percentout", this::getPercentOut);
@@ -54,15 +56,15 @@ public class Flywheel extends Subsystem {
 
     private void setVoltage(double v) {
         if (v < 0) {
-            io.setVoltage(0);
+            // io.setVoltage(0);
         } else {
-            io.setVoltage(v);
+            // io.setVoltage(v);
         }
     }
 
     private void handleIdle(StateMachineMeta meta) {
         // Set the voltage to zero, unless we have a goal.
-        setVoltage(0);
+        io.setVoltage(0);
 
         if (!atGoal()) {
             statemachine.toState(State.Spinning);
@@ -71,9 +73,7 @@ public class Flywheel extends Subsystem {
 
     private void handleSpinning(StateMachineMeta m) {
         // We are not at the goal, so spin to it.
-        var nextVoltage = controller.computeNextVoltage(getVelocity());
-        setVoltage(nextVoltage);
-        logger.dbg("Next voltage: %s", nextVoltage);
+        io.setVelocity(desired);
 
         if (atGoal()) {
             statemachine.toState(State.SpinningAtGoal);
@@ -81,7 +81,7 @@ public class Flywheel extends Subsystem {
     }
 
     private void handleSpinningAtGoal(StateMachineMeta m) {
-        if (controller.getDesiredVelocity() == 0) {
+        if (desired == 0) {
             statemachine.toState(State.Idle);
         }
 
@@ -91,16 +91,19 @@ public class Flywheel extends Subsystem {
         }
     }
 
-    public void stop() {
-        controller.setDesiredVelocity(0);
+    public void setGoal(double rpm) {
+        desired = rpm;
     }
 
-    public void setGoal(double rpm) {
-        controller.setDesiredVelocity(rpm);
+    public void stop() {
+        desired = 0;
     }
 
     public boolean atGoal() {
-        return controller.withinEpsilon(getVelocity());
+        var currentVelocity = io.getVelocity();
+
+        if (currentVelocity == desired) return true;
+        return Math.abs(currentVelocity - desired) <= 100;
     }
 
     public double getVelocity() {
