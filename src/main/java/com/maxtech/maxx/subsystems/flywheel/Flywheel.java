@@ -1,12 +1,10 @@
 package com.maxtech.maxx.subsystems.flywheel;
 
 import com.maxtech.lib.command.Subsystem;
-import com.maxtech.lib.controllers.PIDFlywheelController;
 import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
-import static com.maxtech.maxx.RobotContainer.decide;
 import static com.maxtech.maxx.RobotContainer.decideIO;
 
 public class Flywheel extends Subsystem {
@@ -14,8 +12,6 @@ public class Flywheel extends Subsystem {
 
     private final FlywheelIO io = decideIO(FlywheelIOMax.class, FlywheelIOPeter.class);
     private final StateMachine<State> statemachine = new StateMachine<>("Flywheel", State.Idle);
-
-    private final PIDFlywheelController controller = new PIDFlywheelController(decide(0.023122, 0.020706), decide(0.018241, 0.00074233));
 
     private double desired;
 

@@ -11,15 +11,21 @@ public class FlywheelIOPeter implements FlywheelIO {
     public FlywheelIOPeter() {
         master.setInverted(true);
         slave.follow(master, true);
+
+        master.getPIDController().setP(1);
+        master.getPIDController().setI(0);
+        master.getPIDController().setD(0);
     }
 
     @Override
     public void setVoltage(double voltage) {
-        master.setVoltage(voltage);
+        master.set(voltage / 12);
     }
 
     @Override
     public void setVelocity(double velocity) {
+        if (velocity == 0) master.set(0);
+        master.set((velocity / 600));
     }
 
     @Override
