@@ -69,4 +69,9 @@ public class Intake extends Subsystem {
     public IntakeState getState() {
         return statemachine.currentState();
     }
+
+    @Override
+    public void periodic() {
+        statemachine.runCurrentHandler();
+    }
 }

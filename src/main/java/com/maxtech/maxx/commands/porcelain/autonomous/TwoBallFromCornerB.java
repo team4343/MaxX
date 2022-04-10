@@ -4,6 +4,7 @@ import com.maxtech.lib.command.AutonomousSequentialCommandGroup;
 import com.maxtech.maxx.commands.plumbing.autonomous.RunTrajectory;
 import com.maxtech.maxx.commands.porcelain.intake.LowerIntakeFor;
 import com.maxtech.maxx.commands.porcelain.intake.SetIntake;
+import com.maxtech.maxx.commands.porcelain.intake.SetIntakeAndIndexer;
 import com.maxtech.maxx.commands.porcelain.shooter.ShootHighFor;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -31,7 +32,7 @@ public class TwoBallFromCornerB extends AutonomousSequentialCommandGroup {
                         drivetrain),
                 new ParallelDeadlineGroup(
                         new RunTrajectory(start),
-                        new SetIntake(true)
+                        new SetIntakeAndIndexer(true)
                 ),
                 new LowerIntakeFor(.5),
                 new RunTrajectory(finish),

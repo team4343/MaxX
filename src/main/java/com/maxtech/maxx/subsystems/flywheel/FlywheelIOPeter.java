@@ -12,7 +12,7 @@ public class FlywheelIOPeter implements FlywheelIO {
         master.setInverted(true);
         slave.follow(master, true);
 
-        master.getPIDController().setP(1);
+        master.getPIDController().setP(.5);
         master.getPIDController().setI(0);
         master.getPIDController().setD(0);
     }
@@ -25,7 +25,7 @@ public class FlywheelIOPeter implements FlywheelIO {
     @Override
     public void setVelocity(double velocity) {
         if (velocity == 0) master.set(0);
-        master.set((velocity / 600));
+        master.set(velocity / 5300);
     }
 
     @Override

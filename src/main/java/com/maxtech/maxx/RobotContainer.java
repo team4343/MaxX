@@ -129,8 +129,9 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        drivetrain.setStartingPosition(autonomousCommand.getSelected().getStartingPosition());
-        return autonomousCommand.getSelected();
+        var polyAuto = new BackwardsThree();
+        drivetrain.setStartingPosition(decide(autonomousCommand.getSelected().getStartingPosition(), polyAuto.getStartingPosition()));
+        return decide(autonomousCommand.getSelected(), polyAuto);
     }
 
     /** Decide on the I/O based on the current team number. */
