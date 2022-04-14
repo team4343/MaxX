@@ -39,26 +39,18 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "13,2": {
+          "0,7": {
             "size": [
-              10,
-              5
+              6,
+              2
             ],
             "content": {
-              "_type": "Camera Stream",
-              "_source0": "camera_server://limelight",
-              "_title": "limelight",
-              "Crosshair/Show crosshair": true,
-              "Crosshair/Crosshair color": "#FFFFFFFF",
-              "Controls/Show controls": true,
-              "Controls/Rotation": "NONE",
-              "compression": 62.0,
-              "fps": 15,
-              "imageWidth": 0,
-              "imageHeight": 0
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///Shuffleboard/Main/Autonomous selector",
+              "_title": "/Shuffleboard/Main/Autonomous selector"
             }
           },
-          "0,7": {
+          "6,7": {
             "size": [
               2,
               1
@@ -69,106 +61,7 @@
               "_title": "Flywheel"
             }
           },
-          "2,7": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Intake",
-              "_title": "Intake"
-            }
-          },
-          "4,7": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Climber/backgroundColor",
-              "_title": "Climber/backgroundColor"
-            }
-          },
-          "6,7": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Climber/Elevator root/Elevator/length",
-              "_title": "Climber/Elevator root/Elevator/length"
-            }
-          },
           "8,7": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Climber/Elevator root/x",
-              "_title": "Climber/Elevator root/x"
-            }
-          },
-          "10,7": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Climber/Elevator root/Elevator/angle",
-              "_title": "Climber/Elevator root/Elevator/angle"
-            }
-          },
-          "12,7": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Climber/Elevator root/y",
-              "_title": "Climber/Elevator root/y"
-            }
-          },
-          "14,7": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Climber/Elevator root/Elevator/weight",
-              "_title": "Climber/Elevator root/Elevator/weight"
-            }
-          },
-          "16,7": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Climber/Elevator root/Elevator/color",
-              "_title": "Climber/Elevator root/Elevator/color"
-            }
-          },
-          "18,7": {
-            "size": [
-              5,
-              3
-            ],
-            "content": {
-              "_type": "Network Table Tree",
-              "_source0": "network_table:///SmartDashboard/Climber",
-              "_title": "/SmartDashboard/Climber"
-            }
-          },
-          "0,8": {
             "size": [
               2,
               1
@@ -179,26 +72,70 @@
               "_title": "Indexer"
             }
           },
-          "2,8": {
+          "10,7": {
             "size": [
               2,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight_PipelineName",
-              "_title": "limelight_PipelineName"
+              "_source0": "network_table:///SmartDashboard/Intake",
+              "_title": "Intake"
             }
           },
-          "4,8": {
+          "12,7": {
             "size": [
               2,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight_Interface",
-              "_title": "limelight_Interface"
+              "_source0": "network_table:///SmartDashboard/DB/String 5",
+              "_title": "DB/String 5"
+            }
+          },
+          "14,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/Slider 0",
+              "_title": "DB/Slider 0"
+            }
+          },
+          "16,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/Slider 1",
+              "_title": "DB/Slider 1"
+            }
+          },
+          "18,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/Slider 2",
+              "_title": "DB/Slider 2"
+            }
+          },
+          "20,7": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/Slider 3",
+              "_title": "DB/Slider 3"
             }
           },
           "6,8": {
@@ -219,88 +156,11 @@
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/DB/Slider 0",
-              "_title": "DB/Slider 0"
-            }
-          },
-          "10,8": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/DB/Slider 1",
-              "_title": "DB/Slider 1"
-            }
-          },
-          "12,8": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/DB/Slider 2",
-              "_title": "DB/Slider 2"
-            }
-          },
-          "14,8": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/DB/Slider 3",
-              "_title": "DB/Slider 3"
-            }
-          },
-          "16,8": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/limelight_Stream",
-              "_title": "limelight_Stream"
-            }
-          },
-          "0,9": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/DB/String 0",
-              "_title": "DB/String 0"
-            }
-          },
-          "2,9": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/DB/String 1",
               "_title": "DB/String 1"
             }
           },
-          "4,9": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/DB/String 2",
-              "_title": "DB/String 2"
-            }
-          },
-          "6,9": {
+          "10,8": {
             "size": [
               2,
               1
@@ -311,7 +171,7 @@
               "_title": "DB/String 3"
             }
           },
-          "8,9": {
+          "12,8": {
             "size": [
               2,
               1
@@ -322,18 +182,7 @@
               "_title": "DB/String 4"
             }
           },
-          "10,9": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/DB/String 5",
-              "_title": "DB/String 5"
-            }
-          },
-          "12,9": {
+          "14,8": {
             "size": [
               2,
               1
@@ -344,7 +193,7 @@
               "_title": "DB/String 6"
             }
           },
-          "14,9": {
+          "16,8": {
             "size": [
               2,
               1
@@ -355,7 +204,18 @@
               "_title": "DB/String 7"
             }
           },
-          "16,9": {
+          "18,8": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/String 2",
+              "_title": "DB/String 2"
+            }
+          },
+          "20,8": {
             "size": [
               2,
               1
@@ -364,6 +224,146 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/DB/String 8",
               "_title": "DB/String 8"
+            }
+          },
+          "0,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/String 9",
+              "_title": "DB/String 9"
+            }
+          },
+          "2,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/String 0",
+              "_title": "DB/String 0"
+            }
+          },
+          "4,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/limelight_PipelineName",
+              "_title": "limelight_PipelineName"
+            }
+          },
+          "6,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/limelight_Interface",
+              "_title": "limelight_Interface"
+            }
+          },
+          "8,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/limelight_Stream",
+              "_title": "limelight_Stream"
+            }
+          },
+          "10,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/Button 0",
+              "_title": "DB/Button 0"
+            }
+          },
+          "12,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/Button 1",
+              "_title": "DB/Button 1"
+            }
+          },
+          "14,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/Button 2",
+              "_title": "DB/Button 2"
+            }
+          },
+          "16,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/DB/Button 3",
+              "_title": "DB/Button 3"
+            }
+          },
+          "18,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Field/Robot",
+              "_title": "Field/Robot"
+            }
+          },
+          "20,9": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/autonomous/selector/active",
+              "_title": "autonomous/selector/active"
+            }
+          },
+          "13,2": {
+            "size": [
+              7,
+              5
+            ],
+            "content": {
+              "_type": "Camera Stream",
+              "_source0": "camera_server://limelight",
+              "_title": "limelight",
+              "Crosshair/Show crosshair": true,
+              "Crosshair/Crosshair color": "#FFFFFFFF",
+              "Controls/Show controls": true,
+              "Controls/Rotation": "NONE",
+              "compression": 62.0,
+              "fps": 15,
+              "imageWidth": 0,
+              "imageHeight": 0
             }
           }
         }

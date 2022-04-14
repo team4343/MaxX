@@ -99,7 +99,7 @@ public class Flywheel extends Subsystem {
         var currentVelocity = io.getVelocity();
 
         if (currentVelocity == desired) return true;
-        return Math.abs(currentVelocity - desired) <= 100;
+        return Math.abs(currentVelocity - desired) <= 50;
     }
 
     public double getVelocity() {
