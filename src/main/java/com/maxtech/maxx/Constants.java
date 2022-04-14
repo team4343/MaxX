@@ -71,9 +71,9 @@ public final class Constants {
     public static class Flywheel {
         public static final int masterID = 5;
         public static final int slaveID = 6;
-        public static final double P = 0.5;
-        public static final double I = 0.001;
-        public static final double D = 0;
+        public static final double P = .6; // .5
+        public static final double I = .003; // .002
+        public static final double D = 0.01; // .01
         public static final double F = 0;
         public static final int pidID = 0;
         public static final int TimeoutMs = 20;
