@@ -22,13 +22,12 @@ public class ThreeBallFromFender extends AutonomousSequentialCommandGroup {
                         new RunTrajectory(start),
                         new SetIntakeAndIndexer(true)
                 ),
-                new WaitCommand(1),
+                new WaitCommand(.5),
                 new RunTrajectory(middle),
                 new ParallelDeadlineGroup(
                         new RunTrajectory(end),
                         new SetIntakeAndIndexer(false)
                 ),
-                new WaitCommand(1),
                 new ShootHighFor(2)
         );
     }

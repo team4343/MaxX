@@ -32,7 +32,7 @@ import com.maxtech.maxx.Constants.Buttons;
  * is then called from {@link Robot}.
  */
 public class RobotContainer {
-    public static final int teamNumber = 4343;
+    public static final int teamNumber = 914;
 
     private static final RobotLogger logger = RobotLogger.getInstance();
 

@@ -5,6 +5,7 @@ import com.maxtech.lib.statemachines.StateMachine;
 import com.maxtech.lib.statemachines.StateMachineMeta;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
+import static com.maxtech.maxx.RobotContainer.decide;
 import static com.maxtech.maxx.RobotContainer.decideIO;
 
 public class Flywheel extends Subsystem {
@@ -99,7 +100,7 @@ public class Flywheel extends Subsystem {
         var currentVelocity = io.getVelocity();
 
         if (currentVelocity == desired) return true;
-        return Math.abs(currentVelocity - desired) <= 50;
+        return Math.abs(currentVelocity - desired) <= decide(50, 75);
     }
 
     public double getVelocity() {

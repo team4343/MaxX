@@ -1,5 +1,6 @@
 package com.maxtech.maxx.subsystems.flywheel;
 
+import com.maxtech.maxx.Constants;
 import com.revrobotics.CANSparkMax;
 
 import static com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless;
@@ -12,9 +13,10 @@ public class FlywheelIOPeter implements FlywheelIO {
         master.setInverted(true);
         slave.follow(master, true);
 
-        master.getPIDController().setP(.5);
-        master.getPIDController().setI(0);
-        master.getPIDController().setD(0);
+        master.getPIDController().setP(Constants.Flywheel.P);
+        master.getPIDController().setI(Constants.Flywheel.I);
+        master.getPIDController().setD(Constants.Flywheel.D);
+        master.getPIDController().setFF(Constants.Flywheel.F);
     }
 
     @Override

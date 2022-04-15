@@ -16,6 +16,8 @@ public class ShootIndexer extends CommandBase {
     public void execute() {
         if (flywheel.atGoal()) {
             indexer.shoot();
+        } else {
+            indexer.stopShoot();
         }
     }
 

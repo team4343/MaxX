@@ -3,7 +3,6 @@ package com.maxtech.maxx;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.system.LinearSystem;
-import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -71,10 +70,10 @@ public final class Constants {
     public static class Flywheel {
         public static final int masterID = 5;
         public static final int slaveID = 6;
-        public static final double P = .5;
-        public static final double I = .002;
-        public static final double D = .01;
-        public static final double F = 0;
+        public static final double P = decide(0.65, .7);
+        public static final double I = decide(0., 0.001);
+        public static final double D = decide(0.4, 0.);
+        public static final double F = decide(0.0575, 0.);
         public static final int pidID = 0;
         public static final int TimeoutMs = 20;
         public static final boolean SensorPhase = false;
