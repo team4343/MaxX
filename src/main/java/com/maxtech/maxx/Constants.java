@@ -70,18 +70,18 @@ public final class Constants {
     public static class Flywheel {
         public static final int masterID = 5;
         public static final int slaveID = 6;
-        public static final double P = decide(0.65, .7);
-        public static final double I = decide(0., 0.001);
+        public static final double P = decide(0.65, 0.);
+        public static final double I = decide(0., 0.);
         public static final double D = decide(0.4, 0.);
-        public static final double F = decide(0.0575, 0.);
+        public static final double F = decide(0.0575, 0.12);
         public static final int pidID = 0;
         public static final int TimeoutMs = 20;
         public static final boolean SensorPhase = false;
         public static final boolean MotorInvert = false;
         // In-practice max speed: 5400
         // Past line: 2600
-        public static final int topBinRPM = decide(2225, 3000);
-        public static final int middleShotTopBinRPM = decide(4500, 3100);
+        public static final int topBinRPM = decide(2225, 3025);
+        public static final int middleShotTopBinRPM = decide(2400, 3100);
         public static final int bottomBinRPM = decide(1700, 2000);
         public static final double rpmThreshold = 1;
         public static final int talonFXResolution = 2048;

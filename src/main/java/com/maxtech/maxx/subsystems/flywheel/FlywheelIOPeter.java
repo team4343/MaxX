@@ -3,6 +3,7 @@ package com.maxtech.maxx.subsystems.flywheel;
 import com.maxtech.maxx.Constants;
 import com.revrobotics.CANSparkMax;
 
+import static com.revrobotics.CANSparkMax.ControlType.kVelocity;
 import static com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless;
 
 public class FlywheelIOPeter implements FlywheelIO {
@@ -27,7 +28,7 @@ public class FlywheelIOPeter implements FlywheelIO {
     @Override
     public void setVelocity(double velocity) {
         if (velocity == 0) master.set(0);
-        master.set(velocity / 5300);
+        master.getPIDController().setReference((velocity / 600), kVelocity);
     }
 
     @Override
@@ -42,11 +43,11 @@ public class FlywheelIOPeter implements FlywheelIO {
 
     @Override
     public double getPercentOut() {
-        return 0;
+        return master.getOutputCurrent();
     }
 
     @Override
     public double getCurrent() {
-        return 0;
+        return getVoltage();
     }
 }
