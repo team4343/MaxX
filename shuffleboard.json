@@ -365,6 +365,17 @@
               "imageWidth": 0,
               "imageHeight": 0
             }
+          },
+          "20,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Climber",
+              "_title": "Climber"
+            }
           }
         }
       }

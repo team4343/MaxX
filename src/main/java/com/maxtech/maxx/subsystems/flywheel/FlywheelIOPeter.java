@@ -8,11 +8,9 @@ import static com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless;
 
 public class FlywheelIOPeter implements FlywheelIO {
     private final CANSparkMax master = new CANSparkMax(5, kBrushless);
-    private final CANSparkMax slave = new CANSparkMax(6, kBrushless);
 
     public FlywheelIOPeter() {
         master.setInverted(true);
-        slave.follow(master, true);
 
         master.getPIDController().setP(Constants.Flywheel.P);
         master.getPIDController().setI(Constants.Flywheel.I);

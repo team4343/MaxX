@@ -7,10 +7,7 @@ import com.maxtech.maxx.commands.porcelain.NextLEDPattern;
 import com.maxtech.maxx.commands.porcelain.autonomous.*;
 import com.maxtech.maxx.commands.porcelain.autonomous.advanced.*;
 import com.maxtech.maxx.commands.porcelain.intake.SetIntakeAndIndexer;
-import com.maxtech.maxx.commands.porcelain.shooter.ShootHigh;
-import com.maxtech.maxx.commands.porcelain.shooter.ShootHighLimelight;
-import com.maxtech.maxx.commands.porcelain.shooter.ShootLow;
-import com.maxtech.maxx.commands.porcelain.shooter.StopShot;
+import com.maxtech.maxx.commands.porcelain.shooter.*;
 import com.maxtech.maxx.subsystems.intake.Intake;
 import com.maxtech.maxx.subsystems.LEDs;
 import com.maxtech.maxx.subsystems.drivetrain.Drive;
@@ -32,7 +29,7 @@ import com.maxtech.maxx.Constants.Buttons;
  * is then called from {@link Robot}.
  */
 public class RobotContainer {
-    public static final int teamNumber = 914;
+    public static final int teamNumber = 4343;
 
     private static final RobotLogger logger = RobotLogger.getInstance();
 
@@ -107,20 +104,13 @@ public class RobotContainer {
                  .whenPressed(new Extend())
                  .whenReleased(new Raise());
 
-        // TODO Add a debounce to the climber.
-        new POVButton(masterController, Buttons.ShootLowPOV) // Down
-                .whenPressed(new ShootLow())
-                .whenReleased(new StopShot());
-
         // Hang
-        new POVButton(masterController, Buttons.ShootHighPOV) // Left
-                .whenPressed(new ShootHigh())
+        new POVButton(masterController, Buttons.ShootLowPOV) // Down
+                .whenPressed(new ShootFarHigh())
                 .whenReleased(new StopShot());
-
 
         new POVButton(masterController, Buttons.ShootLimelightHighPOV) // Up
         .whenPressed(decideIO(ShootHighLimelight.class, ShootHigh.class)).whenReleased(new StopShot());
-
     }
 
     /**
